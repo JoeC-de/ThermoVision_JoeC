@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="TVTabletWindow.UC_Settings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TVTabletWindow"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <local:BoolToVisConverter x:Key="converter" />
+    </UserControl.Resources>
+    <Grid Background="Gainsboro" IsManipulationEnabled="True"
+        
+        >
+        <!--
+        Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+        Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+        -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Background="Black">
+            <Viewbox Grid.Row="0" >
+                <TextBlock FontSize="10" Margin="2" FontWeight="Bold" Foreground="WhiteSmoke" Text="Settings" HorizontalAlignment="Center"></TextBlock>
+            </Viewbox>
+        </Grid>
+
+        <Viewbox Margin="20" Grid.Row="1" >
+            <StackPanel>
+            <!-- Setting rows begin-->
+            <StackPanel Height="30" Orientation="Horizontal">
+                <TextBlock Text="Color Scale Height: " VerticalAlignment="Center"></TextBlock>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="5" Background="Black" HorizontalAlignment="Center">
+                        <TextBlock Foreground="WhiteSmoke" FontWeight="Bold" Text="{Binding Settings.PaletteHeight,UpdateSourceTrigger=PropertyChanged}" Width="30" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                </Border>
+                    <Slider Value="{Binding Settings.PaletteHeight,Mode=TwoWay}" Minimum="100" Maximum="900" Width="150" TouchDown="Slider_TouchDown" VerticalAlignment="Center" ></Slider>
+                </StackPanel>
+                <StackPanel Height="30" Orientation="Horizontal">
+                    <TextBlock Text="Palette divisor: " VerticalAlignment="Center"></TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="5" Background="Black" HorizontalAlignment="Center">
+                        <TextBlock Foreground="WhiteSmoke" FontWeight="Bold" Text="{Binding Settings.PaletteLevelDivisor,UpdateSourceTrigger=PropertyChanged}" Width="30" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </Border>
+                    <Slider Value="{Binding Settings.PaletteLevelDevider, Mode=TwoWay}" Minimum="1" Maximum="800" Width="150" TouchDown="Slider_TouchDown" VerticalAlignment="Center" ></Slider>
+                </StackPanel>
+                <StackPanel Height="30" Orientation="Horizontal">
+                <TextBlock Text="Color Scale Width: " VerticalAlignment="Center"></TextBlock>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="5" Background="Black" HorizontalAlignment="Center">
+                        <TextBlock Foreground="WhiteSmoke" FontWeight="Bold" Text="{Binding Settings.PaletteWidth,UpdateSourceTrigger=PropertyChanged}" Width="30" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                </Border>
+                    <Slider Value="{Binding Settings.PaletteWidth,Mode=TwoWay}" Minimum="70" Maximum="200" Width="150" TouchDown="Slider_TouchDown" VerticalAlignment="Center" ></Slider>
+            </StackPanel>
+                <StackPanel Height="30" Orientation="Horizontal" IsManipulationEnabled="True">
+                    <TextBlock Text="ZoomMargin: " VerticalAlignment="Center"></TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="5" Background="Black" HorizontalAlignment="Center">
+                        <TextBlock Foreground="WhiteSmoke" FontWeight="Bold" Text="{Binding Settings.ZoomMargin,UpdateSourceTrigger=PropertyChanged}" Width="30" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </Border>
+                    <Slider Value="{Binding Settings.ZoomMargin,Mode=TwoWay}" Minimum="0" Maximum="100" Width="150" TouchDown="Slider_TouchDown" VerticalAlignment="Center" ></Slider>
+                </StackPanel>
+                <StackPanel Height="30" Orientation="Horizontal">
+                <TextBlock Text="Opacity of sub windows: " VerticalAlignment="Center"></TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="5" Background="Black" HorizontalAlignment="Center">
+                        <TextBlock Foreground="WhiteSmoke" FontWeight="Bold" Text="{Binding Settings.OpacityOfSubWindows,UpdateSourceTrigger=PropertyChanged,StringFormat=0.#0}" Width="30" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </Border>
+                    <Slider Value="{Binding Settings.OpacityOfSubWindows,Mode=TwoWay}" Minimum="0.4" SmallChange="0.01" Maximum="1" Width="150" TouchDown="Slider_TouchDown" VerticalAlignment="Center" ></Slider>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Name="btnDeb_ToFullscreen" Click="BtnDeb_ToFullscreen_Click" Width="150" TouchDown="Slider_TouchDown" Content="to Fullscreen"></Button>
+                <Button Name="btnDeb_ToWindow" Click="BtnDeb_ToWindow_Click" Width="150" TouchDown="Slider_TouchDown" Content="to Window"></Button>
+                    <TextBlock Text="FPS: " VerticalAlignment="Center"></TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="5" Background="Black" HorizontalAlignment="Center">
+                        <TextBlock Foreground="WhiteSmoke" FontWeight="Bold" Text="{Binding FPS,UpdateSourceTrigger=PropertyChanged}" Width="30" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </Border>
+                </StackPanel>
+
+            <StackPanel Background="Salmon" Margin="5" HorizontalAlignment="Left" Visibility="{Binding Settings.DebugMode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource converter}}">
+                <TextBlock Text="Debugstuff: "></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    
+                    <Button Name="btnDeb_ShowStoredImageWindow" Click="BtnDeb_ShowStoredImageWindow_Click" Content="Show Stored Image Window" Width="180"></Button>
+                    <Button Name="btnDeb_SwitchHasVisual" Click="BtnDeb_SwitchHasVisual_Click" Content="SwitchHasVisual"></Button>
+                    <TextBlock Text=" MessageInfo: "></TextBlock>
+                    <TextBox Grid.Row="2" Grid.ColumnSpan="2" Width="200" Text="{Binding MessageInfo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                </StackPanel>
+                
+            </StackPanel>
+            <!-- Setting rows end-->
+                
+            </StackPanel>
+        </Viewbox>
+        <Button Name="btnOk" Margin="5" Grid.Row="2" Click="BtnOk_Click" TouchDown="Slider_TouchDown">
+            <Viewbox>
+                <TextBlock>OK</TextBlock>
+            </Viewbox>
+        </Button>
+        
+    </Grid>
+</UserControl>

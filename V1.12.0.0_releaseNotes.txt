@@ -1,0 +1,53 @@
+ThermalSequence:
+refactured Thermal Sequcence. Allow to record frames to single container file.
+improved aquisition from Flir .SEQ files. Create sequence from Batch Processing.
+
+IrDecoder:
+New subwindow with improved preview and more file analysis capabilitys.
+Its usable as target in Imagebrowser. Settings are stored in .TCS file
+
+File drop panel:
+If not disabled in Settings, there is a new Panel for file drop to select the target of the file. Additional infos about the file to drop was shown in panel.
+
+Draw Raw Mode:
+Implement additionalimage processing from Raw with fixed Color array. Allow higher FPS. Histogram also can be calculated from raw frames.
+
+BatchProcessing:
+Moved to own Usercontrol. Has more functions and a statistic.
+
+Imagebrowser:
+image sort mode selectable. add mouse selection rectangle. Mouse double click additional trigger "search images..."
+
+Add Imgeformat support:
+-add device DJI Mavic 2 Drohne read frame
+-add device Nec/Keysight read frame
+-improve for Bosch GTC 600 (and new formular for GTC 400)
+-improve IrDecoder for Optris CSV (temperature map)
+-improve optris .tiff from App
+-add XarySensor device (only .XRG files now, its a own special format)
+
+Add Camera support:
+-add device optris Pi Camera
+
+common changes:
+-TempMath improve OverFlow/UnderFlow logging
+-add DOG (diff of gausian) Filter
+ https://www.olympus-lifescience.com/en/microscope-resource/primer/java/digitalimaging/processing/diffgaussians/
+-CC Flir: add exclude FTP folder (like "StorageCard")
+-add Search box to File Editor (FLIR CRC) and the Editor is no more hidden
+-add parameter "-LOAD_TCS="
+-show raw in "local parameter"
+-16bit Tif export add "Temp Slope/Offset" mode
+-AreaRange add support for search "min range"
+-add variable palette color scale depth
+-Label with replaced pixel on Live Temp/raw remove death pixel
+-escape to cancel set measurement (skip drawing)
+-change "ON/OFF" to Arrow and text color to light blue
+-bugfix: open TV with stored Area, image offset adjusted
+-add "open folder" link to status bar mouse menu
+-add setting DevMode
+-seek thermal initialisation with Operation=0
+-2Point cal can use 2 MeasurePoints as input
+-spot show raw replace value, not label
+-bugfix: zoom south/east -> index out of range
+-add driver specific temperature conversion

@@ -1,0 +1,16 @@
+<project outputDir="C:\Temp\testDATA\TV_SRC_1.6.0.0_pre2\ThermoVision_JoeC\bin\TVisionBinary\conf" baseDir="C:\Temp\testDATA\TV_SRC_1.6.0.0_pre2\ThermoVision_JoeC\bin\TVisionBinary" xmlns="http://confuser.codeplex.com">
+  <module path="ThermoVision_JoeC.exe">
+    <rule pattern="true" preset="normal" inherit="false">
+      <protection id="anti ildasm" action="remove" />
+      <protection id="constants" action="remove" />
+      <protection id="ctrl flow" action="remove" />
+      <protection id="rename" />
+      <protection id="invalid metadata" />
+      <protection id="resources" action="remove" />
+      <protection id="anti tamper" action="remove" />
+      <protection id="anti dump" />
+      <protection id="anti debug" />
+      <protection id="ref proxy" />
+    </rule>
+  </module>
+</project>

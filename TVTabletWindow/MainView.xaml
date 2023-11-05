@@ -1,0 +1,75 @@
+﻿<Window x:Class="TVTabletWindow.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TVTabletWindow"
+        mc:Ignorable="d" IsManipulationEnabled="True"
+        Title="CameraWindow" Height="450" Width="800"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        Closed="Window_Closed">
+    <Window.Resources>
+        <local:BoolToVisConverter x:Key="converter" />
+    </Window.Resources>
+    <Grid>
+        <Grid Background="Black">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="50"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto" MaxWidth="400"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <local:UC_LeftBar Grid.Column="0" x:Name="UcLeftBar"></local:UC_LeftBar>
+
+            <!--   -->
+            <Viewbox Name="MainIRContainer" Grid.Column="1" MinWidth="100">
+                <Image Name="MainIR" Source="{Binding MainIRImg, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top"></Image>
+            </Viewbox>
+            <Viewbox Name="MainIRZoomContainer" Grid.Column="1" MinWidth="100" Visibility="{Binding IsZooming, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource converter}}">
+                <Border Margin="{Binding Settings.ZoomMargin, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" BorderThickness="0.5">
+                <Image Name="MainIRZoom" Source="{Binding MainIRZoomImg, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top"></Image>
+            </Border></Viewbox>
+            <Viewbox Grid.Column="1" VerticalAlignment="Top" Width="{Binding ElementName=MainIRContainer,Path=ActualWidth}">
+                <Border Background="Black" Padding="5">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding MessageInfo}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding MessageInfo}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Name="txtMessage" TextWrapping="Wrap"
+                    VerticalAlignment="Top" Width="300"
+                    Foreground="White" Text="{Binding MessageInfo, UpdateSourceTrigger=PropertyChanged}">
+                    </TextBlock>
+                    </Border>
+            </Viewbox>
+            
+          
+
+            <Viewbox Grid.Column="2">
+                <local:UC_Palette x:Name="UcPalette"></local:UC_Palette>
+            </Viewbox>
+        </Grid>
+
+        <Grid Margin="50" MinWidth="100" Visibility="{Binding ShowSettings, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource converter}}">
+            <Border BorderBrush="Black" BorderThickness="1" Opacity="{Binding Settings.OpacityOfSubWindows,UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro">
+                <local:UC_Settings x:Name="UcSettings"></local:UC_Settings>
+            </Border>
+         </Grid>
+        <Viewbox HorizontalAlignment="Right">
+            <local:UC_ImageStored Opacity="0" x:Name="UcImageStored" Margin="0 260 80 10"></local:UC_ImageStored>
+        </Viewbox>
+        <!--
+        
+        -->
+        <Viewbox>
+            <local:UC_Messagebox Margin="150" x:Name="UcMessagebox" Opacity="{Binding Settings.OpacityOfSubWindows,UpdateSourceTrigger=PropertyChanged}"></local:UC_Messagebox>
+        </Viewbox>
+    </Grid>
+</Window>

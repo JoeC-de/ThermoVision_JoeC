@@ -1,0 +1,750 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{59F257F9-0198-4B6F-958D-CC727091662F}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ThermoVision_JoeC</RootNamespace>
+    <AssemblyName>ThermoVision_JoeC</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <WarningLevel>4</WarningLevel>
+    <ApplicationIcon>joe_48_thermo3.ico</ApplicationIcon>
+    <TargetFrameworkProfile />
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\johann\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\TV_Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\TVisionBinary\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\TV_Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\TVisionBinary\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>None</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge">
+      <HintPath>AForge.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>AForge.Imaging.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AForge.Video">
+      <HintPath>AForge.Video.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow">
+      <HintPath>AForge.Video.DirectShow.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AForge.Video.VFW">
+      <HintPath>AForge.Video.VFW.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BitMiracle.LibTiff.NET">
+      <HintPath>BitMiracle.LibTiff.NET.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CppWrapperTE">
+      <HintPath>.\CppWrapperTE.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <HintPath>WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="ZedGraph">
+      <HintPath>ZedGraph.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Floatingwindows\frmGenericIrDecoder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\frmGenericIrDecoder.Designer.cs">
+      <DependentUpon>frmGenericIrDecoder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\iStreamingCameraUserControl.cs" />
+    <Compile Include="Komponenten\Optris_IPC2.cs" />
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_XraySensor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_XraySensor.designer.cs">
+      <DependentUpon>UC_Dev_XraySensor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_ThermalSequence.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_ThermalSequence.Designer.cs">
+      <DependentUpon>UC_Func_ThermalSequence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\TempMathTv.cs" />
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Optris.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Optris.designer.cs">
+      <DependentUpon>UC_Dev_Optris.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Nec.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Nec.Designer.cs">
+      <DependentUpon>UC_Dev_Nec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_DjiDrohne.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_DjiDrohne.designer.cs">
+      <DependentUpon>UC_Dev_DjiDrohne.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_ThermApp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_ThermApp.designer.cs">
+      <DependentUpon>UC_Dev_ThermApp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_BoschGtc400.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_BoschGtc400.designer.cs">
+      <DependentUpon>UC_Dev_BoschGtc400.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_VarioCam.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_VarioCam.designer.cs">
+      <DependentUpon>UC_Dev_VarioCam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_BasePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_BatchProcessing.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_BatchProcessing.Designer.cs">
+      <DependentUpon>UC_Func_BatchProcessing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_Darstellung.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_Darstellung.Designer.cs">
+      <DependentUpon>UC_Func_Darstellung.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_TempSwitch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_TempSwitch.Designer.cs">
+      <DependentUpon>UC_Func_TempSwitch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_ZVorlage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_ZVorlage.Designer.cs">
+      <DependentUpon>UC_ZVorlage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_UniT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_UniT.Designer.cs">
+      <DependentUpon>UC_Dev_UniT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_PlanckCal.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_PlanckCal.Designer.cs">
+      <DependentUpon>UC_PlanckCal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="res\pngs.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>pngs.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmImageProcessing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmImageProcessing.Designer.cs">
+      <DependentUpon>frmImageProcessing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmCalibrierung.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmCalibrierung.Designer.cs">
+      <DependentUpon>frmCalibrierung.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmCameraCommanderFLIR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmCameraCommanderFLIR.Designer.cs">
+      <DependentUpon>frmCameraCommanderFLIR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmFuncDevices.cs">
+      <Generator>2</Generator>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmFuncDevices.Designer.cs">
+      <DependentUpon>frmFuncDevices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmFunctions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmFunctions.Designer.cs">
+      <DependentUpon>frmFunctions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmHistogram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmHistogram.Designer.cs">
+      <DependentUpon>frmHistogram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmImageBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmImageBrowser.Designer.cs">
+      <DependentUpon>frmImageBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmLines.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmLines.Designer.cs">
+      <DependentUpon>frmLines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmMainIR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmMainIR.Designer.cs">
+      <DependentUpon>frmMainIR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmMeasGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmMeasGrid.Designer.cs">
+      <DependentUpon>frmMeasGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmMeasTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmMeasTable.Designer.cs">
+      <DependentUpon>frmMeasTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Floatingwindows\frmPlanckCal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\frmPlanckCal.Designer.cs">
+      <DependentUpon>frmPlanckCal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmPlot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmPlot.Designer.cs">
+      <DependentUpon>frmPlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmReport.Designer.cs">
+      <DependentUpon>frmReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmSettings.Designer.cs">
+      <DependentUpon>frmSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Floatingwindows\frmTempSwitch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\frmTempSwitch.Designer.cs">
+      <DependentUpon>frmTempSwitch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmVisual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmVisual.Designer.cs">
+      <DependentUpon>frmVisual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subwindows\frmWebcam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subwindows\frmWebcam.Designer.cs">
+      <DependentUpon>frmWebcam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\CC_FLIR_Messung.cs" />
+    <Compile Include="Komponenten\Class_FTP.cs" />
+    <Compile Include="TabletViewDll.cs" />
+    <Compile Include="Komponenten\ExRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\frmFileEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\frmFileEditor.Designer.cs">
+      <DependentUpon>frmFileEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\frmLanguage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Komponenten\frmLanguage.Designer.cs">
+      <DependentUpon>frmLanguage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Floatingwindows\frmPictureProcessing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\frmPictureProcessing.Designer.cs">
+      <DependentUpon>frmPictureProcessing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Floatingwindows\frmTE_extra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\frmTE_extra.Designer.cs">
+      <DependentUpon>frmTE_extra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\IAllDockForms.cs" />
+    <Compile Include="Komponenten\iCamera.cs" />
+    <Compile Include="Floatingwindows\ImageInputbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\ImageInputbox.Designer.cs">
+      <DependentUpon>ImageInputbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\JoeC_FileAccess.cs" />
+    <Compile Include="Komponenten\JoeC_SerPort.cs" />
+    <Compile Include="Komponenten\Class_UsbHid.cs" />
+    <Compile Include="Komponenten\CustomRoTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Komponenten\tcp_server\TcpServer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Komponenten\tcp_server\TcpServerConnection.cs" />
+    <Compile Include="Komponenten\TelnetInterface.cs" />
+    <Compile Include="Komponenten\ThermalCamera.cs" />
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_DIYThermocam.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_DIYThermocam.Designer.cs">
+      <DependentUpon>UC_Dev_DIYThermocam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Flir.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Flir.designer.cs">
+      <DependentUpon>UC_Dev_Flir.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_FlirOne.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_FlirOne.Designer.cs">
+      <DependentUpon>UC_Dev_FlirOne.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_SeekThermal.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_SeekThermal.Designer.cs">
+      <DependentUpon>UC_Dev_SeekThermal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_SerialSensor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_SerialSensor.Designer.cs">
+      <DependentUpon>UC_Dev_SerialSensor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_TCamDll.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_TCamDll.Designer.cs">
+      <DependentUpon>UC_Dev_TCamDll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Testo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Testo.Designer.cs">
+      <DependentUpon>UC_Dev_Testo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_TExpert.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_TExpert.Designer.cs">
+      <DependentUpon>UC_Dev_TExpert.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_WebcamBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_WebcamBase.Designer.cs">
+      <DependentUpon>UC_Dev_WebcamBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_Farbpalette.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_Farbpalette.Designer.cs">
+      <DependentUpon>UC_Farbpalette.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_Numeric.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_Numeric.Designer.cs">
+      <DependentUpon>UC_Numeric.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_PreviewImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\Usercontrols\UC_PreviewImage.Designer.cs">
+      <DependentUpon>UC_PreviewImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\V.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Floatingwindows\frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="res\Program.cs" />
+    <Compile Include="Floatingwindows\StartupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Floatingwindows\StartupForm.Designer.cs">
+      <DependentUpon>StartupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CoreThermoVision.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Floatingwindows\frmGenericIrDecoder.resx">
+      <DependentUpon>frmGenericIrDecoder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_Optris.resx">
+      <DependentUpon>UC_Dev_Optris.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_ThermApp.resx">
+      <DependentUpon>UC_Dev_ThermApp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_BoschGtc400.resx">
+      <DependentUpon>UC_Dev_BoschGtc400.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_VarioCam.resx">
+      <DependentUpon>UC_Dev_VarioCam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_XraySensor.resx">
+      <DependentUpon>UC_Dev_XraySensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelFunction\UC_Func_ThermalSequence.resx">
+      <DependentUpon>UC_Func_ThermalSequence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelFunction\UC_Func_BatchProcessing.resx">
+      <DependentUpon>UC_Func_BatchProcessing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelFunction\UC_Func_Darstellung.resx">
+      <DependentUpon>UC_Func_Darstellung.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelFunction\UC_Func_TempSwitch.resx">
+      <DependentUpon>UC_Func_TempSwitch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\Usercontrols\UC_ZVorlage.resx">
+      <DependentUpon>UC_ZVorlage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_UniT.resx">
+      <DependentUpon>UC_Dev_UniT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\Usercontrols\UC_PlanckCal.resx">
+      <DependentUpon>UC_PlanckCal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmImageProcessing.resx">
+      <DependentUpon>frmImageProcessing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmCalibrierung.resx">
+      <DependentUpon>frmCalibrierung.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmCameraCommanderFLIR.resx">
+      <DependentUpon>frmCameraCommanderFLIR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmHistogram.resx">
+      <DependentUpon>frmHistogram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmImageBrowser.resx">
+      <DependentUpon>frmImageBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Floatingwindows\frmPlanckCal.resx">
+      <DependentUpon>frmPlanckCal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmReport.resx">
+      <DependentUpon>frmReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmSettings.resx">
+      <DependentUpon>frmSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Floatingwindows\frmTempSwitch.resx">
+      <DependentUpon>frmTempSwitch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Floatingwindows\frmFileEditor.resx">
+      <DependentUpon>frmFileEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\frmLanguage.resx">
+      <DependentUpon>frmLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Floatingwindows\frmPictureProcessing.resx">
+      <DependentUpon>frmPictureProcessing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Floatingwindows\frmTE_extra.resx">
+      <DependentUpon>frmTE_extra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Floatingwindows\ImageInputbox.resx">
+      <DependentUpon>ImageInputbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_DIYThermocam.resx">
+      <DependentUpon>UC_Dev_DIYThermocam.Designer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_Flir.resx">
+      <DependentUpon>UC_Dev_Flir.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_FlirOne.resx">
+      <DependentUpon>UC_Dev_FlirOne.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_SeekThermal.resx">
+      <DependentUpon>UC_Dev_SeekThermal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_SerialSensor.resx">
+      <DependentUpon>UC_Dev_SerialSensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_TCamDll.resx">
+      <DependentUpon>UC_Dev_TCamDll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_Testo.resx">
+      <DependentUpon>UC_Dev_Testo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_TExpert.resx">
+      <DependentUpon>UC_Dev_TExpert.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_WebcamBase.resx">
+      <DependentUpon>UC_Dev_WebcamBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\Usercontrols\UC_Farbpalette.resx">
+      <DependentUpon>UC_Farbpalette.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\Usercontrols\UC_Numeric.resx">
+      <DependentUpon>UC_Numeric.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\Usercontrols\UC_PreviewImage.resx">
+      <DependentUpon>UC_PreviewImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Floatingwindows\frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\Icons.resx">
+      <LogicalName>Icons</LogicalName>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\pngs.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>pngs.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Floatingwindows\StartupForm.resx">
+      <DependentUpon>StartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EmbeddedResource Include="res\fCamA.ico">
+      <LogicalName>fCamA</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\fCamB.ico">
+      <LogicalName>fCamB</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\Open.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <LogicalName>Open</LogicalName>
+    </EmbeddedResource>
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Subwindows\frmFuncDevices.resx">
+      <DependentUpon>frmFuncDevices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmFunctions.resx">
+      <DependentUpon>frmFunctions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmLines.resx">
+      <DependentUpon>frmLines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmMainIR.resx">
+      <DependentUpon>frmMainIR.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmMeasGrid.resx">
+      <DependentUpon>frmMeasGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmMeasTable.resx">
+      <DependentUpon>frmMeasTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmPlot.resx">
+      <DependentUpon>frmPlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmVisual.resx">
+      <DependentUpon>frmVisual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subwindows\frmWebcam.resx">
+      <DependentUpon>frmWebcam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonTVisionJoeC\CommonTVisionJoeC.csproj">
+      <Project>{2e80a380-7118-4049-9942-56367f4b8622}</Project>
+      <Name>CommonTVisionJoeC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TVTabletWindow\TVTabletWindow.csproj">
+      <Project>{4cecf02e-81c9-4b96-a99e-9ee93e8be50c}</Project>
+      <Name>TVTabletWindow</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\fLaser.ico" />
+    <Content Include="Properties\Lizenz.txt" />
+    <Content Include="_changes.TXT" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

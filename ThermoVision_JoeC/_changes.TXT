@@ -1,0 +1,552 @@
+TODO
+-add text note on processing image?
+-add "image changed, save?"
+-rotation on import visual from webcam
+-exchange 2x segmented color palette ([obsolete] since all palette has now generic "scale depth", maybe take 2 from Optris?)
+-min / max label hidden if too much on right side
+-add optris IR head (pyrometer) as single device (currently subtype of "SerialSensor")
+-implant xtherm (UVC camera)
+-implant Infiray (UVC camera)
+-image subtraction
+-image stacking
+-flir direct reading
+-local parameter works currently only if source image has 1.00 emissivity
+################################
+
+1.12.0.0
+-escape to cancel set measurement (skip drawing)
+1.11.0.15
+-improve optris .tiff from App
+-add XarySensor device
+1.11.0.14
+-add 2p Cal for Raw frame
+-TempMath improve OverFlow/UnderFlow logging
+-autoselect save frame mode (rawPlanck or Temp)
+-bugfix flir import
+-improve thermal sequence handling (ask if sequence is open and image import)
+-add DOG (diff of gausian) Filter
+ https://www.olympus-lifescience.com/en/microscope-resource/primer/java/digitalimaging/processing/diffgaussians/
+1.11.0.13
+-CC Flir: add exclude FTP folder (like "StorageCard") (not tested yet)
+-add Search box to File Editor (FLIR CRC)
+-thermal sequence add FrameFlirSeqC
+-refresh status each frame (show loading of frames)
+1.11.0.12
+-thermal sequence as raw and temp frame
+-thermal sequence from batch folder
+1.11.0.11
+-improve IrDecoder for Optris CSV (temperature map)
+1.11.0.10
+-improve batch processing
+-additional settings for IrDecoder
+-add parameter "-LOAD_TCS="
+1.11.0.9
+-improve for Bosch GTC 600
+-add filedrop selection panel
+-refacture: IrDecoder (own window, usable in ImageBrowser, settings in *.TCS file)
+-add frame for with infos (prevent drop cursor switching widows/tabs)
+-bugfix: zoom south/east -> index out of range
+-show raw in "local parameter"
+1.11.0.8
+-sequence (thermal only) work
+-Main.StatusMouseMenu.OpenFolder: add FTP 
+-imagebrowser: update histo after open image
+-imagebrowser: image sort mode selectable
+-imagebrowser: ever show number of selected images
+-imagebrowser: add mouse selection rectangle
+-imagebrowser: mouse double click additional trigger "search images..."
+-visual: add visual isotherm from raw mode (StatusMousemenu-> "Temp frame mode" disabled)
+1.11.0.7
+-add batch "Statistic.txt"
+-16bit Tif export add "Temp Slope/Offset" mode
+1.11.0.6
+-add raw gain + offset processing
+-AreaRange add min support
+-add importSetup .isEnableProcessingFrame
+-bugfix hide devices
+1.11.0.5
+-change "ON/OFF" to Arrow
+-add "open folder" link to status bar mouse menu
+-refacture batch processing (now with own UC panel)
+-add variable palette color scale depth
+-bugfix: open TV with stored Area, image offset adjusted
+-add open TV folder in status menu
+-Label with replaced pixel on Live Temp/raw remove death pixel
+-add setting DevMode
+-fine tuning interpolation draw in image
+-add device optris
+1.11.0.4
+-add device DJI Drohne
+-add device Nec/Keysight read frame
+-setting raw remove death pixel
+1.11.0.3
+-add driver specific temperature conversion
+-histogram from Raw (undone)
+-add preview with Raw
+-add image processing from Raw with fixed Color array
+-tablet mode: show current Measurement from TabletViewDll.cs
+1.11.0.2
+-bugfix ThermalFrameProcessing.classMapcal.Shift_OffsetMap(
+-spot raw replace value, not label
+-add optris control
+-bugfix seek thermal initialisation
+1.11.0.1
+-add spot support for 2Point cal
+-bugfix 2point cal manual reference dont work
+-seek init optional with Operation=0
+-new bosch formular
+1.11.0.0 rel
+-ask before close
+-bugfix touch for slider
+-bugfix 2point cal
+-Mainform->Vision Toolbar: generic visual stream from Webcam A/B
+-Tablet mode: improve scale handling of touch events
+-list only selected devices in imagebrowser
+-add suport for Bosch GTC 400
+-add imagebrowser support for Uni-T, Bosch GTC 400, Variocam
+-imagebowser add select and search images to mouse menu
+1.10.0.18
+-Serial sensor support Optris-CT temperature
+-rotation (if not disabled in setup) on each ImportThermalFrame
+-remove vision rotation and add generic rotation (0°,180°,+90°,-90°)
+-seek and TE no rotation while stream
+-Seek shot images converted by cal window
+1.10.0.17
+-radioFile 2.2 (frame 2=planck raw,meas 2= with ranged box)
+-autoload "seek" if start manually
+-read Windows version at startup (extra dll call for Win10 for better view)
+-tempswitch are now collected in function panel
+-tempswitch setup one file for all items, with autoload from app.config
+-histogram 4x dynamic
+-add camera support: Uni-T *.bmp files
+-add camera support: Variocam *.irb files
+-add camera support: Flir/Agema *.img files (experimental)
+-bugfix webcam tool (dont start before)
+-add interpolation x2 for raw frame
+-hide devices: collection of check boxes -> dynamic table
+-min/max auto 3x3 kernel disabled
+1.10.0.15
+-bugfix map & Planck cal
+1.10.0.14
+-autodisable Mapcal if not match
+-resturcture ThermoVision Core
+1.10.0.13
+-PanckCalWindow: add planck Curve (display raw 0-0xffff conversion)
+-now 2 generic Planck cals (Base for fixed TV and Global in Cal, overwritten by flir images)
+-add Planck reverse (Temp to Raw)
+-TempSwitch: add Alert to txt
+-FlirCameraCommander enum FlirCameraType { Normal_QtGui, Legacy_ThermaCam }
+-histogram add dynamic resolution
+-histogram add fixed 0.01 resolution
+-add second 2p-cal (fever screening extension)
+-add BoxRanged (define 5 max ranges in Area)
+-seek thermal raw range higher(before 6k-17k, now 1k-65k adjustable)
+-add Seek *.HIR read thermal frame (and *.pre)
+-buxfix while import
+-bugfix 3x3 kernel
+-improved startup for DIY Thermocam
+1.10.0.0
+-add temperature gain
+-add TempProcessing() (gain,offset,avr)
+-invert bei palette
+1.9.0.12
+-add support for TE-M1 images
+1.9.0.11
+-tabwin: speichern mit/ohne visual
+-tabwin: debug, fullscreen und window umschaltbar
+-simulation eigenständiger modus
+-implant TF based Simulation
+1.9.0.6
+-static class "SelectedThermalCamera" für settings
+-Main->vision Tools (gemeinsame streaming bar)
+-einheitliche Imagerotation in der vision bar
+-autorange ab jetzt in min und max aufgeteilt
+-seek und Tcam DLL jetzt mit TF processing
+-Autoload.TEC wenn eine *.TCS datei geladen wird
+1.9.0.4
+-termalframe und TermalframeRaw neu angelegt, ersetzten die große alte TF klasse
+-generischer MF.Import_ThermalFrame(TF[raw oder temp],setup)
+-Local parameter for Point and Box
+-Appconfig autostart: <add key="AutoRead_tcs_File" value="" />
+-Thermal Expert unterstützt M1 kamera @ 30fps
+-Termal Expert nutzt neue Thermal Frame
+-neues fenster zum ändern von controls (frmLanguage)
+-autorefresh ports beim öffnen vom DIY Tab entfernt
+-rotation in mainir with T/G and V for on/off
+1.9.0.1
+-extract temp CSV
+-bugfix: speichert fensterposition nicht mehr bei hide all windows
+-bugfix: Numeric verlieren jetzt ihren Focus wenn die maus die box verlässt und reagieren wieder auf <ENTER>
+-neues fenster: CRC Editor, entweder über Main-Fenster-Menu oder Cameracommander Flir->Tab:FTP->Mausmenü->open in Editor
+1.9.0.0 rel
+-flir image und flir ir grab auf ein flir usercontrol gebündelt
+-process visual image setup speicher und ladbar
+-visual relief improved (hat jetzt ein "invert" und ist stabiler)
+-sprachauswahl wenn "LangSelected=SET"
+-Speichern beim schließen kann manuell abgeschaltet werden
+-direktaufruf der Settings.dat mit button
+-invertierung bei relief direkt mit checkbox
+1.8.0.4
+-testo bilder erfassbar
+-seek reveal tiff einlesbar
+-3x3 Kernel für spots jetzt default aktiv
+-neuer Paramerter: -WINSIZE läd die letzten Fenstereinstellungen (früher standard)
+-Runden der Messwerte bei Report Messtabelle
+-Report Messtabelle hat jetzt eine titelleiste
+-fehler behoben der manchmal die Messung nicht abschaltete
+-änderungen an messungen werden bei Fastrefresh direkt im mGrid angezeigt
+-CameraCommanderFLIR eingefügt
+1.8.0.3
+-bei FS und CAM Auflösung auf 160x120 falls kein bild damit funktion aktiv werden kann
+1.8.0.1
+-änderung bei DIY-Thermocam Datenerfassung
+-IR Seitenverhältniss sperren gilt jetzt auch für Numeric changes
+-parameter für start mit kameramodus (-CAM)
+-2x extern palette mit palette generator
+-Memory Overflow verhindert bei VisualRelief
+-schaltet stream von WebcamA ab, wenn VisualProcessing geöffnet wird
+1.8.0.0 Rel
+-2x TCam Dll eingebaut, Raw mode mit Mapcal und Planck
+1.7.0.2
+-Seek Pro normal mode eingebaut
+1.7.0.0 Rel
+-buxfixes
+1.6.0.7
+-Interpolation und Colorscale jetzt in Statusleiste
+-Statusleiste ersetzt durch splitpanel
+-fehler bei plot behoben (wenn geschlossen nicht mehr aufnahmefähig)
+1.6.0.6
+-batch report from image browser
+-multi report in one file
+-Serial Sensor unterstützt jetzt B35 Multimeter
+-Serial Sensor Setup laden und speichern verfügbar
+-Histo Graph, relatives Histogram mit auslesen
+-neue palette RedGrayBlue
+-median implementiert
+-mbox active Bordersize kann in setting eingestellt werden und wird auch gespeichert
+-mbox resize von jeder himmelsrichtung und diagonal mit visueller darstellung
+-new window: PictureProcessing (ersetzt Visual rotate und Grayscale)
+-visual Seitenverhältnis behalten
+-line auch rückwärts (4 statt nur 2 quadranten), auch diffline
+-frmabout hat jetzt liste statt einzelkomponenten
+1.6.0.0 REL
+-pre: FlirOne TCP stream "-FONE_TEST"
+-Kameramodus endet mit: Lang linksklick,Mittel und rechtsklick auf das kreuz oben links
+-CEM DT-9885 (China camera mit i3 Core) bilder können gelesen werden
+-Serial sensor (x2) eingebaut
+-temperaturoffset sollte jetzt passen (setup bei processing)
+-Report kann jetzt Farbscala und hat Befehle dafür
+-imagebrowser erweitert: Browsefunktion
+-imagebrowser erweitert: Favoriten (erstellen und löschen)
+1.5.0.0 REL
+-IR 90° rotation
+-IR Rotation/Spiegeln automatisch auf Visual anwenden
+-Fehler bei Halfsize Flirgrab behoben
+-Imagebrowser jetzt auch flir exx ordner
+-Argus Bilder einlesen bei Drop und Imagebrowser
+-Flirvisual von Geogapp wird erkannt
+-Flirvisual mit invertet crcb <-> cbcr wird erkannt (E40 wenn embeddet)
+1.4.4.3
+-bildfehler bei visual isotherm behoben
+-Imagebrowser auf FLIR Exx Speicherkarte erweitert
+1.4.4.2 REL
+-flir Plank overflow wird angezeigt und teilweise ausgeglichen
+-planck calwindow bei flir
+-Spot hat eine ShowRaw funktion
+1.4.4.1
+-Rotation ausgebessert
+-Optonal kann bei Vis nicht nur IR sondern auch das Prozessierte Overlay eingeblendet werden
+ (Relief Visual Isotherm nur noch bei IR nicht bei VIS)
+1.4.4.0
+-flir seq grab stabilisiert
+-language anpassungen
+1.4.3.10
+-fFunc.TempMath_FLIR Planck Werte werden bei Settings.txt gespeichert
+-DIY Anleitung für Cal jetzt im Unterordner
+-flir radiometric sequence kann gespeichert werden (device FLIR)
+-Report fertiggestellt
+-Imagegrabber für Report mit Bildvorschau
+-fehler bei Bild speichern mit visual behoben
+-Visual Gray Option und Vis Relief sind jetzt bei Visual->Effekte (sub panel)
+-Lesen von Seqenzen bei IR Video verbessert
+-flir seq über planck berrechnen (bei Video fixed, bei grabir optional)
+-WTC nutzt eine kurve mit smoothing
+-Plot multi kann geladen werden
+-smooth visual Isotherm
+1.4.3.4
+-spot hat jetzt 3x3 Kernel
+-WTC (warmup temperature Drift) kann aufgenommen werden
+1.4.3.3
+-fix: speichert bei plot multi nicht wenn label off
+-planccal bei seek thermal eingebaut
+1.4.3.2 Rel
+-fix: speichern ohne vis (objektverweis=null)
+1.4.2.8
+-TE Planck cal werte können gespeichert werden
+-report kann über parameter -report aktiviert werden
+1.4.2.7
+-TE hat jetzt eine Flir style Temperatur calculation, aber die Plank werte sind noch unbekannt.
+-diverse ausbesserungen am Report
+1.4.2.6
+-Diverse Sprachanpassungen
+1.4.2.5
+-report weiter ausgebaut
+-Plot überarbeitet (Statistik, eigenes Mausmenu...)
+-FormFuncts hat keine kontrolle mehr über Plot, die controls sind jetzt direkt bei plot
+-Settings ist jetzt ein interenes Auto-Dokument fenster -> besser für Language
+1.4.2.0 REL
+-Skalierung am Zedgraph angepasst
+-i3 read in geht jetzt auch mit . statt ,
+-ThermalExpert ist jetzt ein extra Usercontrol
+-center mouse bei klick auf Settings (damit der Focusevent von MainIR nicht das Settingsfenster in den hintergrund schiebt)
+-farbscala wird für Graph übernommen
+-min und max begrenzung in Graph eingebaut
+-Autostart Settings und mark Language Gelb wenn kein Setting vorhanden
+1.4.1.1
+-unterschiedliche Fonts und vals für Interpolation
+-fix: mainIR Measobjects kann jetzt wieder umgeschaltet werden (Mausmenu)
+-fix: Processing verschiebt jetzt temperaturen nicht mehr
+-close without save eingefügt (Menü)
+-neues Fenster: Settings (beinhaltet Einstellungen, die aus anderen Bereich verschwunden sind)
+1.4.1.0 fix rel
+-bei autoload TV RadioImg jetzt valirable richtig und speichern in datei möglich
+-Cold und Hotspot werden jetzt bei snapshot gespeichert
+-fix crash bei zu starker beanspruchung bei i3 DLL (Interpolation x4, Sharpen + Interp. x2)
+-copy to cam button bei Calibrierung, für leichteres slope offset übernhemen
+-remove Deathpixel jetzt auch für größere löcher
+1.4.0.0 Rel
+-fix visual DIY termocam
+-M8 Bilder jetzt mit Rawmap für processing
+-Stärke bei Gausian angepasst
+1.3.0.14
+-various bugfix
+1.3.0.12
+-Flirberrechnung angepasst
+-bei flirbildern jetzt Rohdaten im hintergrund zum neuberrechnen bei änderung von werten
+-vorschaubild fertig
+-Flirberrechnung erweitert (jetzt auch Distanz, Luftfeuchtigkeit und Lufttemperatur eingebaut)
+-DIY Thermocam ist jetzt ein extra Usercontrol
+1.3.0.11
+-DIY Thermocam->übernehme Kameraeinstellung (minmax/Colorscale) Rotation autoset entfernt
+-fehler bei load new format without vis behoben
+UNDONE:-vorschaubild angepasst
+1.3.0.9
+-read 16bit png ohne convert.exe (mit exiftool.exe)
+-report window angefangen
+-beim Speicherbild steht jetzt min und max temp oben mit drin
+-MainIR->Camcontrol Measurment (nix,centerspot,minmaxbox)
+-MainIR->Camcontrol Setup fertig
+-MainIR->Camcontrol farbpalette fertig
+-MainIR->Camcontrol bild speichern fertig
+-intern: UC für farbpalette damit nicht zu viel code bei mainIR
+-neuer vollbildmodus, mit Kamerafunktionen
+-fehler bei Fullscreen behoben (nach aktivierung verschieben ok)
+1.3.0.8
+-Diffline kleine optische anpassung
+-Autoflip für DIY-Thermocam vorläufer
+1.3.0.7
+-Neue font für direkteinzeichung ohne Messobjekte
+-Fonts werden jetzt in seetings gespeichert
+-Bildrotation und flip für Vis Bild eingebaut
+-autorotation für DIY-Thermocam V2
+1.3.0.6
+-notiz ist jetzt bei Mgrid und wird im Bild gespeichert (limit 3000 Zeichen)
+-Settigs für ThermoVisionbilder jetzt bei Menü->Optionen (nicht mehr Funktionen->Export: Bilder)
+-Laden von Bildsettings kann abgeschaltet werden
+-Bildrotation eingebaut (settings in jedem Bild)
+-i3 nur TempMap lesen ist jetzt auto active
+1.3.0.5
+-Diffline fertig
+-Variable filestore fertig (50 Zeichen überall erlaubt)
+1.3.0.4
+-Diffline teilweise eingebaut
+-Variable File storage Teilweise eingebaut
+1.3.0.3
+-movie from VIsual (mit Meas und Blend) und IR
+-Movie max perfomance mode (deaktiviert die meisten anzeigen)
+-Visual Blending eingebaut (vorher visual overlay), settings bei ffunc->Darstellung
+-visual  relief bei Vis und bei MainIR (mit blending) eingebaut
+1.3.0.2 REL
+-ein paar bugs entfernt
+-assemblies jetzt im unterordner "extern"
+-startet schneller (skip while loop)
+1.2.0.5
+-Bei Imagebrowser werden nur im sichtbaren berreich die Vorschaubilder erfasst. rest folgt wenn gescrollt wird
+-Messungen können jetzt bei Vis mit angezeigt werden, sie werden nicht von Isotherm oder blending betroffen
+1.2.0.4
+-transparenz ist nicht mehr im mausmenü sondern unter dem Visual Bild
+-Reihenfolge geändert bei Top_R_mode: irzoom,monitor,visual only... dann processings wie blending und vis istotherm
+-visual isotherm jetzt auch bei x1
+-panel mit numerics für IR Offset werden jetzt bei visual mit angezeit und fehlen bei funktion
+1.2.0.3
+-fix offset bei blending in main ir
+-overleay ist jetzt blending
+-visual isotherm eingefügt als visual mode (bei x2,x4)
+1.2.0.2
+-lesen von i3 bildern meldet wenn range =0 und nimmt dann nur den low res frame
+-Overlay in MainIR hat noch einen kleinen XY Offset
+-Overlay bei Visual mit speichern fertig
+-Histogramm hat jetzt einen Statistik modus
+1.2.0.1
+-tempswitch laden jetzt mit open file dialog
+-Visual Window hat jetzt einen Monitor(min, max SelMeas)
+-intern: selMeas kernel für Tempswitch und Monitor
+-Messpunkte und die Spitzen von MinMax aus der Box treffen jetzt besser
+1.2.0.0 REL
+-lokalisierung auf en-gb, dadurch number separator "." fixed
+-Open file ist jetzt autoselect
+-Flir Seq unterstützt jetzt reset bei imageprocessing
+1.1.2.8
+-temperaturoffset bei still imagesm
+-pfade geändert, jetzt bilder neben programmordner (leichter für update)
+-neue palette Medical
+1.1.2.6
+-open flir kopiert lokal und bearbeitet dann lokal
+-drop->flir bug behoben
+-autoselect drop csv -> texpert nicht mehr optris
+1.1.2.5
+-i3 Option: verwerfe Temp > 1000°C
+-Bildprozessierungen prüfen jetzt vorher ob IR Frame da ist (sonst ist nix zum berechnen da->fehlermeldung)
+-load file abgesichert
+-änderung speichern button bei Window:Bildprozessierung
+1.1.2.4 REL
+-seek kernel auf größere range angepasst
+1.1.2.3
+-i3 Kernel unterstützt jetzt rotation (DLL version nicht so toll)
+-vorschaubilderfassung für i3 ohne IR bild verbessert
+1.1.2.1
+-i3 Kernel angepasst,liefert jetzt full range
+-fehler beim laden behoben, externe bilder werden jetzt auch gespeichert
+1.1.2.0
+-Beim öffnen von TE und DIY-Lep werden die Vis bilder nicht mehr gesperrt
+-Delete funktion für imagebrowser (links:öffnen rechts:Markieren)
+-Bilderfassung während des speicherns gesperrt
+-Resolution refresh bei Seek Webcam grab
+-quickshot kann jetzt 16bit tif und vis als bmp speichern
+-bei quickshot wird jetzt auch min und max notiert
+1.1.1.1
+-Thermal Expert DLLs eingebaut,teilweise
+1.1.1.0
+-Quickshot function basis
+1.1.0.0 Rel
+-Mapcal für TEQ1 (hidden)
+-Bilderfassung für TEQ1 (Low Res Temp und Hi Res Map)
+-Imagebrowser kann TEQ1 ordner nach Bildern durchsuchen
+-Bug im Imagebrowser entfernt (sperrt datei nach laden nicht mehr)
+-doppelklick auf Statusleiste stellt die höhe zurück (kann bei größeren Fehlermeldungen verstellt werden)
+-Tempswitch laden und Speichern fertiggestellt
+-Seek Kernel Hitemp Pixelwechsel fix
+1.0.7.5
+-Neues Fenster: Bildprozessierung, vereint nun alle extra Bildfilter
+-I3 Bilderfassung eingebaut
+1.0.7.3
+-Gausian blur und Convolution eingebaut
+-zoom jetzt über mausmenü im Hauptbild ein/ausschaltbar
+1.0.7.2
+-Tempschalter eingebaut (bis zu 10 extrafenster, wie Auswertung bei EX-Tools)
+-neue Zoombox
+1.0.7.1 Rel
+-Fehler bei Autoload external Palette behoben
+-Confuser darf nicht mit "Method Proxy Confusion" gestartet werden, sonst funktioniert 
+ Seek offsetcal nicht mehr (vielleicht auch andere Funktionen)
+1.0.7.0
+-Seek seriennummer nur noch alle 2 Bytes (rest ist 0)
+-seek DPM zeigt jetzt Seriennummer mit an
+-Seek Fastmode nur noch bei option erlaubt
+-Startfenster eingebaut (Zeigt Name, Version und eine Infozeile für den aktuellen schritt)
+1.0.6.4
+-2x klick auf max Document ist jetzt umkerbar
+-wenn min <-1000 oder max >5000 dann caltemp abschalten und rosa markieren
+1.0.6.2
+-Vollbildmodus abgesichert
+-Externe Farbpalette kann eingelesen werden
+-Speicherung der Skalierung angepasst, jetzt -1276.8 bis 5276.7
+1.0.6.1
+-neuer Seek Kernel (mit maps)
+-Interpoliertes Video jetzt möglich, interpolation gesperrt solange Movie geöffnet
+1.0.6.0
+-optische endanpassungen
+1.0.5.3
+-Histogramm hat neuen Kernel (um einiges schneller)
+-Get Reference schaltet zur referenzaufnahme selbstständig kurz weg
+-Movie funktion
+1.0.5.2
+-Fast Frame Seek Kernel eingebaut
+-Median ränder mit übernommen (vollbild Median)
+1.0.5.1
+- bug bei Calibration fenster behoben
+1.0.5.0
+-optris multistore image mit 16 bit-tif
+-bei about libtif info eingefügt
+-argument "-FS" für start mit fullscreen
+1.0.4.10
+-DIY-Thermocam:
+--kommunikationspause bei stream eingebaut für andere abfragen
+--Nuc funktioniert jetzt wie alle anderen und nicht im eigenen unterabfragen
+--read und write cal ist verfügbar, funktioniert vieleicht noch nicht richtig
+1.0.4.7
+-DIY-Thermocam:
+--Benutze cal datei häckchen fehler behoben
+--von replace ".DAT" to ".JPG" zu remove 3 and add "JPG" (liest auch "jpg" Datein)
+-Store Cal to Cam eingebaut (ungetestet)
+-load and save Cal from/to Camera
+1.0.4.5
+-neues Fenster: Kalibrierung
+-2 Punkt Kalibrierung eingebaut für DIY-Thermocam
+-2 Punkt Kalibrierung eingebaut für SeekThermal
+-Document-Vollbildmodus
+-Mausmenü von MainIR->Settings->Stretch Image eingebaut
+-Autoselect bei Drop eingefügt
+-bei FLIR import werden zwischenschritte angezeigt
+-altes Histogramm entfernt
+1.0.4.2
+-Scale bug entfernt bei range >100
+1.0.4.1
+-diverse kommunikations bugs aus der DIY Thermocam steuerung entfernt
+1.0.4.0
+-Histogramm fertiggestellt und freigeschaltet
+-image browser eingebaut
+1.0.3.1
+-DIY-Thermocam Laser und Shutter control, sowie neue Kommunikation mit FW 1.22
+1.0.3.0
+-DIY-Thermocam Visual eingebaut und serial transmission kernel verbesssert
+-Seek stürzt nicht mehr ab wenn einfach getrennt
+-Devices können ausgeblendet werden
+-interpolation jetzt auch in devices:vision umschaltbar
+-optris csv folderprocessing erzeugt jetzt extrabilder ohne Skala usw.
+1.0.2.3
+-DIY-Thermocam fertig
+-global imageprocessing bei devices:Vision (rawsharp,averrage)
+1.0.2.1
+-DIY-Thermocam verbinung ausgebessert
+1.0.2.0
+-grab frame DIY-Thermocam 4 versuch
+-Optris *.tif kann eingelesen werden
+-speicherfehler bei Overlay positions behoben, speichert jetzt auch negaitve xy positionen
+-Visuelle Kantenüberlagerung (MSX) angefangen
+-5 neue Farbpaletten
+-Palettenumsetzung für DIY-Thermocam
+1.0.1.5
+-Num hat jetzt auch min und max
+-Try: Tbtn_vis_Refresh -> picBox_TopR_Overlay.Visible=VARs.Vis_DrawIr;
+1.0.1.3
+-DIY-Thermocam testkommunikation, zweiter versuch
+1.0.1.2
+-DIY-Thermocam testkommunikation, erfasst vieleicht frames per usb
+1.0.1.1
+-DIY-Thermocam read images funzt
+-restore layout in windows verfügbar
+1.0.1.0		16.6.16
+-Sequence kann auch *.Seq datein
+1.0.0.6
+-webcam A-B haben eine Formbasis
+-Bild speichern bei Webcam
+-Treiberfenster und erlaubte Resolutions auslesen bei Webcam
+1.0.0.5
+-Load und Save passt jetzt für Bilder
+-fehler beim speichern der Isotherm Werte behoben
+-Sequenzfunktion load und save IR und IR+Vis
+1.0.0.4
+-fehler bei Isotherm Sinus behoben
+1.0.0.3		30.5.16
+-initial release

@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32413.511
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThermoVision_JoeC", "ThermoVision_JoeC\ThermoVision_JoeC.csproj", "{59F257F9-0198-4B6F-958D-CC727091662F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTVisionJoeC", "CommonTVisionJoeC\CommonTVisionJoeC.csproj", "{2E80A380-7118-4049-9942-56367F4B8622}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TVTabletWindow", "TVTabletWindow\TVTabletWindow.csproj", "{4CECF02E-81C9-4B96-A99E-9EE93E8BE50C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59F257F9-0198-4B6F-958D-CC727091662F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59F257F9-0198-4B6F-958D-CC727091662F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59F257F9-0198-4B6F-958D-CC727091662F}.Debug|x86.ActiveCfg = Debug|x86
+		{59F257F9-0198-4B6F-958D-CC727091662F}.Debug|x86.Build.0 = Debug|x86
+		{59F257F9-0198-4B6F-958D-CC727091662F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59F257F9-0198-4B6F-958D-CC727091662F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59F257F9-0198-4B6F-958D-CC727091662F}.Release|x86.ActiveCfg = Release|x86
+		{59F257F9-0198-4B6F-958D-CC727091662F}.Release|x86.Build.0 = Release|x86
+		{2E80A380-7118-4049-9942-56367F4B8622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E80A380-7118-4049-9942-56367F4B8622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E80A380-7118-4049-9942-56367F4B8622}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E80A380-7118-4049-9942-56367F4B8622}.Debug|x86.Build.0 = Debug|Any CPU
+		{2E80A380-7118-4049-9942-56367F4B8622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E80A380-7118-4049-9942-56367F4B8622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E80A380-7118-4049-9942-56367F4B8622}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E80A380-7118-4049-9942-56367F4B8622}.Release|x86.Build.0 = Release|Any CPU
+		{4CECF02E-81C9-4B96-A99E-9EE93E8BE50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CECF02E-81C9-4B96-A99E-9EE93E8BE50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CECF02E-81C9-4B96-A99E-9EE93E8BE50C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4CECF02E-81C9-4B96-A99E-9EE93E8BE50C}.Debug|x86.Build.0 = Debug|Any CPU
+		{4CECF02E-81C9-4B96-A99E-9EE93E8BE50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CECF02E-81C9-4B96-A99E-9EE93E8BE50C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CECF02E-81C9-4B96-A99E-9EE93E8BE50C}.Release|x86.ActiveCfg = Release|Any CPU
+		{4CECF02E-81C9-4B96-A99E-9EE93E8BE50C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {16A95E4A-1625-4D3B-A3BB-AEF5343C4DF7}
+	EndGlobalSection
+EndGlobal
