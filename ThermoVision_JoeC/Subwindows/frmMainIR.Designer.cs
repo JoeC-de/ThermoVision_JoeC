@@ -300,7 +300,7 @@
             this.toolStripSeparator12,
             this.tbtn_PicBox_GenerateReport});
             this.ConMenu_PicBox.Name = "ConMenu_PicBox";
-            this.ConMenu_PicBox.Size = new System.Drawing.Size(219, 160);
+            this.ConMenu_PicBox.Size = new System.Drawing.Size(219, 182);
             // 
             // tbtn_PicBox_DelMeas
             // 
@@ -523,7 +523,7 @@
             this.tbtn_Scala_12.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tbtn_Scala_12.Name = "tbtn_Scala_12";
             this.tbtn_Scala_12.Size = new System.Drawing.Size(185, 22);
-            this.tbtn_Scala_12.Text = "SegmentIronbow";
+            this.tbtn_Scala_12.Text = "OptrisContrast";
             this.tbtn_Scala_12.Click += new System.EventHandler(this.tbtn_Scale_All);
             // 
             // tbtn_Scala_13
@@ -532,7 +532,7 @@
             this.tbtn_Scala_13.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tbtn_Scala_13.Name = "tbtn_Scala_13";
             this.tbtn_Scala_13.Size = new System.Drawing.Size(185, 22);
-            this.tbtn_Scala_13.Text = "SegmentRainbow";
+            this.tbtn_Scala_13.Text = "OptrisBlueHi";
             this.tbtn_Scala_13.Click += new System.EventHandler(this.tbtn_Scale_All);
             // 
             // tbtn_Scala_14
@@ -793,8 +793,8 @@
             "GrayIron",
             "GrayRainbow",
             "Arctic",
-            "SegmentIron",
-            "SegmentRainbow",
+            "OptrisContrast",
+            "OptrisBlueHi",
             "Medical",
             "RedGrayBlue",
             "Extern (Slot1.ppg)",

@@ -48,6 +48,8 @@ namespace ThermoVision_JoeC
         void FrmVisualLoad(object sender, EventArgs e) {
             panel_monitor.Top = picbox_TopR.Top;
             panel_monitor.Left = picbox_TopR.Left;
+            panel_monitor.Height = this.Height - 22;
+            panel_monitor.Width = this.Width;
             panel_monitor.BringToFront();
         }
         bool NeedVisualRefresh = false;
@@ -939,6 +941,8 @@ namespace ThermoVision_JoeC
         void Cb_mon_ValueSelectedIndexChanged(object sender, EventArgs e) {
             if (V.lock_ctrl) { return; }
             float fsize = (float)(label_Monitor.Width * num_mon_SizeRatio.Value);
+            if (fsize < 0.1f) { fsize = 0.1f; }
+            if (fsize > 500.0f) { fsize = 500.0f; }
             label_Monitor.Font = new Font(FontFamily.GenericSansSerif, fsize, FontStyle.Bold, GraphicsUnit.Pixel);
             MonitorIfEnabled();
         }

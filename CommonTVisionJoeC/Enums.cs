@@ -66,11 +66,15 @@ namespace CommonTVisionJoeC
     public enum RadioImageFrameType 
     { 
         //initial FrameVersion, store Temperature frame. 2 bytes per pixl
-        Frame0 = 0,
+        Frame0_old = 0,
         //same as Frame0
-        Frame1 = 1,
-        //second FrameVersion, store raw frame and Planck values.
-        Frame2 = 2
+        Frame1_2ByteTemp = 1,
+        //store raw frame and Planck values
+        Frame2_RawPlanck = 2,
+        //store raw frame with 2 point cal
+        Frame3_Raw2Point = 3,
+        //store temp Frame, 4 bytes per pixel as float
+        Frame4_FloatTemp = 4
     }
     public enum RadioImageMeasureType 
     { 
@@ -88,6 +92,8 @@ namespace CommonTVisionJoeC
         FrameRawPlanck = 1,
         FrameFlirSeqA = 2,
         FrameFlirSeqB = 3,
-        FrameFlirSeqC = 4
+        FrameFlirSeqC = 4,
+        FrameRaw2Point = 5,
+        FrameTempFloat = 6
     }
 }

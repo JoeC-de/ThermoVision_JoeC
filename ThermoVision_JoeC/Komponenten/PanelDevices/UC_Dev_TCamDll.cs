@@ -79,7 +79,7 @@ namespace ThermoVision_JoeC.Komponenten
                     return true;
                 }
                 string folderName = (GetTitelName().EndsWith("1")) ? "TCamDll1" : "TCamDll2";
-                string dll_fullname =  $"{Var.GetBinRoot()}\\{folderName}\\{txt_dll_RelPath.Text}";
+                string dll_fullname =  $"{Var.GetDataRoot()}\\{folderName}\\{txt_dll_RelPath.Text}";
                 if (!File.Exists(dll_fullname)) {
                     Core.RiseError("DLL not found->" + dll_fullname);
                     return false;

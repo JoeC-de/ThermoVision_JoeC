@@ -87,7 +87,17 @@ namespace ThermoVision_JoeC
         void Txt_NoteTextChanged(object sender, EventArgs e) {
             label_note_Len.Text = txt_Note.Text.Length.ToString() + "/3000";
         }
-
+        public void AddToNote(string info) {
+            int newSize = txt_Note.Text.Length + info.Length;
+            if (newSize <= 3000) {
+                txt_Note.Text += info;
+            } else {
+                Core.RiseError($"AddToNote: note at limit ({txt_Note.Text.Length}/3000)");
+            }
+        }
+        public void NoteClear() {
+            txt_Note.Text = "";
+        }
         public void GenerateLangFile() {
             string[] filterControls = new string[] { "ProbGrid_Messung", "label_note_Len" };
             string[] filterCombos = new string[] { "" };

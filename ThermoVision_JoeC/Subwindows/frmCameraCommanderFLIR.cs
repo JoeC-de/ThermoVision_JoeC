@@ -232,12 +232,16 @@ namespace ThermoVision_JoeC
 
             picbox_FLIRVideo.MouseWheel += new MouseEventHandler(PicBox_FLIRVideoMouseWeel);
 
-            string pfad = Var.GetBinRoot() + "FTP\\";
+            string pfad = Var.GetDataRoot() + "FTP\\";
             if (!Directory.Exists(pfad)) {
                 Directory.CreateDirectory(pfad);
             }
             txt_ftp_PathDownload.Text = pfad;
+            TXTR_Text.MouseWheel += TXTR_Text_MouseWheel;
+            cb_rs232_TerminalFontSize.SelectedIndex = 1;
         }
+
+
         void NumFix(Control Ctrls) {
             foreach (Control C in Ctrls.Controls) {
                 NumFix(C);
@@ -1758,12 +1762,12 @@ namespace ThermoVision_JoeC
                     n--; if (n == 0) { break; }
                 }
             }
-            if (File.Exists(Var.GetBinRoot() + "default.seq")) {
-                FileInfo FI = new FileInfo(Var.GetBinRoot() + "default.seq");
+            if (File.Exists(Var.GetDataRoot() + "default.seq")) {
+                FileInfo FI = new FileInfo(Var.GetDataRoot() + "default.seq");
                 if (FI.Length > 100) {
                     Core.MF.fFunc.Activate();
                     Core.MF.fFunc.uC_Func_ThermalSequence1.ShowMe(true);
-                    Core.MF.fFunc.uC_Func_ThermalSequence1.Open_Sequence(Var.GetBinRoot() + "default.seq");
+                    Core.MF.fFunc.uC_Func_ThermalSequence1.Open_Sequence(Var.GetDataRoot() + "default.seq");
                 }
             }
             btn_flir_DownloadSeq.BackColor = Color.Gainsboro; btn_flir_DownloadSeq.Refresh();
@@ -3157,10 +3161,17 @@ namespace ThermoVision_JoeC
             string startname = BTN_RS232_GetHelp.Text;
             BTN_RS232_GetHelp.BackColor = Color.Gold;
             TXTR_Byte.Text = "";
+            bool helpMode = false;
             _abbruch = false;
             W8_4_End = true;
-            string response = Kernel_recive_fromFlir("help");
+            string response = Kernel_recive_fromFlir("?\r\n");
             W8_4_End = false;
+            if (response == "Timeout") {
+                W8_4_End = true;
+                response = Kernel_recive_fromFlir("help");
+                helpMode = true;
+                W8_4_End = false;
+            }
             string[] splits = response.Split(' ');
             int iend = splits.Length - 1;
             for (int i = 1; i < iend; i++) {
@@ -3168,25 +3179,25 @@ namespace ThermoVision_JoeC
                 string val = splits[i].Trim();
                 if (val.Length > 1) {
                     BTN_RS232_GetHelp.Text = i.ToString() + "/" + iend.ToString(); BTN_RS232_GetHelp.Refresh();
-                    TXTR_Byte.SelectionColor = Color.Blue;
-                    TXTR_Byte.SelectedText += val;
-                    TXTR_Byte.SelectionColor = Color.Gray;
-                    TXTR_Byte.SelectedText += " >> ";
+                    LogRS232ByteAppend(val, Color.Blue);
+                    LogRS232ByteAppend(" >> ", Color.Gray);
                     //read Help for it
                     try {
-                        response = Kernel_recive_fromFlir("help " + val);
-                        int pos = response.IndexOf(':');
-                        if (pos == 0) {
-                            TXTR_Byte.SelectionColor = Color.Fuchsia;
-                            TXTR_Byte.SelectedText += response;
+                        if (helpMode) {
+                            response = Kernel_recive_fromFlir("help " + val);
+                            int pos = response.IndexOf(':');
+                            if (pos < 1) {
+                                LogRS232ByteAppend(response, Color.Fuchsia);
+                            } else {
+                                response = response.Remove(0, pos);
+                                LogRS232ByteAppend(response.Remove(response.Length - 10, 9), Color.Red);
+                            }
                         } else {
-                            response = response.Remove(0, pos);
-                            TXTR_Byte.SelectionColor = Color.Red;
-                            TXTR_Byte.SelectedText += response.Remove(response.Length - 10, 9);
+                            response = Kernel_recive_fromFlir($"{val} /?\r\n");
+                            LogRS232ByteAppend(response, Color.Red);
                         }
                     } catch (Exception ex) {
-                        TXTR_Byte.SelectionColor = Color.Fuchsia;
-                        TXTR_Byte.SelectedText += " ERR:" + ex.Message;
+                        LogRS232ByteAppend(" ERR:" + ex.Message, Color.Fuchsia);
                     }
                 } //if (val.Length > 1) {
             } //for (int i = 1; i < splits.Length - 1; i++) {
@@ -3196,30 +3207,68 @@ namespace ThermoVision_JoeC
 
 
         //für Textfelder
+        void SendToHardware(string tx, bool withWriteLine) {
+            if (btn_FLIR_ConnTelnet.BackColor == Color.LimeGreen) {
+                if (withWriteLine) {
+                    tc.WriteLine(tx);
+                } else {
+                    tc.Write(tx);
+                }
+            }
+            if (SP.IsOpen) {
+                if (withWriteLine) {
+                    SP.WriteLine(tx);
+                } else {
+                    SP.Write(tx);
+                }
+            }
+            if (withWriteLine) {
+                LogRS232Append(tx + "\r\n", Color.Red);
+            } else { 
+                LogRS232Append(tx, Color.Red);
+            }
+        }
+        void LogRS232Append(string text, Color textColor) {
+            TXTR_Text.SelectionStart = TXTR_Text.TextLength;
+            TXTR_Text.SelectionLength = 0;
+
+            TXTR_Text.SelectionColor = textColor;
+            TXTR_Text.AppendText(text);
+            TXTR_Text.SelectionColor = TXTR_Text.ForeColor;
+        }
+        void LogRS232ByteAppend(string text, Color textColor) {
+            TXTR_Byte.SelectionStart = TXTR_Byte.TextLength;
+            TXTR_Byte.SelectionLength = 0;
+
+            TXTR_Byte.SelectionColor = textColor;
+            TXTR_Byte.AppendText(text);
+            TXTR_Byte.SelectionColor = TXTR_Byte.ForeColor;
+        }
         void TXT_Send_SKeyDown(object sender, KeyEventArgs e) {
             if (e.KeyData != Keys.Enter) { return; }
             TextBox txt = sender as TextBox;
-            if (btn_FLIR_ConnTelnet.BackColor == Color.LimeGreen) {
-                string Send = "";
-                switch (txt.Name[11]) { //TXT_Send_S_0
-                    case '0': Send = txt.Text; break;
-                    case '1': Send = "rset " + txt.Text; break;
-                    case '2': Send = "rls " + txt.Text; break;
-                }
-                tc.WriteLine(Send);
-                if (!CHK_RS232_NotOnTop.Checked) {
-                    TXTR_Text.Select(0, 0);
-                }
-                TXTR_Text.SelectionColor = Color.Red;
-                TXTR_Text.SelectedText += Send;
-                return;
-            }
-            if (!SP.IsOpen) { return; }
+            string Send = "";
             switch (txt.Name[11]) { //TXT_Send_S_0
-                case '0': Sub_Send_RS232(txt.Text, false); break;
-                case '1': Sub_Send_RS232("rset " + txt.Text, false); break;
-                case '2': Sub_Send_RS232("rls " + txt.Text, false); break;
+                case '0': Send = txt.Text; break;
+                case '1': Send = "rset " + txt.Text; break;
+                case '2': Send = "rls " + txt.Text; break;
             }
+            SendToHardware(Send, true);
+            //if (btn_FLIR_ConnTelnet.BackColor == Color.LimeGreen) {
+            //    tc.WriteLine(Send);
+            //    if (!CHK_RS232_NotOnTop.Checked) {
+            //        TXTR_Text.Select(0, 0);
+            //    }
+            //    TXTR_Text.SelectionColor = Color.Red;
+            //    TXTR_Text.SelectedText += Send;
+            //    return;
+            //}
+            //if (!SP.IsOpen) { return; }
+            //switch (txt.Name[11]) { //TXT_Send_S_0
+            //    case '0': Sub_Send_RS232(txt.Text, false); break;
+            //    case '1': Sub_Send_RS232("rset " + txt.Text, false); break;
+            //    case '2': Sub_Send_RS232("rls " + txt.Text, false); break;
+            //}
         }
         void Sub_Send_RS232(string text, bool setSendingto) {
             sending_bool = true;
@@ -3330,9 +3379,41 @@ namespace ThermoVision_JoeC
             }
         }
         void TXTR_TextKeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.ControlKey) {
+                allowFontSizeChange = true;
+            }
             //Standardfarbe einstellen
             TXTR_Text.SelectionColor = panel_txt_default.BackColor;
         }
+        void TXTR_Text_KeyPress(object sender, KeyPressEventArgs e) {
+            SendToHardware(e.KeyChar.ToString(), false);
+            e.Handled = true;
+        }
+        void TXTR_Text_KeyUp(object sender, KeyEventArgs e) {
+            allowFontSizeChange = false;
+        }
+        void TXTR_Text_Enter(object sender, EventArgs e) {
+            TXTR_Text.BackColor = Color.White;
+        }
+        void TXTR_Text_Leave(object sender, EventArgs e) {
+            TXTR_Text.BackColor = Color.Gainsboro;
+        }
+        bool allowFontSizeChange = false;
+        void TXTR_Text_MouseWheel(object sender, MouseEventArgs e) {
+            if (!allowFontSizeChange) {
+                return;
+            }
+            if (e.Delta < 0) {
+                if (cb_rs232_TerminalFontSize.SelectedIndex > 0) {
+                    cb_rs232_TerminalFontSize.SelectedIndex--;
+                }
+            } else {
+                if (cb_rs232_TerminalFontSize.SelectedIndex < (cb_rs232_TerminalFontSize.Items.Count - 1)) {
+                    cb_rs232_TerminalFontSize.SelectedIndex++;
+                }
+            }
+        }
+
         void TXTR_ByteKeyDown(object sender, KeyEventArgs e) {
             //Standardfarbe einstellen
             TXTR_Byte.SelectionColor = panel_txt_default.BackColor;
@@ -4174,7 +4255,7 @@ namespace ThermoVision_JoeC
             if (treeFtp.Nodes.Count == 0) { return; }
 
             saveFileDialog1.FileName = txt_ftp_treeSaveFile.Text;
-            saveFileDialog1.InitialDirectory = Var.GetBinRoot() + "FTP\\";
+            saveFileDialog1.InitialDirectory = Var.GetDataRoot() + "FTP\\";
             if (saveFileDialog1.ShowDialog() != DialogResult.OK) { return; }
             tbtn_ftp_treeSave.ForeColor = Color.LimeGreen; tbtn_ftp_treeSave.Refresh();
             StreamWriter txt = new StreamWriter(saveFileDialog1.FileName, false);
@@ -4221,7 +4302,7 @@ namespace ThermoVision_JoeC
         void tbtn_ftp_treeLoad_Click(object sender, EventArgs e) {
             try {
                 openFileDialog1.FileName = txt_ftp_treeSaveFile.Text;
-                openFileDialog1.InitialDirectory = Var.GetBinRoot() + "FTP\\";
+                openFileDialog1.InitialDirectory = Var.GetDataRoot() + "FTP\\";
                 if (openFileDialog1.ShowDialog() != DialogResult.OK) { return; }
 
                 StreamReader txt = new StreamReader(openFileDialog1.FileName);
@@ -5334,10 +5415,10 @@ namespace ThermoVision_JoeC
         int portThreads = 0;
         void ScanPorts(string ipAddress) {
             
-            int portBegin = 20;
-            int portEnd = 25;
+            int portBegin = 1;
+            int portEnd = 1000;
             for (int i = portBegin; i < portEnd; i++) {
-                ThreadStart TS = new ThreadStart(() => frmCameraCommanderFLIR.ScanPort("127.0.0.1", i, PortOpenSuccess));
+                ThreadStart TS = new ThreadStart(() => frmCameraCommanderFLIR.ScanPort(txt_web_telnetip.Text, i, PortOpenSuccess));
                 Thread T = new Thread(TS);
                 T.Start();
                 portThreads++;
@@ -6659,6 +6740,15 @@ namespace ThermoVision_JoeC
                 FlirCamType = selected;
             } catch (Exception ex) {
                 Core.RiseError("Error on FlirType: " + ex.Message);
+            }
+        }
+
+        private void cb_rs232_TerminalFontSize_SelectedIndexChanged(object sender, EventArgs e) {
+            try {
+                float size = float.Parse(cb_rs232_TerminalFontSize.SelectedItem.ToString());
+                TXTR_Text.Font = new Font(TXTR_Text.Font.FontFamily, size);
+            } catch (Exception ex) {
+                Core.RiseError(ex.Message);
             }
         }
 

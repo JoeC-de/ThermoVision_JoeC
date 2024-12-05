@@ -24,7 +24,9 @@ namespace ThermoVision_JoeC
             Jenoptik = 9,
             Testo = 10,
             ThermAppTxt = 11,
-            IR_Dec = 12
+            IR_Dec = 12,
+            IRG = 13,
+            HikVision = 14
         }
         //		public int TypID=0;
         CoreThermoVision Core;
@@ -110,9 +112,12 @@ namespace ThermoVision_JoeC
                     case ImgTyp.BoschGTC400:
                         return JoeC.JoeC_FileAccess.Get_MemIMG(FileFullPath);
                     case ImgTyp.Jenoptik:
-                        string IrbSnapshot = FileFullPath.Replace(".IRB",".GIF").Replace(".irb", ".GIF");
+                        string IrbSnapshot = FileFullPath.Replace(".IRB", ".GIF").Replace(".irb", ".GIF");
                         if (!File.Exists(IrbSnapshot)) {
-                            return NoImg_ShowMessage("No GIF snapshot found.");
+                            IrbSnapshot = FileFullPath.Replace(".IRB", ".png").Replace(".irb", ".png");
+                            if (!File.Exists(IrbSnapshot)) {
+                                return NoImg_ShowMessage("No PNG snapshot found.");
+                            }
                         }
                         return JoeC.JoeC_FileAccess.Get_MemIMG(IrbSnapshot);
                     case ImgTyp.Testo:
@@ -123,12 +128,20 @@ namespace ThermoVision_JoeC
                             return JoeC.JoeC_FileAccess.Get_MemIMG(tappSnapFile);
                         }
                         break;
+                    case ImgTyp.IRG:
+                        string IrgSnapshot = FileFullPath.Replace(".IRG",".jpg").Replace(".irg", ".jpg");
+                        if (!File.Exists(IrgSnapshot)) {
+                            return NoImg_ShowMessage("No jpg snapshot found.");
+                        }
+                        return JoeC.JoeC_FileAccess.Get_MemIMG(IrgSnapshot);
                     case ImgTyp.IR_Dec:
                         ThermalFrameRaw frame = Core.MF.fIrDec.GetTfFromFile(FileFullPath, false);
                         if (!frame.isValid) {
                             throw new Exception("Ir Decoder failed to read frame.");
                         }
                         return ThermalFrameImage.GetImage(frame);
+                    case ImgTyp.HikVision:
+                        return JoeC.JoeC_FileAccess.Get_MemIMG(FileFullPath);
                 }
                 label_err.Visible = true;
                 label_err.BackColor = Color.Silver;

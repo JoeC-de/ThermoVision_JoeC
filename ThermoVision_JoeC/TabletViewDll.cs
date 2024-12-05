@@ -34,7 +34,7 @@ namespace ThermoVision_JoeC
             //    cam_mainWindow.ResizeMode = ResizeMode.NoResize;
             //}
             ElementHost.EnableModelessKeyboardInterop(cam_mainWindow);
-            cam_vm = new TabletViewModel(this, cam_mainWindow, Var.GetBinRoot());
+            cam_vm = new TabletViewModel(this, cam_mainWindow, Var.GetDataRoot());
             //if (fullscreen) { cam_vm.ToFullscreen(); }
             //else { cam_vm.ToWindow(); }
             cam_vm.Initialize();

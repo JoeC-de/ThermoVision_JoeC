@@ -94,6 +94,7 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chk_ReloadImageOnSelectRotation = new System.Windows.Forms.CheckBox();
             this.TabControl_SP.SuspendLayout();
             this.TP_Set_APP.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -148,6 +149,7 @@
             // TP_Set_APP
             // 
             this.TP_Set_APP.AutoScroll = true;
+            this.TP_Set_APP.Controls.Add(this.chk_ReloadImageOnSelectRotation);
             this.TP_Set_APP.Controls.Add(this.chk_FiledropMenu);
             this.TP_Set_APP.Controls.Add(this.chk_devMode);
             this.TP_Set_APP.Controls.Add(this.groupBox1);
@@ -284,7 +286,7 @@
             this.groupSelectLanguage.Controls.Add(this.txtLangInfo);
             this.groupSelectLanguage.Controls.Add(this.btnLangOk);
             this.groupSelectLanguage.Controls.Add(this.listBoxLangSelect);
-            this.groupSelectLanguage.Location = new System.Drawing.Point(412, 259);
+            this.groupSelectLanguage.Location = new System.Drawing.Point(519, 188);
             this.groupSelectLanguage.Name = "groupSelectLanguage";
             this.groupSelectLanguage.Size = new System.Drawing.Size(412, 303);
             this.groupSelectLanguage.TabIndex = 263;
@@ -581,6 +583,18 @@
             this.Column5.Name = "Column5";
             this.Column5.Width = 60;
             // 
+            // chk_ReloadImageOnSelectRotation
+            // 
+            this.chk_ReloadImageOnSelectRotation.Checked = true;
+            this.chk_ReloadImageOnSelectRotation.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_ReloadImageOnSelectRotation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chk_ReloadImageOnSelectRotation.Location = new System.Drawing.Point(9, 413);
+            this.chk_ReloadImageOnSelectRotation.Name = "chk_ReloadImageOnSelectRotation";
+            this.chk_ReloadImageOnSelectRotation.Size = new System.Drawing.Size(394, 18);
+            this.chk_ReloadImageOnSelectRotation.TabIndex = 272;
+            this.chk_ReloadImageOnSelectRotation.Text = "Beim welchsel der Bildrotation unten: Bild neu einlesen";
+            this.chk_ReloadImageOnSelectRotation.UseVisualStyleBackColor = true;
+            // 
             // frmSettings
             // 
             this.AutoScroll = true;
@@ -623,5 +637,6 @@
         public System.Windows.Forms.CheckBox chk_devMode;
         public System.Windows.Forms.CheckBox chk_changeDrawingModeOnStreaming;
         public System.Windows.Forms.CheckBox chk_FiledropMenu;
+        public System.Windows.Forms.CheckBox chk_ReloadImageOnSelectRotation;
     }
 }

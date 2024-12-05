@@ -45,11 +45,18 @@ namespace ThermoVision_JoeC
                 this.Hide();
             }
         }
-        
+
         #region Tab_Still
+        void AddNoteIfEnabled(string info) {
+            if (!chk_addTxtNote.Checked) {
+                return;
+            }
+            Core.MF.fMgrid.AddToNote(info);
+        }
         void Btn_filter_RawSharpResetClick(object sender, EventArgs e) {
             Var.Restore_fromBackup();
             Core.ImportThermalFrameRaw(Var.FrameRaw, ImportSetup);
+            AddNoteIfEnabled("[RESET],");
         }
         bool CheckPic() { //true=abbruch
             if (Core.MF.fMainIR.PicBox_IR.Image == null) {
@@ -61,32 +68,32 @@ namespace ThermoVision_JoeC
             return false;
         }
         public void DrawAfterRawProcess() {
+            Core.RadioImg.isChanged = true;
             Core.ImportThermalFrameRaw(Var.FrameRaw, ImportSetup);
         }
         void Btn_filter_RawSharpPosClick(object sender, EventArgs e) {
             if (CheckPic()) { return; }
             Var.Process_RawSharp((float)num_filter_RawSharp.Value);
             DrawAfterRawProcess();
+            AddNoteIfEnabled($"Sharp({Math.Round(num_filter_RawSharp.Value,2)}),");
         }
         void Btn_filter_RawMeanClick(object sender, EventArgs e) {
             if (CheckPic()) { return; }
             Var.Process_RawMean();
             DrawAfterRawProcess();
+            AddNoteIfEnabled($"Mean(),");
         }
         void Btn_filter_RawMedianClick(object sender, EventArgs e) {
             if (CheckPic()) { return; }
             Var.Process_RawMedian();
             DrawAfterRawProcess();
-        }
-        void Btn_filter_RawRepMedianClick(object sender, EventArgs e) {
-            if (CheckPic()) { return; }
-            Var.Process_RawMedian();
-            DrawAfterRawProcess();
+            AddNoteIfEnabled($"Median(),");
         }
         void Btn_filter_GaussBlurClick(object sender, EventArgs e) {
             if (CheckPic()) { return; }
             Var.Process_Gausian(num_filter_Gauss.Value);
             DrawAfterRawProcess();
+            AddNoteIfEnabled($"Sharp({Math.Round(num_filter_Gauss.Value, 1)}),");
         }
         void Btn_filter_ConvolutionClick(object sender, EventArgs e) {
             if (CheckPic()) { return; }
@@ -98,6 +105,7 @@ namespace ThermoVision_JoeC
             };
             Var.Process_Convolution(Kernel);
             DrawAfterRawProcess();
+            AddNoteIfEnabled($"Convolution(...),");
         }
         void Btn_filter_TempOffsetClick(object sender, EventArgs e) {
             ThermalFrameTemp FrameTemp = ThermalFrameProcessing.TF_From_TF_With_Offset(Var.FrameTemp, (float)num_filter_TempOffset.Value);
@@ -106,21 +114,26 @@ namespace ThermoVision_JoeC
             imprort_Setup.isHardAutorange = true;
             imprort_Setup.isRefreshBackup = false;
             Core.ImportThermalFrameTemp(FrameTemp, imprort_Setup);
+            AddNoteIfEnabled($"TempOffset({Math.Round(num_filter_TempOffset.Value, 2)}),");
         }
         void btn_filter_InterpolationX2_Click(object sender, EventArgs e) {
+            Core.RadioImg.isChanged = true;
             ThermalFrameRaw newTF = ThermalFrameProcessing.TF_Interpolatex2(Var.FrameRaw);
             Core.ImportThermalFrameRaw(newTF, ImportSetup);
             Var.RefreshBackup();
+            AddNoteIfEnabled($"Interpolation(x2),");
         }
         void btn_filter_RemoveDeathPixel_Click(object sender, EventArgs e) {
             try {
                 int count = ThermalFrameProcessing.FrameRemoveDeathPixel(ref Var.FrameRaw, (int)num_filter_deathPixelTreshold.Value);
                 Core.RiseInfo($"FrameRemoveDeathPixel('{num_filter_deathPixelTreshold.Value}')-> replaced: {count}");
                 if (count != 0) {
+                    Core.RadioImg.isChanged = true;
                     FrameImprortSetup setup = new FrameImprortSetup();
                     setup.isRotation = false;
                     setup.doAutorange = true;
                     Core.ImportThermalFrameRaw(Var.FrameRaw, setup);
+                    AddNoteIfEnabled($"RemoveBadPixel({count}),");
                 }
             } catch (Exception ex) {
                 Core.RiseError($"FrameRemoveDeathPixel->Ex:{ex.Message}");
@@ -128,12 +141,22 @@ namespace ThermoVision_JoeC
             
         }
         void btn_filter_RawGain_Click(object sender, EventArgs e) {
+            Core.RadioImg.isChanged = true;
             Var.FrameRaw = ThermalFrameProcessing.RecalcMinMaxWithGain(Var.FrameRaw, (float)num_filter_RawGain.Value);
             Core.ImportThermalFrameRaw(Var.FrameRaw, ImportSetup);
+            AddNoteIfEnabled($"AddGain({Math.Round(num_filter_RawGain.Value, 2)}),");
         }
         void btn_filter_RawOffset_Click(object sender, EventArgs e) {
+            Core.RadioImg.isChanged = true;
             Var.FrameRaw = ThermalFrameProcessing.RecalcMinMaxWithOffset(Var.FrameRaw, (int)num_filter_RawOffset.Value);
             Core.ImportThermalFrameRaw(Var.FrameRaw, ImportSetup);
+            AddNoteIfEnabled($"AddOffset({Math.Round(num_filter_RawOffset.Value, 2)}),");
+        }
+        void btn_filter_DOG_Click(object sender, EventArgs e) {
+            if (CheckPic()) { return; }
+            Var.Process_DOG((int)uC_Numeric1.Value, (int)uC_Numeric2.Value, chk_filter_DOGcenter.Checked);
+            DrawAfterRawProcess();
+            AddNoteIfEnabled($"DOG-Filter({Math.Round(uC_Numeric1.Value, 1)},{Math.Round(uC_Numeric2.Value, 1)}),");
         }
         #endregion
         void CB_IP_ConvSetupsSelectedIndexChanged(object sender, EventArgs e) {
@@ -335,10 +358,5 @@ namespace ThermoVision_JoeC
             Core.MF.frmLang.ReadLanguage(this, GetConMenus());
         }
 
-        void btn_filter_DOG_Click(object sender, EventArgs e) {
-            if (CheckPic()) { return; }
-            Var.Process_DOG((int)uC_Numeric1.Value, (int)uC_Numeric2.Value, chk_filter_DOGcenter.Checked);
-            DrawAfterRawProcess();
-        }
     }
 }

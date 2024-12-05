@@ -246,20 +246,24 @@ namespace CSharpRoTabControl {
         private void PaintTheSelectedTab(Graphics g) {
             Rectangle selrect;
             int selrectRight = 0;
-            GraphicsPath path = this.GetPath(this.SelectedIndex);
-            if (this.SelectedIndex >= 0) {
-                Rectangle rect = this.GetTabRect(this.SelectedIndex);
-                System.Drawing.Brush buttonBrush =
-                    new System.Drawing.Drawing2D.LinearGradientBrush(
-                        rect,
-                        TabPageBackColorTop,
-                        TabPageBackColorBottom,
-                        LinearGradientMode.Vertical);
-                g.FillPath(buttonBrush, path);
-                selrect = this.GetTabRect(this.SelectedIndex);
-                selrectRight = selrect.Right;
-                this.PaintTabBorder(g, this.SelectedIndex, path);
-                this.PaintTabText(g, this.SelectedIndex);
+            try {
+                GraphicsPath path = this.GetPath(this.SelectedIndex);
+                if (this.SelectedIndex >= 0) {
+                    Rectangle rect = this.GetTabRect(this.SelectedIndex);
+                    System.Drawing.Brush buttonBrush =
+                        new System.Drawing.Drawing2D.LinearGradientBrush(
+                            rect,
+                            TabPageBackColorTop,
+                            TabPageBackColorBottom,
+                            LinearGradientMode.Vertical);
+                    g.FillPath(buttonBrush, path);
+                    selrect = this.GetTabRect(this.SelectedIndex);
+                    selrectRight = selrect.Right;
+                    this.PaintTabBorder(g, this.SelectedIndex, path);
+                    this.PaintTabText(g, this.SelectedIndex);
+                }
+            } catch (Exception ex) {
+                
             }
         }
 

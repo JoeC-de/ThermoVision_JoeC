@@ -233,13 +233,10 @@ namespace CommonTVisionJoeC {
                         break;
                 }
                 //ThermalFrameRaw frameFirst = radioImage.TfRaw;
-                if (radioImage.FrameVersion == 1) { //from_1.10.0.0 
-                    //frameSize = ((X_width * Y_height * 2) + 544);
-                }
+                //FrameVersion == 1 from_1.10.0.0 
+                //frameSize = ((X_width * Y_height * 2) + 544);
                 
                 frameSize = ((X_width * Y_height * 2) + 12);
-                if (radioImage.FrameVersion == 100) {
-                }
                 int expectedFrameTotalCount = frameTotalCount; //info from head
                 frameTotalCount = (int)Math.Round((double)(startoffset) / frameSize);
                 if (Math.Abs(expectedFrameTotalCount-frameTotalCount) > 2) {
@@ -284,16 +281,28 @@ namespace CommonTVisionJoeC {
             switch (frameType) {
                 case RadioSequenceFrameType.FrameFlirSeqA:
                 case RadioSequenceFrameType.FrameFlirSeqB:
+                case RadioSequenceFrameType.FrameFlirSeqC:
                 case RadioSequenceFrameType.FrameRawPlanck:
+                case RadioSequenceFrameType.FrameRaw2Point:
                     if (thermalFrameRaws.Count < 1) {
                         throw new Exception("SaveToFile_TvSequence()->skip, has no raw frames.");
                     }
-                    radioImage.WriteRadioThermalFrameV2(ms, thermalFrameRaws[0]); break;
+                    if (frameType == RadioSequenceFrameType.FrameRaw2Point) {
+                        radioImage.WriteRadioThermalFrameRaw(ms, thermalFrameRaws[0], RadioImageFrameType.Frame3_Raw2Point);
+                    } else { 
+                        radioImage.WriteRadioThermalFrameRaw(ms, thermalFrameRaws[0], RadioImageFrameType.Frame2_RawPlanck);
+                    }
+                    break;
                 default: //save as temperature frame
                     if (thermalFrameTemps.Count < 1) {
                         throw new Exception("SaveToFile_TvSequence()->skip, has no temp frames.");
                     }
-                    radioImage.WriteRadioThermalFrameV1(ms, thermalFrameTemps[0]); break;
+                    if (frameType == RadioSequenceFrameType.FrameTempFloat) {
+                        radioImage.WriteRadioThermalFrameTemp(ms, thermalFrameTemps[0], RadioImageFrameType.Frame4_FloatTemp);
+                    } else { 
+                        radioImage.WriteRadioThermalFrameV1(ms, thermalFrameTemps[0]);
+                    }
+                    break;
             }
             Bitmap bmp = preView;
             if (bmp == null) {

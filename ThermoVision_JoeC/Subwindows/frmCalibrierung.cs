@@ -864,7 +864,9 @@ namespace ThermoVision_JoeC
             if (chk_TF_SimulateActive.Checked) {
                 try {
                     btn_TF_Load.BackColor = Color.Gold; btn_TF_Load.Refresh();
+                    setup = new CoreThermoVision.FrameImprortSetup();
                     _simTfRaw = ThermalFrameProcessing.File_Load_to_TF(Var.GetCalCamSetupRoot(false) + txt_TF_SimFramename.Text);
+                    TFsim = TFGenerator.Generate_TFRaw(_simTfRaw.W, _simTfRaw.H);
                 } catch (Exception err) {
                     Core.RiseError("TF Simulation->" + err.Message);
                 }
@@ -882,32 +884,33 @@ namespace ThermoVision_JoeC
             }
         }
         DateTime dt_TimeoutAfterstart;
+        ThermalFrameRaw TFsim = TFGenerator.InvalidTFRaw;
+        CoreThermoVision.FrameImprortSetup setup = null;
         void timer_simulate_Tick(object sender, EventArgs e) {
             if (!timer_simulate.Enabled) { return; }
             if (!_simTfRaw.isValid) { return; }
             if (!Var.SelectedThermalCamera.isStreaming) { return; }
             timer_simulate.Enabled = false;
             try {
-                ThermalFrameRaw TF = ThermalFrameProcessing.TF_From_TF_With_Noise(_simTfRaw, (int)num_TF_SimNoise.Value);
-                CoreThermoVision.FrameImprortSetup setup = new CoreThermoVision.FrameImprortSetup();
+                ThermalFrameProcessing.TF_From_TF_With_Noise(_simTfRaw,ref TFsim, (int)num_TF_SimNoise.Value);
                 //TF = V.TFproc.TF_Interpolatex2(TF, false, 0);
                 setup.doAutorange = true;
                 //setup.isHardAutorange = true;
-                Core.ImportThermalFrameRaw(TF, setup);
+                Core.ImportThermalFrameRaw(TFsim, setup);
                 if (Var.SelectedThermalCamera.visualStreamingType != 0) {
                     if (dt_TimeoutAfterstart.Ticks > DateTime.Now.Ticks) {
                         if (!Var.SelectedThermalCamera.hasVisual) { Core.SetVisualStreamingType(0); }
                     }
                 }
-
-
-            } catch (Exception) {; }
+            } catch (Exception) { ; }
             timer_simulate.Enabled = chk_TF_SimulateActive.Checked;
         }
         public void SetSelectedCalibrationIndex(int newIndex, bool forceRefresh = false) {
             if (cb_SelectedCalibration.SelectedIndex != newIndex || forceRefresh) {
-                cb_SelectedCalibration.SelectedIndex = newIndex;
-                cb_SelectedCalibration.Refresh();
+                if (!chk_fixSelectedCal.Checked) {
+                    cb_SelectedCalibration.SelectedIndex = newIndex;
+                    cb_SelectedCalibration.Refresh();
+                }
                 Core.SetTempConversionType(newIndex);
             }
         }
@@ -925,6 +928,13 @@ namespace ThermoVision_JoeC
                 return;
             }
             Core.SetTempConversionType(cb_SelectedCalibration.SelectedIndex);
+        }
+
+        void cb_SelectedCalibration_DropDownClosed(object sender, EventArgs e) {
+            cb_SelectedCalibration_SelectedIndexChanged(sender, e);
+            Core.SetFrameMinMax_AutorangeNoEvent();
+            Core.DrawFarbscala();
+            Core.Show_pic();
         }
     }
 }

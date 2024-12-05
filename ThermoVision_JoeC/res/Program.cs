@@ -33,7 +33,7 @@ namespace ThermoVision_JoeC
 
             Var.BaseRoot = Directory.GetParent(Basedir).FullName;
 
-            Environment.CurrentDirectory=Var.GetBinRoot();
+            Environment.CurrentDirectory=Var.GetDataRoot();
             //AppDomain.CurrentDomain.SetDynamicBase(Var.GetBinRoot());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

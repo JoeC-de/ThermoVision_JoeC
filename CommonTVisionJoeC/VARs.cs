@@ -161,15 +161,14 @@ namespace CommonTVisionJoeC
         public static void RefreshBackup()
         {
             //FrameRawBackup = TFGenerator.Copy_TFRaw(FrameRaw);
-            ThermalFrameRaw tf = TFGenerator.Generate_TFRaw(FrameRaw.W,FrameRaw.H);
-            tf.max = FrameRaw.max;
-            tf.min = FrameRaw.min;
-            for (int x = 0; x < tf.W; x++) {
-                for (int y = 0; y < tf.H; y++) {
-                    tf.Data[x, y] = FrameRaw.Data[x, y];
+            FrameRawBackup = TFGenerator.Generate_TFRaw(FrameRaw.W,FrameRaw.H);
+            FrameRawBackup.max = FrameRaw.max;
+            FrameRawBackup.min = FrameRaw.min;
+            for (int x = 0; x < FrameRawBackup.W; x++) {
+                for (int y = 0; y < FrameRawBackup.H; y++) {
+                    FrameRawBackup.Data[x, y] = FrameRaw.Data[x, y];
                 }
             }
-            FrameRawBackup = tf;
         }
       	public static void Restore_fromBackup()
         {
@@ -823,7 +822,7 @@ namespace CommonTVisionJoeC
       		if (VisBox_IRArea.Width<5) { return; }
       		if (VisBox_IRArea.Height<5) { return; }
 			MemBitmap mbmp = new MemBitmap(VisBox_IRArea.Width,VisBox_IRArea.Height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-			MemBitmap mbmpVIS = new MemBitmap(BackPic_VIS);
+			MemBitmap mbmpVIS = new MemBitmap(BackPic_VIS,BackPic_VIS.PixelFormat);
 			int X = mbmp.Width-1;
         	int Y = mbmp.Height-1;
         	int MaxX = BackPic_VIS.Width-2;
@@ -934,7 +933,7 @@ namespace CommonTVisionJoeC
         public static Func<ushort, double> method_RawToTemp;
 
         public static string BaseRoot = "";
-      	public static string GetBinRoot()
+      	public static string GetDataRoot()
       	{
       		return BaseRoot+"\\TVisionDATA\\";
       	}
@@ -964,6 +963,11 @@ namespace CommonTVisionJoeC
                 if (!Directory.Exists(folder)) { Directory.CreateDirectory(folder); }
             }
             return folder;
+        }
+        public static void BytesToFile(string nameOfFile, byte[] dataToWrite) {
+            string folder = BaseRoot + "\\TVisionDATA\\BytesToFile\\";
+            if (!Directory.Exists(folder)) { Directory.CreateDirectory(folder); }
+            File.WriteAllBytes($"{folder}{nameOfFile}_{DateTime.Now.ToString("yyyyMMdd_hhmmss")}.dat", dataToWrite);
         }
         public static string GetVisSetupRoot() {
             return BaseRoot + "\\TVisionDATA\\VisSetup\\";
@@ -1111,7 +1115,7 @@ namespace CommonTVisionJoeC
       	public static void PicBoxSkalierung_IR(Rectangle box, ref int EX,ref int EY,Point e)
 		{
       		int n=50;
-      		while (BackPic_Locked&&doWaitForBackPic) {
+      		while (BackPic_Locked && doWaitForBackPic) {
       			if (BackPic_IR==null) { return; }
       			System.Threading.Thread.Sleep(10);
       			n--;

@@ -249,7 +249,8 @@ namespace ThermoVision_JoeC
         void RefreshDeviceTable() {
             dgv_ViewDevices.Rows.Clear();
             foreach (var item in ListUcPanels) {
-                string hidden = (item.Visible) ? "On" : "Hidden";
+                //TODO use Visible instead of IsHidden?
+                string hidden = (!item.IsHidden) ? "On" : "Hidden";
                 dgv_ViewDevices.Rows.Add(hidden, item.GetTitelName());
             }
             //manual add other items
@@ -787,12 +788,18 @@ namespace ThermoVision_JoeC
             if (dgv_ViewDevices.Rows.Count == 0) {
                 sbdev.Append(initialDeviceHideString);
             }
+            int cntOn = 0;
+            int cntOff = 0;
             for (int i = 0; i < dgv_ViewDevices.Rows.Count; i++) {
                 if (dgv_ViewDevices.Rows[i].Cells[0].Value.ToString() == "On") {
-                    sbdev.Append("#");
+                    sbdev.Append("#"); cntOn++;
                 } else {
-                    sbdev.Append("_");
+                    sbdev.Append("_"); cntOff++;
                 }
+            }
+            if (cntOn == 0) {
+                //if devices container is hidden, all items are hidden, take last known state in this case...
+                return initialDeviceHideString;
             }
             return sbdev.ToString();
         }

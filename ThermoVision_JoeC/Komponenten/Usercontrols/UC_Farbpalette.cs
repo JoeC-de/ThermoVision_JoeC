@@ -174,8 +174,8 @@ namespace ThermoVision_JoeC
                         case 9: draw_GrayIron_palette(); break;
                         case 10: draw_GrayRainbow_palette(); break;
                         case 11: draw_Arktis_palette(); break;
-                        case 12: draw_SegmentIron_palette(); break;
-                        case 13: draw_SegmentRainbow_palette(); break;
+                        case 12: draw_OptrisContrast_palette(); break;
+                        case 13: draw_OptrisBlueHi_palette(); break;
                         case 14: draw_Medical_palette(); break;
                         case 15: draw_RedGrayBlue_palette(); break;
                         case 16: draw_Extern_PPG(1); break;
@@ -989,26 +989,37 @@ namespace ThermoVision_JoeC
             }
             draw_Farbscala();
         }
-        void draw_SegmentIron_palette() {
+        void draw_OptrisContrast_palette() {
+            //also braucht man 1-256 Pixel zum auswerten
             Var.Farbscala = new Bitmap(30, Var.PalLen + 1);
             //Grafikobjekte erstellen
             Graphics G = Graphics.FromImage(Var.Farbscala);
             Rectangle rect = new Rectangle(0, 0, 30, Var.PalLen + 1);
+            LinearGradientBrush GB = new LinearGradientBrush(rect, Color.Red, Color.Blue, LinearGradientMode.Vertical);
             //start und endfarbe mit neuen überschreiben
+            ColorBlend CB = new ColorBlend();
             UsedColors = new Color[]
             {
-                Color.White,Color.Yellow,Color.Orange,Color.Crimson,Color.DarkMagenta,Color.MidnightBlue,Color.Black
+                Color.White,Color.Blue,Color.MidnightBlue,Color.Cyan,Color.Green,Color.Yellow,Color.DarkRed,Color.Magenta,Color.Black
             };
             if (isInvertedScale) { Array.Reverse(UsedColors); }
-            int lastindex = UsedColors.Length;
-            int H = Var.PalLen / UsedColors.Length;
-            for (int i = 0; i < lastindex; i++) {
-                G.FillRectangle(new SolidBrush(UsedColors[i]), 0, H * i, 30, H);
-                //      			 = (float)((i+-0.75)/(-1.5+lastindex));
+            CB.Colors = UsedColors;
+            //punkte festlegen, an denen die farben sein sollen, was dazwischen liegt
+            //wird zum farbverlauf
+            float[] CP = new float[CB.Colors.Length];
+            int lastindex = CB.Colors.Length - 1;
+            CP[0] = 0.0f;
+            CP[lastindex] = 1.0f;
+            for (float i = 1; i < lastindex; i++) {
+                CP[(int)i] = (float)((i) / (lastindex));
             }
+
             //werte übergeben
+            CB.Positions = CP;
+            GB.InterpolationColors = CB;
 
             //fülle das rechteck mit den übergebenen farben
+            G.FillRectangle(GB, rect);
             draw_Isoterm(G, ref Var.Farbscala);
             Bitmap img = (Bitmap)Var.Farbscala;
             Color col = new Color();
@@ -1019,28 +1030,39 @@ namespace ThermoVision_JoeC
                 Var.map_b[i] = col.B;
             }
             draw_Farbscala();
+            //			Color[] Col = new Color[]{Color.White,Color.Yellow,Color.Orange,Color.Crimson,Color.DarkViolet,Color.MediumBlue,Color.Black};
+            //			VARs.Curve.Line.Fill = new Fill( Col ,90f);
         }
-        void draw_SegmentRainbow_palette() {
+        void draw_OptrisBlueHi_palette() {
             Var.Farbscala = new Bitmap(30, Var.PalLen + 1);
             //Grafikobjekte erstellen
             Graphics G = Graphics.FromImage(Var.Farbscala);
             Rectangle rect = new Rectangle(0, 0, 30, Var.PalLen + 1);
+            LinearGradientBrush GB = new LinearGradientBrush(rect, Color.Red, Color.Blue, LinearGradientMode.Vertical);
             //start und endfarbe mit neuen überschreiben
+            ColorBlend CB = new ColorBlend();
             UsedColors = new Color[]
             {
-                Color.White,Color.Yellow,Color.Orange,Color.Red,Color.LimeGreen,
-                Color.Cyan,Color.Blue,Color.Black
+                Color.White,Color.Cyan,Color.RoyalBlue,Color.DarkMagenta,Color.MediumVioletRed,Color.Black
             };
             if (isInvertedScale) { Array.Reverse(UsedColors); }
-            int lastindex = UsedColors.Length;
-            int H = Var.PalLen / UsedColors.Length;
-            for (int i = 0; i < lastindex; i++) {
-                G.FillRectangle(new SolidBrush(UsedColors[i]), 0, H * i, 30, H);
-                //      			 = (float)((i+-0.75)/(-1.5+lastindex));
+            CB.Colors = UsedColors;
+            //punkte festlegen, an denen die farben sein sollen, was dazwischen liegt
+            //wird zum farbverlauf
+            float[] CP = new float[CB.Colors.Length];
+            int lastindex = CB.Colors.Length - 1;
+            CP[0] = 0.0f;
+            CP[lastindex] = 1.0f;
+            for (float i = 1; i < lastindex; i++) {
+                CP[(int)i] = (float)((i) / (lastindex));
             }
+
             //werte übergeben
+            CB.Positions = CP;
+            GB.InterpolationColors = CB;
 
             //fülle das rechteck mit den übergebenen farben
+            G.FillRectangle(GB, rect);
             draw_Isoterm(G, ref Var.Farbscala);
             Bitmap img = (Bitmap)Var.Farbscala;
             Color col = new Color();
@@ -1183,7 +1205,7 @@ namespace ThermoVision_JoeC
             draw_Farbscala();
         }
         public void draw_Extern_PPG(int Slot) {
-            string Filename = Var.GetBinRoot() + "Slot" + Slot.ToString() + ".ppg";
+            string Filename = Var.GetDataRoot() + "Slot" + Slot.ToString() + ".ppg";
 
             if (!File.Exists(Filename)) {
                 draw_dual_palette(Color.White, Color.Black, true);

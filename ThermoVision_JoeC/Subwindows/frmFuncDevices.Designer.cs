@@ -199,6 +199,9 @@ namespace ThermoVision_JoeC
             this.uC_Dev_Nec1 = new ThermoVision_JoeC.Komponenten.UC_Dev_Nec();
             this.uC_Dev_XraySensor1 = new ThermoVision_JoeC.Komponenten.UC_Dev_XraySensor();
             this.uC_Dev_DjiDrohne1 = new ThermoVision_JoeC.Komponenten.UC_Dev_DjiDrohne();
+            this.uC_Dev_Infiray1 = new ThermoVision_JoeC.Komponenten.UC_Dev_Infiray();
+            this.uC_Dev_HikVision1 = new ThermoVision_JoeC.Komponenten.UC_Dev_HikVision();
+            this.uC_Dev_Color2Frame1 = new ThermoVision_JoeC.Komponenten.UC_Dev_Color2Frame();
             this.p_VORLAGE = new System.Windows.Forms.Panel();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -247,6 +250,9 @@ namespace ThermoVision_JoeC
             this.FLP_Anzeige.Controls.Add(this.uC_Dev_Nec1);
             this.FLP_Anzeige.Controls.Add(this.uC_Dev_XraySensor1);
             this.FLP_Anzeige.Controls.Add(this.uC_Dev_DjiDrohne1);
+            this.FLP_Anzeige.Controls.Add(this.uC_Dev_Infiray1);
+            this.FLP_Anzeige.Controls.Add(this.uC_Dev_HikVision1);
+            this.FLP_Anzeige.Controls.Add(this.uC_Dev_Color2Frame1);
             this.FLP_Anzeige.Controls.Add(this.p_VORLAGE);
             this.FLP_Anzeige.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Anzeige.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -1400,13 +1406,37 @@ namespace ThermoVision_JoeC
             this.uC_Dev_DjiDrohne1.Size = new System.Drawing.Size(194, 10);
             this.uC_Dev_DjiDrohne1.TabIndex = 361;
             // 
+            // uC_Dev_Infiray1
+            // 
+            this.uC_Dev_Infiray1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.uC_Dev_Infiray1.Location = new System.Drawing.Point(3, 1343);
+            this.uC_Dev_Infiray1.Name = "uC_Dev_Infiray1";
+            this.uC_Dev_Infiray1.Size = new System.Drawing.Size(194, 10);
+            this.uC_Dev_Infiray1.TabIndex = 3;
+            // 
+            // uC_Dev_HikVision1
+            // 
+            this.uC_Dev_HikVision1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.uC_Dev_HikVision1.Location = new System.Drawing.Point(3, 1359);
+            this.uC_Dev_HikVision1.Name = "uC_Dev_HikVision1";
+            this.uC_Dev_HikVision1.Size = new System.Drawing.Size(194, 10);
+            this.uC_Dev_HikVision1.TabIndex = 363;
+            // 
+            // uC_Dev_Color2Frame1
+            // 
+            this.uC_Dev_Color2Frame1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.uC_Dev_Color2Frame1.Location = new System.Drawing.Point(3, 1375);
+            this.uC_Dev_Color2Frame1.Name = "uC_Dev_Color2Frame1";
+            this.uC_Dev_Color2Frame1.Size = new System.Drawing.Size(194, 10);
+            this.uC_Dev_Color2Frame1.TabIndex = 3;
+            // 
             // p_VORLAGE
             // 
             this.p_VORLAGE.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.p_VORLAGE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.p_VORLAGE.Controls.Add(this.label18);
             this.p_VORLAGE.Controls.Add(this.label17);
-            this.p_VORLAGE.Location = new System.Drawing.Point(3, 1343);
+            this.p_VORLAGE.Location = new System.Drawing.Point(3, 1391);
             this.p_VORLAGE.Name = "p_VORLAGE";
             this.p_VORLAGE.Size = new System.Drawing.Size(194, 45);
             this.p_VORLAGE.TabIndex = 265;
@@ -1486,5 +1516,9 @@ namespace ThermoVision_JoeC
         private System.Windows.Forms.DataGridViewButtonColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         public Komponenten.UC_Dev_XraySensor uC_Dev_XraySensor1;
+        public Komponenten.UC_Dev_HikVision uC_Dev_HikVision1;
+        public Komponenten.UC_Dev_Infiray uC_Dev_Infiray1;
+        public Komponenten.UC_Dev_Color2Frame uC_Dev_Color2Frame1;
+        //public Komponenten.UC_Dev_Fluke uC_Dev_Fluke1;
     }
 }

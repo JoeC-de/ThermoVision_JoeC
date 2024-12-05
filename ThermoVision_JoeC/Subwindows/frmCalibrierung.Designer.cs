@@ -102,6 +102,7 @@ namespace ThermoVision_JoeC
             this.label_cal_offset = new System.Windows.Forms.Label();
             this.num_Cal2P_Slope = new ThermoVision_JoeC.Komponenten.UC_Numeric();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.cb_Cal2P_Type = new System.Windows.Forms.ComboBox();
             this.label_cal_2PunktKal = new System.Windows.Forms.Label();
             this.Btn_Cal2P_StartCalSequence = new System.Windows.Forms.Button();
             this.label_Cal2P_PassFail = new System.Windows.Forms.Label();
@@ -174,7 +175,7 @@ namespace ThermoVision_JoeC
             this.rtxt_calDiy_infos = new System.Windows.Forms.RichTextBox();
             this.btn_calDiy_AbortCal = new System.Windows.Forms.Button();
             this.btn_calDiy_StartCal = new System.Windows.Forms.Button();
-            this.cb_Cal2P_Type = new System.Windows.Forms.ComboBox();
+            this.chk_fixSelectedCal = new System.Windows.Forms.CheckBox();
             this.TabControl_Cal.SuspendLayout();
             this.TP_MainCal_Global.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -239,6 +240,7 @@ namespace ThermoVision_JoeC
             // 
             this.panel2.BackColor = System.Drawing.Color.Silver;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.chk_fixSelectedCal);
             this.panel2.Controls.Add(this.cb_SelectedCalibration);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.txt_cal_Camera);
@@ -270,9 +272,10 @@ namespace ThermoVision_JoeC
             "Base"});
             this.cb_SelectedCalibration.Location = new System.Drawing.Point(93, 181);
             this.cb_SelectedCalibration.Name = "cb_SelectedCalibration";
-            this.cb_SelectedCalibration.Size = new System.Drawing.Size(167, 21);
+            this.cb_SelectedCalibration.Size = new System.Drawing.Size(115, 21);
             this.cb_SelectedCalibration.TabIndex = 358;
             this.cb_SelectedCalibration.SelectedIndexChanged += new System.EventHandler(this.cb_SelectedCalibration_SelectedIndexChanged);
+            this.cb_SelectedCalibration.DropDownClosed += new System.EventHandler(this.cb_SelectedCalibration_DropDownClosed);
             // 
             // panel3
             // 
@@ -466,6 +469,22 @@ namespace ThermoVision_JoeC
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(236, 168);
             this.panel5.TabIndex = 337;
+            // 
+            // cb_Cal2P_Type
+            // 
+            this.cb_Cal2P_Type.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_Cal2P_Type.BackColor = System.Drawing.Color.Gainsboro;
+            this.cb_Cal2P_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_Cal2P_Type.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cb_Cal2P_Type.FormattingEnabled = true;
+            this.cb_Cal2P_Type.Items.AddRange(new object[] {
+            "2 P",
+            "Box"});
+            this.cb_Cal2P_Type.Location = new System.Drawing.Point(158, 30);
+            this.cb_Cal2P_Type.Name = "cb_Cal2P_Type";
+            this.cb_Cal2P_Type.Size = new System.Drawing.Size(73, 21);
+            this.cb_Cal2P_Type.TabIndex = 359;
             // 
             // label_cal_2PunktKal
             // 
@@ -1388,21 +1407,15 @@ namespace ThermoVision_JoeC
             this.btn_calDiy_StartCal.UseVisualStyleBackColor = false;
             this.btn_calDiy_StartCal.Click += new System.EventHandler(this.Btn_calDiy_StartCalClick);
             // 
-            // cb_Cal2P_Type
+            // chk_fixSelectedCal
             // 
-            this.cb_Cal2P_Type.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cb_Cal2P_Type.BackColor = System.Drawing.Color.Gainsboro;
-            this.cb_Cal2P_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_Cal2P_Type.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cb_Cal2P_Type.FormattingEnabled = true;
-            this.cb_Cal2P_Type.Items.AddRange(new object[] {
-            "2 P",
-            "Box"});
-            this.cb_Cal2P_Type.Location = new System.Drawing.Point(158, 30);
-            this.cb_Cal2P_Type.Name = "cb_Cal2P_Type";
-            this.cb_Cal2P_Type.Size = new System.Drawing.Size(73, 21);
-            this.cb_Cal2P_Type.TabIndex = 359;
+            this.chk_fixSelectedCal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chk_fixSelectedCal.Location = new System.Drawing.Point(214, 183);
+            this.chk_fixSelectedCal.Name = "chk_fixSelectedCal";
+            this.chk_fixSelectedCal.Size = new System.Drawing.Size(47, 18);
+            this.chk_fixSelectedCal.TabIndex = 360;
+            this.chk_fixSelectedCal.Text = "Fix";
+            this.chk_fixSelectedCal.UseVisualStyleBackColor = true;
             // 
             // frmCalibration
             // 
@@ -1483,5 +1496,6 @@ namespace ThermoVision_JoeC
         public System.Windows.Forms.ComboBox cb_SelectedCalibration;
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.ComboBox cb_Cal2P_Type;
+        public System.Windows.Forms.CheckBox chk_fixSelectedCal;
     }
 }

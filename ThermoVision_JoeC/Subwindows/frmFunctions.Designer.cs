@@ -752,7 +752,7 @@ namespace ThermoVision_JoeC
             this.num_zoombox_Sharpen.DecPlaces = 1;
             this.num_zoombox_Sharpen.Location = new System.Drawing.Point(116, 103);
             this.num_zoombox_Sharpen.Name = "num_zoombox_Sharpen";
-            this.num_zoombox_Sharpen.RangeMax = 5D;
+            this.num_zoombox_Sharpen.RangeMax = 15D;
             this.num_zoombox_Sharpen.RangeMin = 0.1D;
             this.num_zoombox_Sharpen.Size = new System.Drawing.Size(70, 20);
             this.num_zoombox_Sharpen.Switch_W = 15;

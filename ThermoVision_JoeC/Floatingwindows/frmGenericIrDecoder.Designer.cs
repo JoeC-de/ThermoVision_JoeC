@@ -78,11 +78,11 @@
             this.picBox_filepic = new System.Windows.Forms.PictureBox();
             this.chk_filepic_rainbow = new System.Windows.Forms.CheckBox();
             this.TP_Fileformat_bytes = new System.Windows.Forms.TabPage();
+            this.chk_fileformat_selectedHex = new System.Windows.Forms.CheckBox();
             this.btn_fileformat_toFloat = new System.Windows.Forms.Button();
             this.txt_fileformat_ToFloat = new System.Windows.Forms.TextBox();
             this.txt_fileformat_filename = new System.Windows.Forms.TextBox();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
-            this.label_fileformat_selection = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.txt_fileformat_out_txt = new System.Windows.Forms.RichTextBox();
             this.txt_fileformat_out_bytes = new System.Windows.Forms.RichTextBox();
@@ -126,6 +126,10 @@
             this.label25 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.txt_fileformat_SelectedInfo = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txt_fileformat_out_bytesSelectedInfo = new System.Windows.Forms.TextBox();
             this.tabControl_file.SuspendLayout();
             this.TP_Fileformat_Bild.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -166,6 +170,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl_file
@@ -954,8 +959,7 @@
             // 
             // TP_Fileformat_bytes
             // 
-            this.TP_Fileformat_bytes.Controls.Add(this.btn_fileformat_toFloat);
-            this.TP_Fileformat_bytes.Controls.Add(this.txt_fileformat_ToFloat);
+            this.TP_Fileformat_bytes.Controls.Add(this.groupBox3);
             this.TP_Fileformat_bytes.Controls.Add(this.txt_fileformat_filename);
             this.TP_Fileformat_bytes.Controls.Add(this.groupBox23);
             this.TP_Fileformat_bytes.Controls.Add(this.splitContainer2);
@@ -965,6 +969,7 @@
             this.TP_Fileformat_bytes.Controls.Add(this.num_fileformat_count);
             this.TP_Fileformat_bytes.Controls.Add(this.txt_fileformat_find);
             this.TP_Fileformat_bytes.Controls.Add(this.label17);
+            this.TP_Fileformat_bytes.Controls.Add(this.label6);
             this.TP_Fileformat_bytes.Location = new System.Drawing.Point(4, 22);
             this.TP_Fileformat_bytes.Name = "TP_Fileformat_bytes";
             this.TP_Fileformat_bytes.Padding = new System.Windows.Forms.Padding(3);
@@ -973,11 +978,21 @@
             this.TP_Fileformat_bytes.Text = "File to Bytes";
             this.TP_Fileformat_bytes.UseVisualStyleBackColor = true;
             // 
+            // chk_fileformat_selectedHex
+            // 
+            this.chk_fileformat_selectedHex.Location = new System.Drawing.Point(612, -1);
+            this.chk_fileformat_selectedHex.Name = "chk_fileformat_selectedHex";
+            this.chk_fileformat_selectedHex.Size = new System.Drawing.Size(114, 24);
+            this.chk_fileformat_selectedHex.TabIndex = 279;
+            this.chk_fileformat_selectedHex.Text = "Selected in HEX";
+            this.chk_fileformat_selectedHex.UseVisualStyleBackColor = true;
+            this.chk_fileformat_selectedHex.CheckedChanged += new System.EventHandler(this.chk_fileformat_selectedHex_CheckedChanged);
+            // 
             // btn_fileformat_toFloat
             // 
-            this.btn_fileformat_toFloat.Location = new System.Drawing.Point(482, 41);
+            this.btn_fileformat_toFloat.Location = new System.Drawing.Point(112, 16);
             this.btn_fileformat_toFloat.Name = "btn_fileformat_toFloat";
-            this.btn_fileformat_toFloat.Size = new System.Drawing.Size(100, 23);
+            this.btn_fileformat_toFloat.Size = new System.Drawing.Size(71, 23);
             this.btn_fileformat_toFloat.TabIndex = 14;
             this.btn_fileformat_toFloat.Text = "convert";
             this.btn_fileformat_toFloat.UseVisualStyleBackColor = true;
@@ -985,37 +1000,32 @@
             // 
             // txt_fileformat_ToFloat
             // 
-            this.txt_fileformat_ToFloat.Location = new System.Drawing.Point(482, 15);
+            this.txt_fileformat_ToFloat.Location = new System.Drawing.Point(6, 19);
             this.txt_fileformat_ToFloat.Name = "txt_fileformat_ToFloat";
             this.txt_fileformat_ToFloat.Size = new System.Drawing.Size(100, 20);
             this.txt_fileformat_ToFloat.TabIndex = 13;
             // 
             // txt_fileformat_filename
             // 
+            this.txt_fileformat_filename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_fileformat_filename.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_fileformat_filename.Location = new System.Drawing.Point(198, 55);
+            this.txt_fileformat_filename.Location = new System.Drawing.Point(249, 56);
             this.txt_fileformat_filename.Name = "txt_fileformat_filename";
-            this.txt_fileformat_filename.Size = new System.Drawing.Size(207, 18);
+            this.txt_fileformat_filename.Size = new System.Drawing.Size(471, 18);
             this.txt_fileformat_filename.TabIndex = 9;
             this.toolTip1.SetToolTip(this.txt_fileformat_filename, "Dateiname");
             // 
             // groupBox23
             // 
-            this.groupBox23.Controls.Add(this.label_fileformat_selection);
-            this.groupBox23.Location = new System.Drawing.Point(198, 13);
+            this.groupBox23.Controls.Add(this.btn_fileformat_toFloat);
+            this.groupBox23.Controls.Add(this.txt_fileformat_ToFloat);
+            this.groupBox23.Location = new System.Drawing.Point(198, 3);
             this.groupBox23.Name = "groupBox23";
-            this.groupBox23.Size = new System.Drawing.Size(278, 40);
+            this.groupBox23.Size = new System.Drawing.Size(192, 47);
             this.groupBox23.TabIndex = 8;
             this.groupBox23.TabStop = false;
-            this.groupBox23.Text = "selected (in window below)";
-            // 
-            // label_fileformat_selection
-            // 
-            this.label_fileformat_selection.Location = new System.Drawing.Point(6, 15);
-            this.label_fileformat_selection.Name = "label_fileformat_selection";
-            this.label_fileformat_selection.Size = new System.Drawing.Size(248, 17);
-            this.label_fileformat_selection.TabIndex = 10;
-            this.label_fileformat_selection.Text = "---";
+            this.groupBox23.Text = "Convert bytes to float and ushort";
             // 
             // splitContainer2
             // 
@@ -1034,6 +1044,9 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer2.Panel2.Controls.Add(this.txt_fileformat_out_bytesSelectedInfo);
+            this.splitContainer2.Panel2.Controls.Add(this.chk_fileformat_selectedHex);
             this.splitContainer2.Panel2.Controls.Add(this.txt_fileformat_out_bytes);
             this.splitContainer2.Size = new System.Drawing.Size(728, 386);
             this.splitContainer2.SplitterDistance = 203;
@@ -1055,17 +1068,20 @@
             // 
             // txt_fileformat_out_bytes
             // 
+            this.txt_fileformat_out_bytes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_fileformat_out_bytes.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txt_fileformat_out_bytes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_fileformat_out_bytes.ContextMenuStrip = this.conMenu_bytesArea;
             this.txt_fileformat_out_bytes.DetectUrls = false;
-            this.txt_fileformat_out_bytes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_fileformat_out_bytes.ForeColor = System.Drawing.Color.Black;
-            this.txt_fileformat_out_bytes.Location = new System.Drawing.Point(0, 0);
+            this.txt_fileformat_out_bytes.Location = new System.Drawing.Point(0, 24);
             this.txt_fileformat_out_bytes.Name = "txt_fileformat_out_bytes";
-            this.txt_fileformat_out_bytes.Size = new System.Drawing.Size(724, 175);
+            this.txt_fileformat_out_bytes.Size = new System.Drawing.Size(724, 151);
             this.txt_fileformat_out_bytes.TabIndex = 4;
             this.txt_fileformat_out_bytes.Text = "";
+            this.txt_fileformat_out_bytes.SelectionChanged += new System.EventHandler(this.txt_fileformat_out_bytes_SelectionChanged);
             // 
             // conMenu_bytesArea
             // 
@@ -1504,6 +1520,48 @@
             this.richTextBox1.Text = "";
             this.richTextBox1.ZoomFactor = 0.801F;
             // 
+            // txt_fileformat_SelectedInfo
+            // 
+            this.txt_fileformat_SelectedInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_fileformat_SelectedInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_fileformat_SelectedInfo.Location = new System.Drawing.Point(7, 19);
+            this.txt_fileformat_SelectedInfo.Name = "txt_fileformat_SelectedInfo";
+            this.txt_fileformat_SelectedInfo.Size = new System.Drawing.Size(311, 22);
+            this.txt_fileformat_SelectedInfo.TabIndex = 280;
+            this.txt_fileformat_SelectedInfo.Text = "selected in top...";
+            this.toolTip1.SetToolTip(this.txt_fileformat_SelectedInfo, "Dateiname");
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(198, 56);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(80, 17);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Filepath:";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.txt_fileformat_SelectedInfo);
+            this.groupBox3.Location = new System.Drawing.Point(396, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(324, 47);
+            this.groupBox3.TabIndex = 11;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Selected in Text area (and shown in byte area)";
+            // 
+            // txt_fileformat_out_bytesSelectedInfo
+            // 
+            this.txt_fileformat_out_bytesSelectedInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_fileformat_out_bytesSelectedInfo.Location = new System.Drawing.Point(0, 1);
+            this.txt_fileformat_out_bytesSelectedInfo.Name = "txt_fileformat_out_bytesSelectedInfo";
+            this.txt_fileformat_out_bytesSelectedInfo.Size = new System.Drawing.Size(388, 22);
+            this.txt_fileformat_out_bytesSelectedInfo.TabIndex = 281;
+            this.txt_fileformat_out_bytesSelectedInfo.Text = "selected in bottom...";
+            this.toolTip1.SetToolTip(this.txt_fileformat_out_bytesSelectedInfo, "Dateiname");
+            // 
             // frmGenericIrDecoder
             // 
             this.AllowDrop = true;
@@ -1547,8 +1605,10 @@
             this.TP_Fileformat_bytes.ResumeLayout(false);
             this.TP_Fileformat_bytes.PerformLayout();
             this.groupBox23.ResumeLayout(false);
+            this.groupBox23.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.conMenu_bytesArea.ResumeLayout(false);
@@ -1563,6 +1623,8 @@
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -1635,7 +1697,6 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-		private System.Windows.Forms.Label label_fileformat_selection;
 		private System.Windows.Forms.RichTextBox txt_fileformat_out_txt;
 		private System.Windows.Forms.NumericUpDown num_fileformat_start;
 		private System.Windows.Forms.NumericUpDown num_fileformat_count;
@@ -1677,6 +1738,11 @@
         public System.Windows.Forms.ComboBox cb_ImageDecoder_ByteType;
         private System.Windows.Forms.CheckBox chk_filepic_FlipY;
         private System.Windows.Forms.CheckBox chk_filepic_FlipX;
+        private System.Windows.Forms.CheckBox chk_fileformat_selectedHex;
+        private System.Windows.Forms.TextBox txt_fileformat_SelectedInfo;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox txt_fileformat_out_bytesSelectedInfo;
+        private System.Windows.Forms.Label label6;
         //		private System.Windows.Forms.RichTextBox richTextBox1;
 
 

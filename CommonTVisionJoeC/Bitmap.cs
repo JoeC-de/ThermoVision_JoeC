@@ -139,6 +139,8 @@ namespace CommonTVisionJoeC
 			int index = y * stride + x * channels;
 
 			switch (pixelformat) {
+				case System.Drawing.Imaging.PixelFormat.Format16bppGrayScale:
+					return System.Drawing.Color.FromArgb(data[index + 2], data[index + 1], data[index + 0]);
 				case System.Drawing.Imaging.PixelFormat.Format24bppRgb:
 					return System.Drawing.Color.FromArgb(data[index + 2], data[index + 1], data[index + 0]);
 				case System.Drawing.Imaging.PixelFormat.Format32bppArgb:
@@ -146,6 +148,59 @@ namespace CommonTVisionJoeC
 				default:
 					throw new NotSupportedException();
 			}
+		}
+		public int GetPixel16(int x, int y,int test) {
+			int index = y * (stride) + x * (channels*1);
+			//int index = (y * test) + x;
+			switch (pixelformat) {
+				case System.Drawing.Imaging.PixelFormat.Format16bppGrayScale:
+					byte bb0 = data[index + 0];
+					byte bb1 = data[index + 1];
+					byte bb2 = data[index + 2];
+					test = 0;
+					switch (test) {
+						case 0: return (ushort)(bb0 >> 0);
+						case 1: return (ushort)(bb2 >> 0);
+						case 2: return (ushort)(bb1 >> 0);
+					}
+					return (ushort)(bb0 << 8 | bb2);
+				case System.Drawing.Imaging.PixelFormat.Format24bppRgb:
+					byte b0 = data[index + 0];
+					byte b1 = data[index + 1];
+					byte b2 = data[index + 2];
+                    switch (test) {
+                        case 0: return (ushort)(b0);
+						case 1: return (ushort)(b1);
+						case 2:
+							if (b0 < 5) {
+								return b1+255;
+							} else {
+								return b0;
+							}
+							break;
+						case 3: return (ushort)(b0 << 8 | b1);
+						case 4: return (ushort)(b1 << 8 | b0);
+						case 5: return (short)(b0 << 8 | b1);
+						case 6: return (short)(b1 << 8 | b0);
+					}
+                    return (ushort)(b2 << 8 | b0);
+				case System.Drawing.Imaging.PixelFormat.Format32bppArgb:
+					return (ushort)(data[index + 2] << 8 | data[index + 1]);
+				default:
+					throw new NotSupportedException();
+			}
+		}
+		byte ByteMsbLsb(byte b0) {
+			byte b1 = 0;
+			b1 += (byte)((b0 & 0x80) >> 7);
+			b1 += (byte)((b0 & 0x40) >> 5);
+			b1 += (byte)((b0 & 0x20) >> 3);
+			b1 += (byte)((b0 & 0x10) >> 1);
+			b1 += (byte)((b0 & 0x08) << 1);
+			b1 += (byte)((b0 & 0x04) << 3);
+			b1 += (byte)((b0 & 0x02) << 5);
+			b1 += (byte)((b0 & 0x01) << 7);
+			return b1;
 		}
 		public void SetPixel(int x, int y, System.Drawing.Color value) {
 			int index = y * stride + x * channels;
@@ -284,6 +339,9 @@ namespace CommonTVisionJoeC
 					case 24:
 						pf = System.Drawing.Imaging.PixelFormat.Format24bppRgb;
 						break;
+					case 16:
+						pf = System.Drawing.Imaging.PixelFormat.Format16bppGrayScale;
+						break;
 					default:
 						throw new NotSupportedException();
 				}
@@ -316,20 +374,20 @@ namespace CommonTVisionJoeC
 			height = initHeight;
 
 			pixelformat = System.Drawing.Imaging.PixelFormat.Undefined;
-			if (initPixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb
-				|| initPixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
-				pixelformat = initPixelFormat;
-			else
-				throw new ArgumentOutOfRangeException("PixelFormat not supported!");
-
+            switch (initPixelFormat) {
+                case PixelFormat.Format16bppGrayScale:
+                case PixelFormat.Format24bppRgb:
+                case PixelFormat.Format32bppArgb:
+					pixelformat = initPixelFormat;
+                    break;
+                default:
+					throw new ArgumentOutOfRangeException("PixelFormat not supported!");
+			}
 
 			switch (pixelformat) {
-				case System.Drawing.Imaging.PixelFormat.Format24bppRgb:
-					channels = 3;
-					break;
-				case System.Drawing.Imaging.PixelFormat.Format32bppArgb:
-					channels = 4;
-					break;
+				case System.Drawing.Imaging.PixelFormat.Format16bppGrayScale: channels = 2; break;
+				case System.Drawing.Imaging.PixelFormat.Format24bppRgb: channels = 3; break;
+				case System.Drawing.Imaging.PixelFormat.Format32bppArgb: channels = 4; break;
 				default:
 					throw new InvalidOperationException();
 			}
@@ -342,9 +400,9 @@ namespace CommonTVisionJoeC
 			data = new byte[stride * height];
 			dataHandle = System.Runtime.InteropServices.GCHandle.Alloc(data, System.Runtime.InteropServices.GCHandleType.Pinned);
 		}
-		void init(System.Drawing.Bitmap b) {
-			init(b.Width, b.Height, b.PixelFormat);
-			System.Drawing.Imaging.BitmapData bd = b.LockBits(new System.Drawing.Rectangle(0, 0, b.Width, b.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, b.PixelFormat);
+		void init(System.Drawing.Bitmap b, PixelFormat initPixelFormat) {
+			init(b.Width, b.Height, initPixelFormat);
+			System.Drawing.Imaging.BitmapData bd = b.LockBits(new System.Drawing.Rectangle(0, 0, b.Width, b.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, initPixelFormat);
 			System.Runtime.InteropServices.Marshal.Copy(bd.Scan0, data, 0, data.Length);
 			b.UnlockBits(bd);
 		}
@@ -353,10 +411,13 @@ namespace CommonTVisionJoeC
 			init(initWidth, initHeight, initPixelFormat);
 		}
 		public MemBitmap(System.Drawing.Bitmap b) {
-			init(b);
+			init(b, b.PixelFormat);
 		}
-		public MemBitmap(string fileName) {
-			if (fileName.EndsWith(".bmp")) {
+		public MemBitmap(System.Drawing.Bitmap b, PixelFormat initPixelFormat) {
+			init(b, initPixelFormat);
+		}
+		public MemBitmap(string fileName, PixelFormat initPixelFormat) {
+			if (fileName.EndsWith(".bmp",StringComparison.CurrentCultureIgnoreCase)) {
 				try {
 					loadBitmap(fileName);
 					return;
@@ -364,7 +425,7 @@ namespace CommonTVisionJoeC
 			}
 
 			System.Drawing.Bitmap b = new System.Drawing.Bitmap(fileName);
-			init(b);
+			init(b, initPixelFormat);
 			b.Dispose();
 		}
 

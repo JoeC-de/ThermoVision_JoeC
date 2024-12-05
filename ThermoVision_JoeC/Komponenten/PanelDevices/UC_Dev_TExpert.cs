@@ -77,7 +77,7 @@ namespace ThermoVision_JoeC.Komponenten
                 //    Core.RiseError("DLL read problem: _dlls\\CppWrapperTE.dll");
                 //}
                 bool isInit = TExpDll.OpenDevice(this.Handle, cb_te_cameraType.SelectedItem.ToString(), (int)num_te_devicehandle.Value);
-                Environment.CurrentDirectory = Var.GetBinRoot();
+                Environment.CurrentDirectory = Var.GetDataRoot();
 
                 if (!isInit) {
                     btn_TExpert_ConnectDll.BackColor = Color.Red;

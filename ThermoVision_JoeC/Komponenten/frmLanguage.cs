@@ -417,9 +417,9 @@ namespace ThermoVision_JoeC.Komponenten
             }
             txt.Close();
 
-            try {
-                System.Diagnostics.Process.Start(fileName);
-            } catch (Exception err) { MessageBox.Show(err.Message); }
+            //try {
+            //    System.Diagnostics.Process.Start(fileName);
+            //} catch (Exception err) { MessageBox.Show(err.Message); }
         }
         void sub_MakeLangContext(ref StringBuilder txt, ContextMenuStrip con) {
             //txt.AppendLine("| "+con.Name+" #######################################");

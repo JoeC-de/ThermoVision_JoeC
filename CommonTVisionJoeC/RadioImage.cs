@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Windows.Forms;
 //using System.Windows;
 
 namespace CommonTVisionJoeC
@@ -16,8 +17,8 @@ namespace CommonTVisionJoeC
         public RadioMeasurements RadioMeasurements;
         public Bitmap BmpVisual;
         public bool FileHasVisual = false;
+        public bool isChanged = false;
         public TempMath TMath = new TempMath("Default");
-        public bool useRaw2Point = false;
         public float twpPointSlope = 0;
         public float twpPointOffset = 0;
 
@@ -28,7 +29,7 @@ namespace CommonTVisionJoeC
         /// <summary>
         /// 0-1=old,2=current,100=seq
         /// </summary>
-        public byte FrameVersion = 0;
+        public RadioImageFrameType FrameVersion = RadioImageFrameType.Frame4_FloatTemp;
         public int OffsetMarkerRadioFrame = 0;
         public int OffsetMarkerMeasurements = 0;
         public int OffsetMarkerMeasurementsDynamic = 0;
@@ -45,6 +46,7 @@ namespace CommonTVisionJoeC
         public RadioImage() {
             RadioMeasurements = new RadioMeasurements(this);
         }
+        
         public RadioImage(string filepath) {
             FileStream fileStream = new FileStream(filepath, FileMode.Open);
             FileBuffer = new byte[fileStream.Length];
@@ -66,12 +68,16 @@ namespace CommonTVisionJoeC
         public ThermalFrameTemp LoadFrames() {
             ReadFileHeads();
             switch ((RadioImageFrameType)FrameVersion) {
-                case RadioImageFrameType.Frame0:
-                case RadioImageFrameType.Frame1:
+                case RadioImageFrameType.Frame0_old:
+                case RadioImageFrameType.Frame1_2ByteTemp:
                     TfTemp = FileVersion1GrabFrame(OffsetMarkerRadioFrame);
                     break;
-                case RadioImageFrameType.Frame2:
+                case RadioImageFrameType.Frame2_RawPlanck:
+                case RadioImageFrameType.Frame3_Raw2Point:
                     TfTemp = FileVersion2GrabFrame(OffsetMarkerRadioFrame);
+                    break;
+                case RadioImageFrameType.Frame4_FloatTemp:
+                    TfTemp = FileVersion4GrabFrame(OffsetMarkerRadioFrame);
                     break;
             }
             ReadVisualIfExist();
@@ -102,10 +108,11 @@ namespace CommonTVisionJoeC
             byte VersionInicator = Readu8(OffsetMarkerRadioFrame);
             switch (VersionInicator) {
                 case 0: case 1: case 2: 
-                    FrameVersion = 1; OffsetMarkerRadioFrame--; break;
-                case 35: FrameVersion = 1; break;
-                case 36: FrameVersion = 2; break;
-                //case 37: FrameVersion = 3; break;
+                    FrameVersion = RadioImageFrameType.Frame1_2ByteTemp; OffsetMarkerRadioFrame--; break;
+                case 35: FrameVersion = RadioImageFrameType.Frame1_2ByteTemp; break;
+                case 36: FrameVersion = RadioImageFrameType.Frame2_RawPlanck; break;
+                case 37: FrameVersion = RadioImageFrameType.Frame3_Raw2Point; break;
+                case 38: FrameVersion = RadioImageFrameType.Frame4_FloatTemp; break;
                 default:
                     throw new Exception($"ReadFileHeads.VersionInicator-> not expected '{VersionInicator}'.");
             }
@@ -170,6 +177,65 @@ namespace CommonTVisionJoeC
                 }
             } catch (Exception ex) {
                 throw new Exception($"RadioImage.CheckHeadArrayDynamic('{startIndex}',head'{head.Length}')->{ex.Message}");
+            }
+            return -1;
+        }
+        public int FindHeadArrayDynamic(int startIndex, byte[] head, int maxIndex) {
+            if (FileBuffer == null) {
+                throw new Exception("RadioImage.CheckHeadArray()->FilePuffer is Empty");
+            }
+            try {
+                int stop = head.Length - 1;
+                bool found = false;
+                int offset = 0;
+                int lastIndex = FileBuffer.Length - stop;
+                for (int i = startIndex; i < lastIndex; i++) {
+                    for (int j = 0; j < head.Length; j++) {
+                        if (FileBuffer[i + j] != head[j]) { break; }
+                        if (j == stop) { found = true; }
+                    }
+                    if (i >= maxIndex) {
+                        return offset;
+                    }
+                    if (found) { offset = i + head.Length; break; }
+                }
+                if (found) {
+                    return offset;
+                }
+            } catch (Exception ex) {
+                throw new Exception($"RadioImage.CheckHeadArrayDynamic('{startIndex}',head'{head.Length}')->{ex.Message}");
+            }
+            return -1;
+        }
+        public int FindHeadArrayReverseDynamic(int EndOffset, byte[] head, int maxIndex) {
+            if (FileBuffer == null) {
+                throw new Exception("RadioImage.CheckHeadArray()->FilePuffer is Empty");
+            }
+            try {
+                int i = 0;
+                int stop = head.Length - 1;
+                int start = FileBuffer.Length - EndOffset - 1; //653297
+                bool found = false;
+                int offset = 0;
+                int lastIndex = maxIndex;
+                for (i = start; i > lastIndex; i--) {
+                    for (int j = 0; j < head.Length; j++) {
+                        if (FileBuffer[i - j] != head[j]) { break; }
+                        if (j == stop) { found = true; }
+                    }
+                    if (i <= maxIndex) {
+                        return offset;
+                    }
+                    if (found) { 
+                        offset = i; 
+                        break; 
+                    }
+                }
+                if (found) { //i=653297
+                    return offset;
+                }
+            } catch (Exception ex) {
+                throw new Exception($"RadioImage.FindHeadArrayReverseDynamic('{EndOffset}',head'{head.Length}')->{ex.Message}");
             }
             return -1;
         }
@@ -411,12 +477,13 @@ namespace CommonTVisionJoeC
             TMath.In_AirTempK = ReadFloat(frameOffset); frameOffset += 4;
             TMath.In_Humidity = ReadFloat(frameOffset); frameOffset += 4;
             if (TMath.PlanckR1 == TMath.PlanckR2 && TMath.PlanckO == TMath.PlanckB) {
-                useRaw2Point = true;
                 twpPointSlope = (float)TMath.PlanckR1;
                 twpPointOffset = (float)TMath.PlanckO;
                 TMath = new TempMath("Default");
+                FrameVersion = RadioImageFrameType.Frame3_Raw2Point;
             } else { 
                 TMath.Init_CalReflection();
+                FrameVersion = RadioImageFrameType.Frame2_RawPlanck;
             }
             byte marker = FileBuffer[frameOffset]; frameOffset++;
             if (marker != 0) {
@@ -448,6 +515,61 @@ namespace CommonTVisionJoeC
             TfTemp.max = (float)TMath.CalcTempC(newRawMax);
             TfTemp.min = (float)TMath.CalcTempC(newRawMin);
             return TfTemp;
+        }
+        public ThermalFrameTemp FileVersion4GrabFrame(int frameOffset) {
+            /* FrameType 4
+            [nr of bytes] how data is used
+            [2] u16 X (1-65535)
+            [2] u16 Y (1-65535)
+            [4] float TempMax
+            [4] float TempMin
+            [1] 0 (expected zero) 
+            [X*Y*4] Pixeldata (4 bytes each pixel)
+            */
+            int X = 0;
+            int Y = 0;
+            //Datensatz durch markierung finden
+            FileBufferOffset = frameOffset;
+            if (frameOffset == 0) {
+                byte[] Head = new byte[] { 35, 35, 35, 82, 65, 68, 73, 79 };//string "###RADIO"
+                FileBufferOffset = CheckHeadArrayDynamic(0, Head);
+                FileBufferOffset++;
+            }
+            if (FileBufferOffset == -1) {
+                throw new Exception("No 'frame' Dataset found");
+            }
+
+            int NewX = FileBuffer[FileBufferOffset + 0] << 8 | FileBuffer[FileBufferOffset + 1];
+            int NewY = FileBuffer[FileBufferOffset + 2] << 8 | FileBuffer[FileBufferOffset + 3];
+
+            ThermalFrameTemp tfTemp = TFGenerator.Generate_TFTemp(NewX, NewY);
+            FileBufferOffset += 4;
+
+            float newMax = ReadFloat(FileBufferOffset); FileBufferOffset += 4;
+            float newMin = ReadFloat(FileBufferOffset); FileBufferOffset += 4; //BitConverter.ToSingle(FileBuffer, FileBufferOffset); FileBufferOffset += 4;
+            if (FileBuffer[FileBufferOffset] != 0) {
+                throw new Exception("FileVersion4GrabFrame´()->Separator not expected: " + FileBuffer[FileBufferOffset]);
+            }
+
+            FileBufferOffset++;
+            for (int i = FileBufferOffset; i < FileBuffer.Length + 4; i += 4) {
+                float val = ReadFloat(i);
+                tfTemp.Data[X, Y] = val;
+                if (val < newMin) {
+                    val = newMin;
+                }
+                if (tfTemp.max < val) { tfTemp.max = val; PosMax = new Point(X, Y); }
+                if (tfTemp.min > val) { tfTemp.min = val; PosMin = new Point(X, Y); }
+                Y++;
+                if (Y == NewY) {
+                    X++; Y = 0;
+                }
+                if (X == NewX) {
+                    FileBufferOffset = i; break;
+                }
+            }
+            TfTemp = tfTemp;
+            return tfTemp;
         }
 
         public void ReadVisualIfExist() {
@@ -572,11 +694,18 @@ namespace CommonTVisionJoeC
             //Bild Speichern
             Source.Save(Filename, jpegCodec, EPs);
         }
-        public void WriteRadio(ThermalFrameRaw tfr,TempMath tempMath) {
+        public void WriteRadio(ThermalFrameRaw tfr,TempMath tempMath, RadioImageFrameType frameType) {
             MemoryStream ms = new MemoryStream(5000);
             TfRaw = tfr;
             TMath.Init_CalReflection(tempMath);
-            WriteRadioThermalFrameV2(ms, tfr);
+            switch (frameType) {
+                case RadioImageFrameType.Frame2_RawPlanck:
+                case RadioImageFrameType.Frame3_Raw2Point: 
+                    WriteRadioThermalFrameRaw(ms, tfr, frameType); 
+                    break;
+                default:
+                    throw new Exception($"WriteRadio(RawFrame): not supported frametype: {frameType}");
+            }
             WriteRadioMeasData(ms);
             WriteRadioVisualIfEnabled(ms, FileHasVisual);
             //datei speichern
@@ -585,11 +714,20 @@ namespace CommonTVisionJoeC
 
             FS.Close();
         }
-        public void WriteRadio(ThermalFrameTemp tft, TempMath tempMath) {
+        public void WriteRadio(ThermalFrameTemp tft, TempMath tempMath, RadioImageFrameType frameType) {
             MemoryStream ms = new MemoryStream(5000);
             TfTemp = tft;
             TMath = tempMath;
-            WriteRadioThermalFrameV1(ms, tft);
+            switch (frameType) {
+                case RadioImageFrameType.Frame1_2ByteTemp:
+                    WriteRadioThermalFrameV1(ms, tft);
+                    break;
+                case RadioImageFrameType.Frame4_FloatTemp:
+                    WriteRadioThermalFrameTemp(ms, tft, frameType);
+                    break;
+                default:
+                    throw new Exception($"WriteRadio(TempFrame): not supported frametype: {frameType}");
+            }
             WriteRadioMeasData(ms);
             WriteRadioVisualIfEnabled(ms, FileHasVisual);
             //datei speichern
@@ -618,16 +756,16 @@ namespace CommonTVisionJoeC
             int startoffset = (int)ms.Position;
 
             //write 2byte W,H,Max,Min
-            Writeu16(ms, (ushort)Var.FrameTemp.W);//320
-            Writeu16(ms, (ushort)Var.FrameTemp.H);//240
-            WriteFloatReverse(ms, Var.FrameTemp.max);//93.15
-            WriteFloatReverse(ms, Var.FrameTemp.min);//0.5
+            Writeu16(ms, (ushort)tftemp.W);//320
+            Writeu16(ms, (ushort)tftemp.H);//240
+            WriteFloatReverse(ms, tftemp.max);//93.15
+            WriteFloatReverse(ms, tftemp.min);//0.5
 
-            float range = Var.FrameTemp.max - Var.FrameTemp.min + 300f;
+            float range = tftemp.max - tftemp.min + 300f;
 
-            for (int y = 0; y < Var.FrameRaw.H; y++) {
-                for (int x = 0; x < Var.FrameRaw.W; x++) {
-                    int data = (int)((Var.FrameTemp.Data[x, y] - Var.FrameTemp.min) / range * 65535f);
+            for (int y = 0; y < tftemp.H; y++) {
+                for (int x = 0; x < tftemp.W; x++) {
+                    int data = (int)((tftemp.Data[x, y] - tftemp.min) / range * 65535f);
                     if (data < 0) { data = 0; }
                     if (data > 0xffff) { data = 0xffff; }
                     Writeu16(ms, (ushort)data);
@@ -636,7 +774,7 @@ namespace CommonTVisionJoeC
 
             LastFrameSize = (int)ms.Position - startoffset;
         }
-        public void WriteRadioThermalFrameV2(MemoryStream ms, ThermalFrameRaw tfraw) {
+        public void WriteRadioThermalFrameRaw(MemoryStream ms, ThermalFrameRaw tfraw, RadioImageFrameType frameType) {
             /* FrameType 2
             [nr of bytes] how data is used
             [2] u16 X (1-65535)
@@ -666,13 +804,13 @@ namespace CommonTVisionJoeC
             int startoffset = (int)ms.Position;
 
             //write 2byte W,H,Max,Min
-            Writeu16(ms, (ushort)Var.FrameRaw.W);//320
-            Writeu16(ms, (ushort)Var.FrameRaw.H);//240
-            Writeu16(ms, Var.FrameRaw.max);//20018
-            Writeu16(ms, Var.FrameRaw.min);//17824
+            Writeu16(ms, (ushort)tfraw.W);//320
+            Writeu16(ms, (ushort)tfraw.H);//240
+            Writeu16(ms, tfraw.max);//20018
+            Writeu16(ms, tfraw.min);//17824
 
             //write planck data
-            if (useRaw2Point) {
+            if (frameType == RadioImageFrameType.Frame3_Raw2Point) {
                 WriteFloat(ms, twpPointSlope);//15785.613
                 WriteFloat(ms, twpPointSlope);//0.011287443
                 WriteFloat(ms, twpPointOffset);//-6250
@@ -699,9 +837,46 @@ namespace CommonTVisionJoeC
             }
             ms.WriteByte(0);
 
-            for (int x = 0; x < Var.FrameRaw.W; x++) {
-                for (int y = 0; y < Var.FrameRaw.H; y++) {
+            for (int x = 0; x < tfraw.W; x++) {
+                for (int y = 0; y < tfraw.H; y++) {
                     Writeu16(ms, tfraw.Data[x, y]);
+                }
+            }
+
+            LastFrameSize = (int)ms.Position - startoffset;
+        }
+        public void WriteRadioThermalFrameTemp(MemoryStream ms, ThermalFrameTemp tftemp, RadioImageFrameType frameType) {
+            /* FrameType 4
+            [nr of bytes] how data is used
+            [2] u16 X (1-65535)
+            [2] u16 Y (1-65535)
+            [2] float TempMax
+            [2] float TempMin
+            [1] 0 (expected zero) 
+            [X*Y*4] Pixeldata (4 bytes each pixel)
+            */
+            MsbFirst = true;
+            //write "###RADIO<frameByte>"
+            byte[] Head = new byte[] { 35, 35, 35, 82, 65, 68, 73, 79 };
+            ms.Write(Head, 0, Head.Length);//string "###RADIO"
+            //ms.WriteByte(35); //FrameVersion = 1;
+            //ms.WriteByte(36); //FrameVersion = 2;
+            //ms.WriteByte(37); //FrameVersion = 3;
+            ms.WriteByte(38); //FrameVersion = 4;
+            int startoffset = (int)ms.Position;
+
+            //write 2byte W,H,Max,Min
+            Writeu16(ms, (ushort)tftemp.W);//320
+            Writeu16(ms, (ushort)tftemp.H);//240
+            WriteFloat(ms, tftemp.max);
+            WriteFloat(ms, tftemp.min);
+
+            //write planck data
+            ms.WriteByte(0);
+
+            for (int x = 0; x < tftemp.W; x++) {
+                for (int y = 0; y < tftemp.H; y++) {
+                    WriteFloat(ms, tftemp.Data[x, y]);
                 }
             }
 

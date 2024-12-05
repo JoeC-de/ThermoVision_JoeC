@@ -85,7 +85,7 @@ namespace ThermoVision_JoeC
         }
         void btn_OpenSettingsFile_Click(object sender, EventArgs e) {
             try {
-                System.Diagnostics.Process.Start(Var.GetBinRoot() + "Settings.dat");
+                System.Diagnostics.Process.Start(Var.GetDataRoot() + "Settings.dat");
             } catch (Exception err) { MessageBox.Show(err.Message); }
         }
         void chk_saveOnClose_CheckedChanged(object sender, EventArgs e) {

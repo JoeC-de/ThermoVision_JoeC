@@ -132,11 +132,11 @@ namespace ThermoVision_JoeC.Komponenten
                     }
                 }
 
-                if (File.Exists(Var.GetBinRoot() + "default.seq")) {
+                if (File.Exists(Var.GetDataRoot() + "default.seq")) {
                     LogLine("read local default.seq...");
-                    FileInfo FI = new FileInfo(Var.GetBinRoot() + "default.seq");
+                    FileInfo FI = new FileInfo(Var.GetDataRoot() + "default.seq");
                     LogLine("Size: " + Math.Round((FI.Length / 1000d), 2).ToString() + " KB");
-                    FLIR_Seq_Grab(Var.GetBinRoot() + "default.seq");
+                    FLIR_Seq_Grab(Var.GetDataRoot() + "default.seq");
                 }
 
                 btn_flir_grabIR.BackColor = Color.Gainsboro; btn_flir_grabIR.Refresh();
@@ -781,13 +781,13 @@ namespace ThermoVision_JoeC.Komponenten
         }
 
         bool subOpen_FLIR_JPG_File(string Filename, bool doMsg) {
-            if (!File.Exists(Var.GetBinRoot() + "exiftool.exe")) {
-                if (doMsg) { MessageBox.Show(Var.GetBinRoot() + "exiftool.exe\r\n" + V.TXT[(int)Told.NichtGefunden] + "..."); }
+            if (!File.Exists(Var.GetDataRoot() + "exiftool.exe")) {
+                if (doMsg) { MessageBox.Show(Var.GetDataRoot() + "exiftool.exe\r\n" + V.TXT[(int)Told.NichtGefunden] + "..."); }
                 return false;
             }
             Core.MF.fMainIR.Activate();
             this.Focus();
-            string localCopy = Var.GetBinRoot() + "flircopy.jpg";
+            string localCopy = Var.GetDataRoot() + "flircopy.jpg";
             if (File.Exists(localCopy)) {
                 File.Delete(localCopy);
             }
@@ -804,7 +804,7 @@ namespace ThermoVision_JoeC.Komponenten
             Core.RiseInfo("Open Flir image: " + Path.GetFileName(Filename));
 
             Filename = "flircopy.jpg";
-            Var.FilePath = Var.GetBinRoot() + Filename;
+            Var.FilePath = Var.GetDataRoot() + Filename;
             Var.FileBuffer = File.ReadAllBytes(Var.FilePath);
             //Datensatz durch markierung finden //,32,83,121,115,116,101,109,115  Systems
             byte[] Head = new byte[] { 70, 76, 73, 82 };//FLIR
@@ -838,8 +838,8 @@ namespace ThermoVision_JoeC.Komponenten
                     Core.MF.fMainIR.label_Info.ForeColor = Color.LimeGreen; Core.MF.fMainIR.label_Info.Refresh();
                     dgw_flirIR_Filedata.Rows.Clear();
                     Process P = new Process();
-                    P.StartInfo.FileName = Var.GetBinRoot() + "exiftool.exe";
-                    P.StartInfo.WorkingDirectory = Var.GetBinRoot();
+                    P.StartInfo.FileName = Var.GetDataRoot() + "exiftool.exe";
+                    P.StartInfo.WorkingDirectory = Var.GetDataRoot();
                     //					P.StartInfo.Arguments=@"-Camera* -Atm* -Planck* -Object* -Emis* -Reflected* -Relativ* -RawValue* "+Filename;
                     P.StartInfo.Arguments = @"-flir:all " + Filename;
                     P.StartInfo.CreateNoWindow = true;
@@ -935,19 +935,19 @@ namespace ThermoVision_JoeC.Komponenten
             string VisFilename = "VIS.png";
             try {
                 Process P = new Process();
-                P.StartInfo.FileName = Var.GetBinRoot() + "exiftool.exe";
-                P.StartInfo.WorkingDirectory = Var.GetBinRoot();
+                P.StartInfo.FileName = Var.GetDataRoot() + "exiftool.exe";
+                P.StartInfo.WorkingDirectory = Var.GetDataRoot();
                 P.StartInfo.Arguments = @"-b -EmbeddedImage " + Filename + @" -W " + VisFilename;
                 P.StartInfo.UseShellExecute = false;
                 P.StartInfo.CreateNoWindow = true;
                 P.StartInfo.RedirectStandardOutput = true;
                 LogLine("try get Visual Image...");
-                if (File.Exists(Var.GetBinRoot() + VisFilename)) { File.Delete(Var.GetBinRoot() + VisFilename); } //remove old
+                if (File.Exists(Var.GetDataRoot() + VisFilename)) { File.Delete(Var.GetDataRoot() + VisFilename); } //remove old
                 P.Start();
                 string output = P.StandardOutput.ReadToEnd();
                 P.WaitForExit(5000);
                 Application.DoEvents();
-                VisFilename = Var.GetBinRoot() + VisFilename;
+                VisFilename = Var.GetDataRoot() + VisFilename;
                 if (File.Exists(VisFilename)) {
                     if (VisualTyp == "") {
                         switch (cb_directReadVisual.SelectedIndex) {
@@ -996,8 +996,8 @@ namespace ThermoVision_JoeC.Komponenten
                     Core.MF.fMainIR.label_Info.Text = "FLIR->RawImage...";
                     Core.MF.fMainIR.label_Info.ForeColor = Color.LimeGreen; Core.MF.fMainIR.label_Info.Refresh();
                     Process P = new Process();
-                    P.StartInfo.FileName = Var.GetBinRoot() + "exiftool.exe";
-                    P.StartInfo.WorkingDirectory = Var.GetBinRoot();
+                    P.StartInfo.FileName = Var.GetDataRoot() + "exiftool.exe";
+                    P.StartInfo.WorkingDirectory = Var.GetDataRoot();
                     P.StartInfo.Arguments = @"-b -rawthermalimage " + Filename + " -w __IR.png";
                     P.StartInfo.UseShellExecute = false;
                     P.StartInfo.CreateNoWindow = true;

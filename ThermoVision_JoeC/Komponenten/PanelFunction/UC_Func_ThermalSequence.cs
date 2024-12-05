@@ -221,20 +221,28 @@ namespace ThermoVision_JoeC.Komponenten {
                 Sequence.radioImage.TMath.Init_CalReflection(V.TempMathGlobal);
                 Sequence.Import_General(Filename);
                 Core.refresh_Resolution(Sequence.X_width, Sequence.Y_height, true);
-                if (Sequence.frameType == RadioSequenceFrameType.FrameTemp ||
-                    Sequence.frameType == RadioSequenceFrameType.FrameRawPlanck) {
-                    Core.ReadMeasurmentDataset(Sequence.radioImage);
+                switch (Sequence.frameType) {
+                    case RadioSequenceFrameType.FrameTemp:
+                    case RadioSequenceFrameType.FrameTempFloat:
+                    case RadioSequenceFrameType.FrameRaw2Point:
+                    case RadioSequenceFrameType.FrameRawPlanck:
+                        Core.ReadMeasurmentDataset(Sequence.radioImage);
+                        break;
                 }
                 switch (Sequence.frameType) {
                     case RadioSequenceFrameType.FrameTemp:
-                        Core.SetSaveRadioFrameType(0);
+                        Core.SetSaveRadioFrameType(RadioImageFrameType.Frame1_2ByteTemp);
+                        CB_Set_RadioFrameType.SelectedIndex = 0;
+                        break;
+                    case RadioSequenceFrameType.FrameTempFloat:
+                        Core.SetSaveRadioFrameType(RadioImageFrameType.Frame4_FloatTemp);
                         CB_Set_RadioFrameType.SelectedIndex = 0;
                         break;
                     default:
                         Core.SetTempConversionType(TempConvType.Planck);
                         V.TempMathGlobal.Init_CalReflection(Sequence.radioImage.TMath);
                         V.TempMathGlobal.TryRefreshValues();
-                        Core.SetSaveRadioFrameType(1);
+                        Core.SetSaveRadioFrameType(RadioImageFrameType.Frame2_RawPlanck);
                         CB_Set_RadioFrameType.SelectedIndex = 1;
                         break;
                 }

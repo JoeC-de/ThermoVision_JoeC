@@ -555,12 +555,14 @@ namespace CommonTVisionJoeC
             getMessline(index).Aktiv_b = wert;
             CurveFunction.CurveVisible(index, wert, ShowLegend);
         }
-        public void MoveMessline(int x, int y, Point offset) {
+        public void MoveMessline(int x, int y) {
             Messline L = getMessline(mausIRMeasLineActive);
+            int offX = L.Start_X - L.End_X;
+            int offY = L.Start_Y - L.End_Y;
             L.Start_X = mausIRMeasStart.X + x;
             L.Start_Y = mausIRMeasStart.Y + y;
-            L.End_X = mausIRMeasStart.X + x - offset.X;
-            L.End_Y = mausIRMeasStart.Y + y - offset.Y;
+            L.End_X = mausIRMeasStart.X + x - offX;
+            L.End_Y = mausIRMeasStart.Y + y - offY;
 
             if (L.Start_X < 0) { 
                 L.Start_X = 0;
@@ -607,12 +609,14 @@ namespace CommonTVisionJoeC
                 case 5: DL5.Aktiv_b = wert; break;
             }
         }
-        public void MoveDiffline(int x, int y, Point offset) {
+        public void MoveDiffline(int x, int y) {
             Diffline L = Var.M.getDiffline(mausIRMeasDiffLineActive);
+            int offX = L.Start_X - L.End_X;
+            int offY = L.Start_Y - L.End_Y;
             L.Start_X = mausIRMeasStart.X + x;
             L.Start_Y = mausIRMeasStart.Y + y;
-            L.End_X = mausIRMeasStart.X + x - offset.X;
-            L.End_Y = mausIRMeasStart.Y + y - offset.Y;
+            L.End_X = mausIRMeasStart.X + x - offX;
+            L.End_Y = mausIRMeasStart.Y + y - offY;
 
             if (L.Start_X < 0) {
                 L.Start_X = 0;

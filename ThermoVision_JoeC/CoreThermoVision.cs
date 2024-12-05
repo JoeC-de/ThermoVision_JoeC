@@ -23,7 +23,7 @@ namespace ThermoVision_JoeC
         public bool useFileBuffer = false;
         public bool isPreview = false;
         public bool isTempDrawingMode = true;
-        public int RadioFrameType = 0;
+        public RadioImageFrameType RadioFrameType =  RadioImageFrameType.Frame4_FloatTemp;
 
         public Image imgIsOpen = new Bitmap(1, 1);
         public Image imgIsClosed = new Bitmap(1, 1);
@@ -243,11 +243,11 @@ namespace ThermoVision_JoeC
             }
         }
         UC_BasePanel _driverReference = new UC_BasePanel();
-        public void SetDriverReference(UC_BasePanel basePanel, bool storeTempFrame, bool changeSelectedCalibration = true) {
+        public void SetDriverReference(UC_BasePanel basePanel, bool storeTempFrame, bool changeSelectedCalibration = false) {
             if (storeTempFrame) {
-                SetSaveRadioFrameType(0);
+                SetSaveRadioFrameType(RadioImageFrameType.Frame4_FloatTemp);
             } else {
-                SetSaveRadioFrameType(1);
+                SetSaveRadioFrameType(RadioImageFrameType.Frame2_RawPlanck);
             }
             if (_driverReference != basePanel) {
                 if (string.IsNullOrEmpty(MF.fCal.LastTcsCamera)) {
@@ -260,14 +260,32 @@ namespace ThermoVision_JoeC
                 MF.fCal.SetSelectedCalibrationIndex(0);
             }
         }
-        public void SetSaveRadioFrameType(int radioFrameType) {
-            RadioFrameType = radioFrameType;
-            if (radioFrameType == 0 && MF.tbtn_main_RadioType.Text != "T") {
-                MF.tbtn_main_RadioType.Text = "T";
-                MF.tbtn_main_RadioType.BackColor = Color.PaleGreen;
-            } else if (radioFrameType == 1 && MF.tbtn_main_RadioType.Text != "R") { 
-                MF.tbtn_main_RadioType.Text = "R";
-                MF.tbtn_main_RadioType.BackColor = Color.LightSteelBlue;
+        public void SetSaveRadioFrameType(RadioImageFrameType frameType) {
+            RadioFrameType = frameType;
+            switch (frameType) {
+                case RadioImageFrameType.Frame0_old:
+                case RadioImageFrameType.Frame1_2ByteTemp:
+                    if (MF.tbtn_main_RadioType.Text != "T2") {
+                        MF.tbtn_main_RadioType.Text = "T2";
+                        MF.tbtn_main_RadioType.BackColor = Color.PaleGreen;
+                    }
+                    break;
+                case RadioImageFrameType.Frame4_FloatTemp:
+                    if (MF.tbtn_main_RadioType.Text != "T4") {
+                        MF.tbtn_main_RadioType.Text = "T4";
+                        MF.tbtn_main_RadioType.BackColor = Color.PaleGreen;
+                    }
+                    break;
+                case RadioImageFrameType.Frame2_RawPlanck:
+                case RadioImageFrameType.Frame3_Raw2Point:
+                    if (MF.tbtn_main_RadioType.Text != "R") { 
+                        MF.tbtn_main_RadioType.Text = "R";
+                        MF.tbtn_main_RadioType.BackColor = Color.LightSteelBlue;
+                    }
+                    break;
+                default:
+                    RiseError("SetSaveRadioFrameType() unknown: " + frameType);
+                    break;
             }
         }
 
@@ -474,6 +492,12 @@ namespace ThermoVision_JoeC
             }
             //why second frame raw? first ist by selection above..
             //Var.FrameRaw = ThermalFrameProcessing.ConvertTempToRawMethod(TF, Var.method_TempToRaw);
+
+            double FrameMin = Var.method_RawToTemp(Var.FrameRaw.min);
+            double FrameMax = Var.method_RawToTemp(Var.FrameRaw.max);
+            //if (Math.Abs(FrameMin-TF.min) > 10 || Math.Abs(FrameMax - TF.max) > 10) {
+            //    RiseInfo("Clipping if convert Temp->Raw->Temp");
+            //}
             bool finalresult = AfterImportThermalFrame(setup);
 
             return finalresult;
@@ -631,6 +655,9 @@ namespace ThermoVision_JoeC
             }
             return true;
         }
+        public void ReloadImage() {
+            MF.Autoselect(Var.FilePath);
+        }
         public string GetImportLog() {
             return sbImportTFLog.ToString().TrimEnd();
         }
@@ -742,27 +769,38 @@ namespace ThermoVision_JoeC
                 } else {
                     RadioImg.ReadFileToBuffer(Filename);
                 }
-                ThermalFrameTemp tfTemp = RadioImg.LoadFrames();
-                if (RadioImg.useRaw2Point) {
-                    Set2PointCal(RadioImg.twpPointSlope,RadioImg.twpPointOffset);
-                } else { 
-                    V.TempMathGlobal.Init_CalReflection(RadioImg.TMath);
-                    V.TempMathGlobal.TryRefreshValues();
-                    MF.fCal.SetSelectedCalibrationIndex(2); //planck
-                }
                 FrameImprortSetup setup = new FrameImprortSetup();
                 setup.doAutorange = false;
                 setup.isRotation = false;
                 setup.isDrawImage = false;
-                if ((RadioImageFrameType)RadioImg.FrameVersion == RadioImageFrameType.Frame2) {
-                    ImportThermalFrameRaw(RadioImg.TfRaw, setup);
-                } else {
-                    ImportThermalFrameTemp(tfTemp, setup);
+
+                ThermalFrameTemp tfTemp = RadioImg.LoadFrames();
+                if (!tfTemp.isValid) {
+                    throw new Exception("RadioImg.LoadFrames() -> result invalid frame");
+                }
+                RadioFrameType = RadioImg.FrameVersion;
+                switch (RadioImg.FrameVersion) {
+                    case RadioImageFrameType.Frame2_RawPlanck:
+                        V.TempMathGlobal.Init_CalReflection(RadioImg.TMath);
+                        V.TempMathGlobal.TryRefreshValues();
+                        MF.fCal.SetSelectedCalibrationIndex(2); //planck
+                        ImportThermalFrameRaw(RadioImg.TfRaw, setup);
+                        break;
+                    case RadioImageFrameType.Frame3_Raw2Point:
+                        Set2PointCal(RadioImg.twpPointSlope,RadioImg.twpPointOffset);
+                        ImportThermalFrameRaw(RadioImg.TfRaw, setup);
+                        break;
+                    //case RadioImageFrameType.Frame0_old:
+                    //case RadioImageFrameType.Frame4_FloatTemp:
+                    //case RadioImageFrameType.Frame1_2ByteTemp:
+                    default:
+                        ImportThermalFrameTemp(tfTemp, setup);
+                        break;
                 }
                 if (RadioImg.FileHasVisual) {
                     MF.fVis.ImportVisual((Bitmap)RadioImg.BmpVisual.Clone());
                 }
-                if (RadioImg.FrameVersion == 3) {
+                if (RadioImg.FrameVersion == RadioImageFrameType.Frame2_RawPlanck) {
                     Var.M.All_Max.Position = RadioImg.PosMax;
                     Var.M.All_Min.Position = RadioImg.PosMin;
                     Var.TempMathGlobal = RadioImg.TMath;
@@ -774,11 +812,13 @@ namespace ThermoVision_JoeC
                 MainIrDrawMeasurementsInPicture(IsMessobjekte,Var.M.Interpolation);
                 //MF.fHist.DoHisto(true, false);
                 switch ((RadioImageFrameType)RadioImg.FrameVersion) {
-                    case RadioImageFrameType.Frame0:
-                    case RadioImageFrameType.Frame1:
+                    case RadioImageFrameType.Frame0_old:
+                    case RadioImageFrameType.Frame1_2ByteTemp:
+                    case RadioImageFrameType.Frame4_FloatTemp:
                         frameType = "T";
                         break;
-                    case RadioImageFrameType.Frame2:
+                    case RadioImageFrameType.Frame2_RawPlanck:
+                    case RadioImageFrameType.Frame3_Raw2Point:
                         frameType = "R";
                         break;
                 }
@@ -813,7 +853,7 @@ namespace ThermoVision_JoeC
         public void ReadMeasurmentDataset(RadioImage rimg) {
             RadioMeasurements rm = rimg.RadioMeasurements;
             Var.M.VersionMeasurments = rm.MeasureVersion;
-            Var.M.VersionFrame = rimg.FrameVersion;
+            Var.M.VersionFrame = (byte)rimg.FrameVersion;
 
             MF.cb_farbpalette.SelectedIndex = rm.ColorPaletteIndex;
             MF.fFunc.chk_isoterm1.Checked = rm.isIsoterm1;
@@ -888,6 +928,27 @@ namespace ThermoVision_JoeC
             SetScaleMinMax(rm.num_TempMin, rm.num_TempMax);
         }
 
+        public bool AskIfRadioChanged() { //true if: is changed and not saved
+            if (!RadioImg.isChanged) {
+                return false;
+            }
+            if (RadioImg.FileBuffer == null) {
+                return false;
+            }
+            if (string.IsNullOrEmpty(RadioImg.FileFullName)) {
+                return false;
+            }
+            DialogResult result = MessageBox.Show($"{RadioImg.FileFullName}\r\nSave Changes to file?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes) {
+                SaveRadioImageSameFile();
+                return false;
+            }
+            if (result == DialogResult.No) {
+                return false;
+            }
+            //if DialogResult.Cancel -> not continue
+            return true;
+        }
         public void SaveRadioImageSameFile() {
             if (MF.fMainIR.PicBox_IR.Image == null) {
                 RiseError("Save_Radio()->fMainIR.PicBox_IR.Image==null"); return;
@@ -901,6 +962,7 @@ namespace ThermoVision_JoeC
             SaveRadioExtern(RadioImg.FileFullName, true);
             //Anzeige wiederherstellen
             MF.fFunc.ChangeInterpolation(startinterpolation, true);
+            RadioImg.isChanged = false;
         }
         public void SaveRadio(string path, string filename, bool greenInfo) {
             if (isRadioSaving) { return; }
@@ -942,17 +1004,27 @@ namespace ThermoVision_JoeC
                 SaveMainIrBitmap(Filename, ImageFormat.Jpeg, false, true);
                 Var.FilePath = Filename;
                 WriteMeasurementDataset(RadioImg);
-                if (RadioFrameType == 1) { //save as raw
-                    if (MF.fCal.cb_SelectedCalibration.SelectedIndex == 1) { //currently use 2point cal
-                        RadioImg.twpPointSlope = (float)MF.fCal.num_Cal2P_Slope.Value;
-                        RadioImg.twpPointOffset = (float)MF.fCal.num_Cal2P_Offset.Value;
-                        RadioImg.useRaw2Point = true;
-                    }
-                }
                 string frameType = "";
                 switch (RadioFrameType) {
-                    case 0: RadioImg.WriteRadio(Var.FrameTemp, V.TempMathSelected); frameType = "T"; break;
-                    case 1: RadioImg.WriteRadio(Var.FrameRaw, V.TempMathSelected); frameType = "R"; break;
+                    case RadioImageFrameType.Frame0_old:
+                    case RadioImageFrameType.Frame1_2ByteTemp:
+                        RadioImg.WriteRadio(Var.FrameTemp, V.TempMathSelected, RadioFrameType);
+                        frameType = "T2";
+                        break;
+                    case RadioImageFrameType.Frame4_FloatTemp:
+                        RadioImg.WriteRadio(Var.FrameTemp, V.TempMathSelected, RadioFrameType); 
+                        frameType = "T4";
+                        break;
+                    case RadioImageFrameType.Frame2_RawPlanck:
+                    case RadioImageFrameType.Frame3_Raw2Point:
+                        if (MF.fCal.cb_SelectedCalibration.SelectedIndex == 1) { //currently use 2point cal
+                            RadioImg.twpPointSlope = (float)MF.fCal.num_Cal2P_Slope.Value;
+                            RadioImg.twpPointOffset = (float)MF.fCal.num_Cal2P_Offset.Value;
+                            RadioFrameType = RadioImageFrameType.Frame3_Raw2Point;
+                        }
+                        RadioImg.WriteRadio(Var.FrameRaw, V.TempMathSelected, RadioFrameType);
+                        frameType = "R"; 
+                        break;
                 }
 
                 int len = RadioImg.RadioMeasurements.LastRadioDatasetLen;

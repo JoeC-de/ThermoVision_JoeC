@@ -178,11 +178,47 @@
     </Compile>
     <Compile Include="Komponenten\iStreamingCameraUserControl.cs" />
     <Compile Include="Komponenten\Optris_IPC2.cs" />
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Color2Frame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Color2Frame.designer.cs">
+      <DependentUpon>UC_Dev_Color2Frame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_HikVision.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_HikVision.Designer.cs">
+      <DependentUpon>UC_Dev_HikVision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Infiray.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelDevices\UC_Dev_Infiray.designer.cs">
+      <DependentUpon>UC_Dev_Infiray.cs</DependentUpon>
+    </Compile>
     <Compile Include="Komponenten\PanelDevices\UC_Dev_XraySensor.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Komponenten\PanelDevices\UC_Dev_XraySensor.designer.cs">
       <DependentUpon>UC_Dev_XraySensor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_BatchProcessing.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_BatchProcessing.Designer.cs">
+      <DependentUpon>UC_Func_BatchProcessing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_Darstellung.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_Darstellung.Designer.cs">
+      <DependentUpon>UC_Func_Darstellung.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_TempSwitch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Komponenten\PanelFunction\UC_Func_TempSwitch.Designer.cs">
+      <DependentUpon>UC_Func_TempSwitch.cs</DependentUpon>
     </Compile>
     <Compile Include="Komponenten\PanelFunction\UC_Func_ThermalSequence.cs">
       <SubType>UserControl</SubType>
@@ -229,24 +265,6 @@
     </Compile>
     <Compile Include="Komponenten\Usercontrols\UC_BasePanel.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Komponenten\PanelFunction\UC_Func_BatchProcessing.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Komponenten\PanelFunction\UC_Func_BatchProcessing.Designer.cs">
-      <DependentUpon>UC_Func_BatchProcessing.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Komponenten\PanelFunction\UC_Func_Darstellung.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Komponenten\PanelFunction\UC_Func_Darstellung.Designer.cs">
-      <DependentUpon>UC_Func_Darstellung.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Komponenten\PanelFunction\UC_Func_TempSwitch.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Komponenten\PanelFunction\UC_Func_TempSwitch.Designer.cs">
-      <DependentUpon>UC_Func_TempSwitch.cs</DependentUpon>
     </Compile>
     <Compile Include="Komponenten\Usercontrols\UC_ZVorlage.cs">
       <SubType>UserControl</SubType>
@@ -539,6 +557,18 @@
     <EmbeddedResource Include="Floatingwindows\frmGenericIrDecoder.resx">
       <DependentUpon>frmGenericIrDecoder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_Color2Frame.resx">
+      <DependentUpon>UC_Dev_Color2Frame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_HikVision.resx">
+      <DependentUpon>UC_Dev_HikVision.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_Infiray.resx">
+      <DependentUpon>UC_Dev_Infiray.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_Nec.resx">
+      <DependentUpon>UC_Dev_Nec.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_Optris.resx">
       <DependentUpon>UC_Dev_Optris.cs</DependentUpon>
     </EmbeddedResource>
@@ -554,9 +584,6 @@
     <EmbeddedResource Include="Komponenten\PanelDevices\UC_Dev_XraySensor.resx">
       <DependentUpon>UC_Dev_XraySensor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Komponenten\PanelFunction\UC_Func_ThermalSequence.resx">
-      <DependentUpon>UC_Func_ThermalSequence.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Komponenten\PanelFunction\UC_Func_BatchProcessing.resx">
       <DependentUpon>UC_Func_BatchProcessing.cs</DependentUpon>
     </EmbeddedResource>
@@ -565,6 +592,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Komponenten\PanelFunction\UC_Func_TempSwitch.resx">
       <DependentUpon>UC_Func_TempSwitch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Komponenten\PanelFunction\UC_Func_ThermalSequence.resx">
+      <DependentUpon>UC_Func_ThermalSequence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Komponenten\Usercontrols\UC_ZVorlage.resx">
       <DependentUpon>UC_ZVorlage.cs</DependentUpon>
@@ -663,6 +693,7 @@
     <EmbeddedResource Include="res\Icons.resx">
       <LogicalName>Icons</LogicalName>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="res\pngs.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -744,6 +775,8 @@
   <ItemGroup>
     <None Include="res\fLaser.ico" />
     <Content Include="Properties\Lizenz.txt" />
+    <None Include="res\sSegRain2.ico" />
+    <None Include="res\sSegIron2.ico" />
     <Content Include="_changes.TXT" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

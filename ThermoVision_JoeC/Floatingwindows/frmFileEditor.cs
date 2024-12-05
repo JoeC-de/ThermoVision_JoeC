@@ -180,14 +180,14 @@ namespace ThermoVision_JoeC.Komponenten
         }
         void subdoCRC() {
             if (rad_Crc_01.Checked) {
-                string exePath = Var.GetBinRoot() + "crc01.exe";
+                string exePath = Var.GetDataRoot() + "crc01.exe";
                 if (!File.Exists(exePath)) {
                     throw new Exception("Missing: TVisionData\\crc01.exe");
                 }
                 subStoreLocalForExternCrc();
                 Process P = new Process();
                 P.StartInfo.FileName = exePath;
-                P.StartInfo.WorkingDirectory = Var.GetBinRoot();
+                P.StartInfo.WorkingDirectory = Var.GetDataRoot();
                 P.StartInfo.Arguments = "filecrc.txt";
                 P.StartInfo.CreateNoWindow = true;
                 P.StartInfo.UseShellExecute = false;
@@ -203,17 +203,17 @@ namespace ThermoVision_JoeC.Komponenten
                         break;
                     }
                 }
-                File.Delete(Var.GetBinRoot() + "filecrc.txt");
+                File.Delete(Var.GetDataRoot() + "filecrc.txt");
             }
             if (rad_Crc_03.Checked) {
-                string exePath = Var.GetBinRoot() + "CRC03.exe";
+                string exePath = Var.GetDataRoot() + "CRC03.exe";
                 if (!File.Exists(exePath)) {
                     throw new Exception("Missing: TVisionData\\CRC03.exe");
                 }
                 subStoreLocalForExternCrc();
                 Process P = new Process();
                 P.StartInfo.FileName = exePath;
-                P.StartInfo.WorkingDirectory = Var.GetBinRoot();
+                P.StartInfo.WorkingDirectory = Var.GetDataRoot();
                 P.StartInfo.Arguments = "filecrc.txt";
                 P.StartInfo.CreateNoWindow = true;
                 P.StartInfo.UseShellExecute = false;
@@ -229,7 +229,7 @@ namespace ThermoVision_JoeC.Komponenten
                         break;
                     }
                 }
-                File.Delete(Var.GetBinRoot() + "filecrc.txt");
+                File.Delete(Var.GetDataRoot() + "filecrc.txt");
             }
             if (rad_Crc_32.Checked) {
                 char[] chars = txt_editor.Text.ToCharArray();
@@ -244,7 +244,7 @@ namespace ThermoVision_JoeC.Komponenten
         }
         void subStoreLocalForExternCrc() {
             //write file
-            StreamWriter txt = new StreamWriter(Var.GetBinRoot() + "filecrc.txt", false, Encoding.ASCII);
+            StreamWriter txt = new StreamWriter(Var.GetDataRoot() + "filecrc.txt", false, Encoding.ASCII);
             txt.Write(txt_editor.Text);
             txt.Close();
         }

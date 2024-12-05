@@ -90,7 +90,10 @@ namespace ThermoVision_JoeC.Komponenten
                 LastFileOpen = Filename;
                 //V.TFproc.TF_From_1D_Float(img, Var.SelectedThermalCamera.Rotation);
                 Core.ImportThermalFrameTemp(tftemp, true);
-
+                string visPath = Filename.Replace(".IRB", ".bmp").Replace(".irb", ".bmp");
+                if (File.Exists(visPath)) {
+                    Core.ImportVisualImage(JoeC.JoeC_FileAccess.Get_MemIMG(visPath));
+                }
                 return true;
             } catch (Exception err) {
                 Core.RiseError("Open_IRB_File()->" + err.Message);

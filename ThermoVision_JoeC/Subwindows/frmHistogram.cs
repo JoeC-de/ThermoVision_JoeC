@@ -142,13 +142,6 @@ namespace ThermoVision_JoeC
                 ShowHistogramm();
             }
         }
-        void ShowHistogrammRaw() {
-            try {
-                
-            } catch (Exception err) {
-                Core.RiseError("ShowHistogramm()->" + err.Message);
-            }
-        }
         public void DoHisto(bool ForceUpdate, bool onlyRefreshColor) {
             if (this.IsHidden) { return; }
             if (!this.Visible) { return; }
@@ -170,16 +163,12 @@ namespace ThermoVision_JoeC
             }
             if (!zed_histo.Visible && TabCTRL_Histo.SelectedIndex == 1) { return; }
             if (!picbox_Graph.Visible && TabCTRL_Histo.SelectedIndex == 0) { return; }
-            if (onlyRefreshColor && TabCTRL_Histo.SelectedIndex == 0) {
-                CalcHisto_Graph();
-                return;
-            }
             if (ForceUpdate) {
                 ShowHistogramm();
-            } else {
-                //if (CB_Histo_Typ.SelectedIndex == 1) {
-                //    ShowHistogramm();
-                //}
+                return;
+            }
+            if (onlyRefreshColor && TabCTRL_Histo.SelectedIndex == 0) {
+                CalcHisto_Graph();
             }
         }
         //int[] Histo = null;
@@ -374,7 +363,7 @@ namespace ThermoVision_JoeC
             zed_histo.Invalidate();
         }
         void CalcHisto_Graph() {
-            if (CB_Histo_RangeSize.SelectedIndex > 2) {
+            if (CB_Histo_RangeSize.SelectedIndex > 4) {
                 //is dynamic
                 CalcHisto_GraphDynamic();
             } else {
@@ -393,7 +382,7 @@ namespace ThermoVision_JoeC
                 picbox_Graph.Image = ubmpClip.Bitmap;
                 return;
             }
-            if (Histogram.DynamicHisto.Count < 3) {
+            if (Histogram.DynamicHisto.Count < 6) {
                 return;
             }
             HistMax += 1;
@@ -448,7 +437,7 @@ namespace ThermoVision_JoeC
                 picbox_Graph.Image = ubmpClip.Bitmap;
                 return;
             }
-            if (Histogram.Histo.Length < 3) {
+            if (Histogram.Histo.Length < 6) {
                 return;
             }
             HistMax += 1;
@@ -459,7 +448,6 @@ namespace ThermoVision_JoeC
             ubmp.LockBitmap();
             int EndH = 99;
             int len = Histogram.Histo.Length - 3;
-
             PixelData P = new PixelData();
             bool mono = chk_graph_mono.Checked;
             if (mono) {

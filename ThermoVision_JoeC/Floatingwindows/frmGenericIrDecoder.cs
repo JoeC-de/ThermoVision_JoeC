@@ -102,11 +102,9 @@ namespace ThermoVision_JoeC {
 		void ReadFileToBufferAutoselect() { 
 			try {
 				if (tabControl_file.SelectedTab == TP_Fileformat_bytes) {
-					LoadFileToBuffer(Filepath);
 					ReadFileBufferToTextAndBytes();
 				}
 				if (tabControl_file.SelectedTab == TP_Fileformat_Bild) {
-					LoadFileToBuffer(Filepath);
 					Kernel_Fileformat_ReadfileToDataset(true);
 					Kernel_Fileformat_DatasetToPic();
 				}
@@ -238,11 +236,19 @@ namespace ThermoVision_JoeC {
 				return;
 			}
 			Filepath = filepath;
+            if (Filepuffer != null) {//not on first
+				LastFilepuffer = new byte[Filepuffer.Length];
+				Array.Copy(Filepuffer, LastFilepuffer, Filepuffer.Length);
+            }
+			
 			FileStream FS = File.OpenRead(filepath);
-			LastFilepuffer = Filepuffer;
 			Filepuffer = new byte[FS.Length];
 			FS.Read(Filepuffer,0,Filepuffer.Length-1);
 			FS.Close();
+            if (LastFilepuffer == null) {//first init
+				LastFilepuffer = new byte[Filepuffer.Length];
+				Array.Copy(Filepuffer, LastFilepuffer, Filepuffer.Length);
+			}
             if (this.Visible) {
 				label_info.Text = $"Bytes: {(Filepuffer.Length)} {filepath}";
             }
@@ -291,7 +297,7 @@ namespace ThermoVision_JoeC {
 				return;
             }
 
-			for (int i = StartOffset; i<Filepuffer.Length-1; i+=AddIndex) {
+			for (int i = StartOffset; i < Filepuffer.Length - 1; i+=AddIndex) {
 				int val = 0;
 				switch (ByteMode) {
 					case 0:
@@ -338,7 +344,6 @@ namespace ThermoVision_JoeC {
 						if (Textinfos) { SB.Append(val.ToString()+" "); } 
 						break;
 				}
-				
 				if (CntX < (StopCntX + StopCntDummyX)) {
                     if (CntX < Img_X_W) {
 						switch (FlipMode) {
@@ -378,6 +383,8 @@ namespace ThermoVision_JoeC {
 					//Entries++;
 				}
 			}
+			//set last pixel
+			data_RAW[StopCntX - 1, StopCntY - 1] = data_RAW[StopCntX - 1, StopCntY - 2];
 		}
 		void Kernel_Fileformat_ReadTextfileToDataset() {
             if (txt_ImageDecoder_Separator.Text.Length == 0) {
@@ -483,6 +490,9 @@ namespace ThermoVision_JoeC {
 				for (int j = 0; j < stopX; j++) {
 					for (int i = 0; i < stopY; i++) {
 						int data = data_RAW[j, i];
+       //                 if (j == stopX -1 && i==stopY-1) {
+							//C.red++;
+       //                 }
 						data = (int)((data - offset) / span);
 						//byte grenze
 						if (data > 255) { data = 255; }
@@ -649,14 +659,23 @@ namespace ThermoVision_JoeC {
 			ReadFileToBufferAutoselect();
 		}
 		#endregion
-		
-		#region Tab_FileToBytes
-		void AppendColorText(RichTextBox box, string text, Color color) {
-			box.SelectionStart = box.TextLength;
-			box.SelectionLength = 0;
 
-			box.SelectionColor = color;
-			box.AppendText(text);
+		#region Tab_FileToBytes
+		StringBuilder sbAppend = new StringBuilder();
+		Color lastColor = Color.Black;
+		void AppendColorText(RichTextBox box, string text, Color color) {
+            if (color == lastColor) {
+				sbAppend.Append(text);
+				return;
+            }
+			box.SelectionLength = 0;
+			box.SelectionStart = box.TextLength;
+
+			box.SelectionColor = lastColor;
+			box.AppendText(sbAppend.ToString());
+			sbAppend.Clear();
+			sbAppend.Append(text);
+			lastColor = color;
 			//box.SelectionColor = box.ForeColor;
 		}
 		void Num_fileformat_startKeyDown(object sender, KeyEventArgs e)
@@ -675,27 +694,54 @@ namespace ThermoVision_JoeC {
 			//autoscale = true good idea?
 			OpenImageFile(Filepath, false);
 		}
-		
+
 		//Datei byteweise auslesen
+		void chk_fileformat_selectedHex_CheckedChanged(object sender, EventArgs e) {
+			Txt_fileformat_out_txtSelectionChanged(null, null);
+		}
 		void Txt_fileformat_out_txtSelectionChanged(object sender, EventArgs e)
 		{
-			txt_fileformat_out_bytes.Text="";
+            if (label_info.BackColor == Color.Gold) {
+				return;
+            }
+			txt_fileformat_out_bytes.Text=""; sbAppend.Clear();
+			txt_fileformat_out_bytesSelectedInfo.Text = "";
 			int start = txt_fileformat_out_txt.SelectionStart;
+			int len = txt_fileformat_out_txt.SelectionLength;
 			int startoff = (int)num_fileformat_start.Value;
-			int stop = txt_fileformat_out_txt.SelectionStart+txt_fileformat_out_txt.SelectionLength;
-			label_fileformat_selection.Text = "Start("+(start+startoff).ToString()+") " +
-				" Länge("+txt_fileformat_out_txt.SelectionLength.ToString()+")";
+			int stop = start + startoff + len;
+			txt_fileformat_SelectedInfo.Text = $"Start({start}) Length({len}) FileStart({(start+startoff)})";
+			start += startoff;
 			for (int i = start; i<stop;i++ ) {
+				string data = "";
+				if (chk_fileformat_selectedHex.Checked) {
+					data = Filepuffer[i].ToString("X02") + " ";
+				} else {
+					data = Filepuffer[i].ToString() + " ";
+				}
 				if (i<LastFilepuffer.Length) {
 					if (LastFilepuffer[i]==Filepuffer[i]) {
-						AppendColorText(txt_fileformat_out_bytes, Filepuffer[i].ToString()+" ",Color.Green);
+						AppendColorText(txt_fileformat_out_bytes, data, Color.Green);
 					} else {
-						AppendColorText(txt_fileformat_out_bytes, Filepuffer[i].ToString()+" ",Color.Red);
+						AppendColorText(txt_fileformat_out_bytes, data, Color.Red);
 					}
 				} else {
-					AppendColorText(txt_fileformat_out_bytes, Filepuffer[i].ToString()+" ",Color.Black);
+					AppendColorText(txt_fileformat_out_bytes, data, Color.Black);
 				}
 			}
+			AppendColorText(txt_fileformat_out_bytes, "", Color.White);
+		}
+		void txt_fileformat_out_bytes_SelectionChanged(object sender, EventArgs e) {
+			int spaces = 0;
+			int begin = txt_fileformat_out_bytes.SelectionStart;
+            for (int i = 0; i < begin; i++) {
+                if (txt_fileformat_out_bytes.Text[i] == ' ') {
+					spaces++;
+                }
+            }
+
+			int startoff = (int)num_fileformat_start.Value + txt_fileformat_out_txt.SelectionStart;
+			txt_fileformat_out_bytesSelectedInfo.Text = $"Pos({begin}) Length({spaces}) FileStart({(spaces + startoff)})";
 		}
 		void Txt_fileformat_findKeyDown(object sender, KeyEventArgs e)
 		{
@@ -741,7 +787,7 @@ namespace ThermoVision_JoeC {
 		
 		void ReadFileBufferToTextAndBytes()
 		{
-            if (Filepath.Length==0) {
+            if (Filepath == null) {
 				return;
             }
 			int start = (int)num_fileformat_start.Value;
@@ -749,27 +795,10 @@ namespace ThermoVision_JoeC {
 
             if ((start+count)>Filepuffer.Length) {
 				count = Filepuffer.Length - start;
+				num_fileformat_count.Value = count;
 			}
-			//TODO ReadFileBufferToTextAndBytes()
-			//MessageBox.Show("JOEC_TODO ReadFileBufferToTextAndBytes()");
-            FileStream FS = File.OpenRead(Filepath);
-            LastFilepuffer = Filepuffer;
-            Filepuffer = new byte[count + 1]; //FS.Length
-            if (FS.Length < count + start) {
-                count = (int)FS.Length - start;
-                num_fileformat_count.Value = (decimal)count;
-            }
-            FS.Seek(start, SeekOrigin.Begin);
-            FS.Read(Filepuffer, 0, Filepuffer.Length - 1);
-            FS.Close();
-            //byte[] newPuffer = new byte[count];
-            //for (int i = 0; i < count; i++) {
-            //    newPuffer[i] = Filepuffer[i];
-            //}
-            //Filepuffer = newPuffer;
+			int end = start + count;
             label_info.Text = $"Bytes: {(count)} {Filepath}";
-
-			//return;
 
 			if (LastFilepuffer==null) {
 				LastFilepuffer = Filepuffer;
@@ -777,14 +806,19 @@ namespace ThermoVision_JoeC {
 			
 			txt_fileformat_out_bytes.Text = "";
 			txt_fileformat_out_txt.Text = "";
-			for (int i = 0; i<count ;i++ ) {
+			sbAppend.Clear();
+			
+			for (int i = start; i < end; i++ ) {
 				char C = '-';
+				//int pos = start + i;
 				int pos = start + i;
-				if (Filepuffer[pos] >31&&Filepuffer[pos] !=127) {
-					C=(char)Filepuffer[pos];
+				if (Filepuffer[i] >31&&Filepuffer[i] !=127) {
+					C=(char)Filepuffer[i];
 				}
-				if (pos < LastFilepuffer.Length) {
-					if (LastFilepuffer[pos] == Filepuffer[pos]) {
+				if (i < LastFilepuffer.Length) {
+					if (LastFilepuffer[i] == Filepuffer[i]) {
+						//txt_fileformat_out_txt.AppendText(C.ToString());
+						//txt_fileformat_out_txt.Text += C.ToString();
 						AppendColorText(txt_fileformat_out_txt, C.ToString(),Color.Blue);
 					} else {
 						AppendColorText(txt_fileformat_out_txt, C.ToString(),Color.Red);
@@ -792,8 +826,8 @@ namespace ThermoVision_JoeC {
 				} else {
 					AppendColorText(txt_fileformat_out_txt, C.ToString(),Color.Black);
 				}
-				//count--; if (count==0) { break; }
 			}
+			AppendColorText(txt_fileformat_out_txt, "", Color.White);
 		}
 		
 		void btn_fileformat_toFloat_Click(object sender, EventArgs e) {
@@ -922,12 +956,11 @@ namespace ThermoVision_JoeC {
 		}
 		public void OpenFileAsSelected(string filename) {
 			Filepath = filename;
+			LoadFileToBuffer(Filepath);
 			if (tabControl_file.SelectedTab == TP_Fileformat_bytes) {
-				LoadFileToBuffer(Filepath);
 				ReadFileBufferToTextAndBytes();
 			}
 			if (tabControl_file.SelectedTab == TP_Fileformat_Bild) {
-				LoadFileToBuffer(Filepath);
 				Kernel_Fileformat_ReadfileToDataset(true);
 				Kernel_Fileformat_DatasetToPic();
 			}
@@ -1173,7 +1206,6 @@ namespace ThermoVision_JoeC {
 			Core.Set2PointCal(calcSlope,calcOffset);
 		}
 
-        
     }
 
 }

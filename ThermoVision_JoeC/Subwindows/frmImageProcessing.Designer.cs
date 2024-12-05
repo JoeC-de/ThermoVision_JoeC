@@ -143,6 +143,7 @@
             this.num_IP_Conv3 = new ThermoVision_JoeC.Komponenten.UC_Numeric();
             this.num_IP_Conv2 = new ThermoVision_JoeC.Komponenten.UC_Numeric();
             this.num_IP_Conv1 = new ThermoVision_JoeC.Komponenten.UC_Numeric();
+            this.chk_addTxtNote = new System.Windows.Forms.CheckBox();
             this.TabControl_StillLive.SuspendLayout();
             this.TP_Still.SuspendLayout();
             this.TP_Raw.SuspendLayout();
@@ -205,6 +206,7 @@
             // TP_Still
             // 
             this.TP_Still.BackColor = System.Drawing.Color.White;
+            this.TP_Still.Controls.Add(this.chk_addTxtNote);
             this.TP_Still.Controls.Add(this.uC_Numeric2);
             this.TP_Still.Controls.Add(this.uC_Numeric1);
             this.TP_Still.Controls.Add(this.chk_filter_DOGcenter);
@@ -442,7 +444,7 @@
             this.btn_saveChanges.BackColor = System.Drawing.Color.Gainsboro;
             this.btn_saveChanges.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_saveChanges.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_saveChanges.Location = new System.Drawing.Point(6, 147);
+            this.btn_saveChanges.Location = new System.Drawing.Point(6, 137);
             this.btn_saveChanges.Name = "btn_saveChanges";
             this.btn_saveChanges.Size = new System.Drawing.Size(103, 43);
             this.btn_saveChanges.TabIndex = 342;
@@ -1369,6 +1371,18 @@
             this.num_IP_Conv1.ValueMod = 0.1D;
             this.num_IP_Conv1.ValChangedEvent += new ThermoVision_JoeC.Komponenten.UC_Numeric.EventDelegate(this.Num_IP_ConvAllChangedEvent);
             // 
+            // chk_addTxtNote
+            // 
+            this.chk_addTxtNote.Checked = true;
+            this.chk_addTxtNote.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_addTxtNote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chk_addTxtNote.Location = new System.Drawing.Point(6, 188);
+            this.chk_addTxtNote.Name = "chk_addTxtNote";
+            this.chk_addTxtNote.Size = new System.Drawing.Size(103, 20);
+            this.chk_addTxtNote.TabIndex = 373;
+            this.chk_addTxtNote.Text = "Add text Note";
+            this.chk_addTxtNote.UseVisualStyleBackColor = true;
+            // 
             // frmImageProcessing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1428,5 +1442,6 @@
         public System.Windows.Forms.CheckBox chk_filter_DOGcenter;
         public Komponenten.UC_Numeric uC_Numeric2;
         public Komponenten.UC_Numeric uC_Numeric1;
+        public System.Windows.Forms.CheckBox chk_addTxtNote;
     }
 }

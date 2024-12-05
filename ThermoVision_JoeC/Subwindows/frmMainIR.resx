@@ -280,20 +280,23 @@
   </data>
   <data name="tbtn_Scala_12.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAANdJREFUOE+tjMEJwlAQRL8FKPi/kNSiBWgF2oXeFPSsYA5ahDaibZgukmsy/vnL
-        Qg5xc/HBwAwzu64HDGgQtG2NpqmS6DWzk4lNPHDxQESvmZ1MbP7w4B0PXiJ6zexkYoP2GQ8eInrN7GRi
-        g/rgUe2nSfSa2cnEBuVsgU+YJ9FrZicTG5QhHvj4IIpeMzuZ2OA+uuDmzkn0mtnJxAaFK3B11yR6zexk
-        YoPV5ITl+JhEr5mdTGyQ5ztk2TaJXjM7mdgghA28XyfRa2YnExsd/tIgfUdddXDuC6yV7E0PmYByAAAA
-        AElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADzSURBVDhPjYwxTgIBEEXHcrfTCnqtZfcOcAQs4Sh6BdFC
+        Oy0kgQQOoIlCdgttdgtJ5B7aaT75MxljIbP7kpf8n/kZ+Qc02AiWyx8sFt8qs3febBKDPP9Cln2qzN55
+        s0kM0nSNJFmpzN55s0kMjnoTHJ5eqszeebNJDNLrJyRXjyqzd95sEoOD7Rvk41Vl/u1tH8j8DDIbmsze
+        2z4Y3Av6dyazd95sEoOXjeD53WT2zptNYlDfCqobk9k7bzaJwfSki4fjjsrsnTebxKCUCxRyrjJ7580m
+        MailRCWFyuydN5vEYCxjjGSkMnvnzSYxPtznH0R25XbpwmA+bXIAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="tbtn_Scala_13.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAAHdJREFUOE+9jKENgFAQQy+MgWEIElZgEabGYL5BYcBS0tQgmuJ4yVN9d2XAh59g
-        w2XlpiRjjyk3JRkc42TlpiRjjyk3JRkci5ebkow9ptyUZNDWzspNScYeU25KMqg2eH970N+nlZuSjD2m
-        3JRkUPPu/e9B9kXVA/XtCWxCC9uoAAAAAElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEBSURBVDhPhYs9TgIBFIQ30UCiQeECEgzY6QXgBCCd3gPc
+        9Qio0USPoM1uIyWcAQrptdIean6S3YzMe3kJBTy+ZJKZzEywBezRXjDJMnylqYjeMjud+CBaH8L1gaK3
+        zE4nPrhYZagtUxG9ZXY68UHxZ4HT77mI3jI7nfiglsxQjaciesvsdOKDRviH+t2viN4yO5344LY1xk1z
+        JKK3zE4nPuieJ+hUYhG9ZXY68cFL/g3PuVcRvWV2OvHBR/4J77lHEb1ldjrxwfDkAYNCT0RvmZ1OfNAv
+        3eOzGInoLbPTiQ+i4zbCo2sRvWV2OvHB1WEZlwdnInrL7HTiY8Nd2iAI/gEVNf0DIACZkQAAAABJRU5E
+        rkJggg==
 </value>
   </data>
   <data name="tbtn_Scala_14.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

@@ -308,29 +308,7 @@ namespace ThermoVision_JoeC {
         }
         #endregion
         #region Getfiles
-        void CB_ImgBrow_SuchOrtSelectedIndexChanged(object sender, EventArgs e) {
-            if (lastSelectedIndex != CB_ImgBrow_SuchOrt.SelectedIndex) {
-                if (lastSelectedIndex == 1) {
-                    FilterIrDecoder = txt_filter.Text;
-                }
-                FLP_Images.Controls.Clear();
-                lastSelectedIndex = CB_ImgBrow_SuchOrt.SelectedIndex;
-            }
-            ParseType(CB_ImgBrow_SuchOrt.SelectedItem.ToString());
-            switch (ImgTyp) {
-                case UC_PreviewImage.ImgTyp.TV: txt_filter.Text = "*.jpg"; break;
-                case UC_PreviewImage.ImgTyp.DIY_Lepton: txt_filter.Text = "*.DAT"; break;
-                case UC_PreviewImage.ImgTyp.TExpert: txt_filter.Text = "*.CSV"; break;
-                case UC_PreviewImage.ImgTyp.Argus: txt_filter.Text = "*.raw"; break;
-                case UC_PreviewImage.ImgTyp.FlirExx: txt_filter.Text = "IR_????.jpg"; break;
-                case UC_PreviewImage.ImgTyp.FlirGeneric: txt_filter.Text = "*.jpg"; break;
-                case UC_PreviewImage.ImgTyp.BoschGTC400: txt_filter.Text = "*Y.JPG"; break;
-                case UC_PreviewImage.ImgTyp.UNIT_UTI260B: txt_filter.Text = "*.BMP"; break;
-                case UC_PreviewImage.ImgTyp.Jenoptik: txt_filter.Text = "*.IRB"; break;
-                case UC_PreviewImage.ImgTyp.Testo: txt_filter.Text = "*.BMT"; break;
-                case UC_PreviewImage.ImgTyp.IR_Dec: txt_filter.Text = FilterIrDecoder; break;
-            }
-        }
+        
 
         #endregion
         void FLP_ImagesMouseEnter(object sender, EventArgs e) {
@@ -529,6 +507,31 @@ namespace ThermoVision_JoeC {
 
 
         #region Enhance_for_Other_Cameras
+        void CB_ImgBrow_SuchOrtSelectedIndexChanged(object sender, EventArgs e) {
+            if (lastSelectedIndex != CB_ImgBrow_SuchOrt.SelectedIndex) {
+                if (lastSelectedIndex == 1) {
+                    FilterIrDecoder = txt_filter.Text;
+                }
+                FLP_Images.Controls.Clear();
+                lastSelectedIndex = CB_ImgBrow_SuchOrt.SelectedIndex;
+            }
+            ParseType(CB_ImgBrow_SuchOrt.SelectedItem.ToString());
+            switch (ImgTyp) {
+                case UC_PreviewImage.ImgTyp.TV: txt_filter.Text = "*.jpg"; break;
+                case UC_PreviewImage.ImgTyp.DIY_Lepton: txt_filter.Text = "*.DAT"; break;
+                case UC_PreviewImage.ImgTyp.TExpert: txt_filter.Text = "*.CSV"; break;
+                case UC_PreviewImage.ImgTyp.Argus: txt_filter.Text = "*.raw"; break;
+                case UC_PreviewImage.ImgTyp.FlirExx: txt_filter.Text = "IR_????.jpg"; break;
+                case UC_PreviewImage.ImgTyp.FlirGeneric: txt_filter.Text = "*.jpg"; break;
+                case UC_PreviewImage.ImgTyp.BoschGTC400: txt_filter.Text = "*Y.JPG"; break;
+                case UC_PreviewImage.ImgTyp.UNIT_UTI260B: txt_filter.Text = "*.BMP"; break;
+                case UC_PreviewImage.ImgTyp.Jenoptik: txt_filter.Text = "*.IRB"; break;
+                case UC_PreviewImage.ImgTyp.Testo: txt_filter.Text = "*.BMT"; break;
+                case UC_PreviewImage.ImgTyp.IR_Dec: txt_filter.Text = FilterIrDecoder; break;
+                case UC_PreviewImage.ImgTyp.IRG: txt_filter.Text = "*.IRG"; break;
+                case UC_PreviewImage.ImgTyp.HikVision: txt_filter.Text = "*.jpeg"; break;
+            }
+        }
         void Btn_ImgBrow_ReadFilesClick(object sender, EventArgs e) {
             string NormalName = btn_ImgBrow_ReadFiles.Text;
             //			MessageBox.Show(File.Exists(@"\hayden jch (GT-N7100)\Phone").ToString());
@@ -638,6 +641,7 @@ namespace ThermoVision_JoeC {
         bool Do_OpenFile(UC_PreviewImage PImg) {
             try {
                 Var.SkipFramesOnStream = false;
+                Var.FilePath = PImg.FileFullPath;
                 switch (ImgTyp) {
                     case UC_PreviewImage.ImgTyp.TV: Core.OpenRadioImage(PImg.FileFullPath, true); break;
                     case UC_PreviewImage.ImgTyp.DIY_Lepton: Core.MF.fDevice.uC_Dev_DIYThermocam1.Open_DIYLepton_File(PImg.FileFullPath, true); break;
@@ -652,12 +656,13 @@ namespace ThermoVision_JoeC {
                     case UC_PreviewImage.ImgTyp.Testo: Core.MF.fDevice.uC_Dev_Testo1.OpenImageFile(PImg.FileFullPath, true); break;
                     case UC_PreviewImage.ImgTyp.ThermAppTxt: Core.MF.fDevice.uC_Dev_ThermApp1.OpenImageFile(PImg.FileFullPath, true); break;
                     case UC_PreviewImage.ImgTyp.IR_Dec: Core.MF.fIrDec.OpenImageFile(PImg.FileFullPath, true); break;
+                    case UC_PreviewImage.ImgTyp.IRG: Core.MF.fDevice.uC_Dev_Infiray1.OpenImageFile(PImg.FileFullPath, true); break;
+                    case UC_PreviewImage.ImgTyp.HikVision: Core.MF.fDevice.uC_Dev_HikVision1.OpenImageFile(PImg.FileFullPath, true); break;
                 }
                 if (PImg.VisualPath != "") {
                     Core.ImportVisualImage((Bitmap)PImg.PicBox_PrevVis.Image.Clone());
                 }
                 Core.SelectMainIR();
-                Core.MF.fHist.DoHisto(true, false);
                 return true;
             } catch (Exception err) {
                 Core.RiseError("Do_OpenFile->" + err.Message); //err.StackTrace
@@ -696,9 +701,16 @@ namespace ThermoVision_JoeC {
             if (!Core.MF.fDevice.uC_Dev_ThermApp1.IsHidden) {
                 CB_ImgBrow_SuchOrt.Items.Add("ThermApp (Folders) #ThermAppTxt");
             }
+            if (!Core.MF.fDevice.uC_Dev_Infiray1.IsHidden) {
+                CB_ImgBrow_SuchOrt.Items.Add("Infiray (*.IRG) #IRG");
+            }
+            if (!Core.MF.fDevice.uC_Dev_HikVision1.IsHidden) {
+                CB_ImgBrow_SuchOrt.Items.Add("HikVision (*.jpeg) #HikVision");
+            }
             TrySelectImageType(ImgTyp.ToString());
         }
         #endregion
+
         Point mdPt = new Point();
         Point mmPt = new Point();
         int mdStatus;

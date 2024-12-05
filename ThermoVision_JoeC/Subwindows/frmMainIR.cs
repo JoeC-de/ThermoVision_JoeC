@@ -252,9 +252,8 @@ namespace ThermoVision_JoeC
                 }
             }
             //Scalierung berrechnen
-            //			int EX = 0; int EY = 0;
-            //			VARs.PicBoxSkalierung(PicBox_IR,ref EX,ref EY,e.Location);
-            Var.IR_Pic_faktor = (double)PicBox_IR.Width / (double)PicBox_IR.Height; int EX = 0; int EY = 0;
+            int EX = 0; int EY = 0;
+            Var.IR_Pic_faktor = (double)PicBox_IR.Width / (double)PicBox_IR.Height;
             if (Var.IR_Pic_faktor > Var.IR_BildFaktor) {
                 Var.IR_W_off = (int)Math.Round(((double)PicBox_IR.Width - ((double)PicBox_IR.Height * Var.IR_BildFaktor))); Var.IR_H_off = 0;
                 EY = e.Y; EX = e.X - (Var.IR_W_off / 2);
@@ -264,23 +263,23 @@ namespace ThermoVision_JoeC
                 EX = e.X; EY = e.Y - (Var.IR_H_off / 2);
                 if (EY < 0) { label_Maustemp.Text = ""; return; }
             }
-            Var.IR_W_off = Var.IR_W_off / 2; Var.IR_H_off = Var.IR_H_off / 2;
-            //Messzeug anpassen
-            //			if (!VARs.Analyse) { return; }
+            //EX = e.X - (Var.IR_W_off / 2); 
+            //EY = e.Y - (Var.IR_H_off / 2);
+            //if (EY < 0) { label_Maustemp.Text = ""; return; }
+            //if (EX < 0) { label_Maustemp.Text = ""; return; }
+
+            Var.read_X = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off) * (float)(Var.BackPic_IR.Width));
+            Var.read_Y = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off) * (float)(Var.BackPic_IR.Height));
 
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Middle || SetSpot > 0) {
-                Var.read_X = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off - Var.IR_W_off) * (float)(Var.FrameRaw.W - 1));
-                Var.read_Y = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off - Var.IR_H_off) * (float)(Var.FrameRaw.H - 1));
-
                 if (Var.read_X < 0 || Var.read_X >= Var.FrameRaw.W) { label_Maustemp.Text = Var.read_X.ToString() + "/" + Var.read_Y.ToString(); return; }
                 if (Var.read_Y < 0 || Var.read_Y >= Var.FrameRaw.H) { label_Maustemp.Text = Var.read_X.ToString() + "/" + Var.read_Y.ToString(); return; }
                 //Temperatur auslesen
                 if (Var.ZoomIRActive) {
                     if (!Core.MF.fFunc.chk_zoom_PosFixed.Checked) {
-                        int zoomOffX = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off - Var.IR_W_off) * (float)(Var.FrameRaw.W));
-                        int zoomOffY = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off - Var.IR_H_off) * (float)(Var.FrameRaw.H));
-                        Core.MF.fFunc.num_zoombox_X.Value = zoomOffX; 
-                        Core.MF.fFunc.num_zoombox_Y.Value = zoomOffY;
+                        float halfZoom = (float)(Core.MF.fFunc.num_zoombox_quellsize.Value / 2);
+                        Core.MF.fFunc.num_zoombox_X.Value = Var.read_X - halfZoom; 
+                        Core.MF.fFunc.num_zoombox_Y.Value = Var.read_Y - halfZoom;
                         Core.ZoomBox_ValidateSettings();
                         PicBox_IR.Refresh();
                     } else {
@@ -327,8 +326,6 @@ namespace ThermoVision_JoeC
                     Var.M.mausIRMeasAreaRangeActive = 0; Var.M.mausIRMeasAreaRangeState = 0;
                     Var.M.mausIRMeasSpotActive = 0; Var.M.mausIRMeasSpotState = 0;
                     Var.M.mausIRMeasLineActive = 0; Var.M.mausIRMeasLineState = 0;
-                    Var.read_X = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off - Var.IR_W_off) * (float)Var.FrameRaw.W);
-                    Var.read_Y = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off - Var.IR_H_off) * (float)Var.FrameRaw.H);
                     sub_PicBox_IRMouseMove_DiffLineChange();
                     return;
                 } else if (Var.M.mausIRMeasLineState == 4) { //set new Line
@@ -336,16 +333,12 @@ namespace ThermoVision_JoeC
                     Var.M.mausIRMeasAreaRangeActive = 0; Var.M.mausIRMeasAreaRangeState = 0;
                     Var.M.mausIRMeasSpotActive = 0; Var.M.mausIRMeasSpotState = 0;
                     Var.M.mausIRMeasDiffLineActive = 0; Var.M.mausIRMeasDiffLineState = 0;
-                    Var.read_X = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off - Var.IR_W_off) * (float)Var.FrameRaw.W);
-                    Var.read_Y = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off - Var.IR_H_off) * (float)Var.FrameRaw.H);
                     sub_PicBox_IRMouseMove_LineChange();
                     return;
                 } else if (Var.M.mausIRMeasAreaState == 4) { //set new Box
                     Var.M.mausIRMeasLineActive = 0; Var.M.mausIRMeasLineState = 0;
                     Var.M.mausIRMeasSpotActive = 0; Var.M.mausIRMeasSpotState = 0;
                     Var.M.mausIRMeasDiffLineActive = 0; Var.M.mausIRMeasDiffLineState = 0;
-                    Var.read_X = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off - Var.IR_W_off) * (float)Var.FrameRaw.W);
-                    Var.read_Y = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off - Var.IR_H_off) * (float)Var.FrameRaw.H);
                     sub_PicBox_IRMouseMove_AreaChange();
                     return;
                 } else if (Var.M.mausIRMeasAreaRangeState == 4) { //set new BoxRange
@@ -353,8 +346,6 @@ namespace ThermoVision_JoeC
                     Var.M.mausIRMeasLineActive = 0; Var.M.mausIRMeasLineState = 0;
                     Var.M.mausIRMeasSpotActive = 0; Var.M.mausIRMeasSpotState = 0;
                     Var.M.mausIRMeasDiffLineActive = 0; Var.M.mausIRMeasDiffLineState = 0;
-                    Var.read_X = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off - Var.IR_W_off) * (float)Var.FrameRaw.W);
-                    Var.read_Y = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off - Var.IR_H_off) * (float)Var.FrameRaw.H);
                     sub_PicBox_IRMouseMove_AreaRangeChange();
                     return;
                 }
@@ -847,7 +838,7 @@ namespace ThermoVision_JoeC
                     PicBox_IR.Refresh();
                     break;
                 case 3: //move full line
-                    Var.M.MoveMessline(Var.read_X, Var.read_Y, Var.IRMeasLineOffset);
+                    Var.M.MoveMessline(Var.read_X, Var.read_Y);
                     PicBox_IR.Refresh();
                     break;
                 case 4: //set new Line startpunkt
@@ -884,7 +875,7 @@ namespace ThermoVision_JoeC
                     PicBox_IR.Refresh();
                     break;
                 case 3: //move full line
-                    Var.M.MoveDiffline(Var.read_X, Var.read_Y, Var.IRMeasLineOffset);
+                    Var.M.MoveDiffline(Var.read_X, Var.read_Y);
                     PicBox_IR.Refresh();
                     break;
                 case 4: //net new Line startpunkt
@@ -909,7 +900,7 @@ namespace ThermoVision_JoeC
         public void PicBox_IRMouseDown(object sender, MouseEventArgs e) {
             //Scalierung berrechnen
             Var.IR_Pic_faktor = (double)PicBox_IR.Width / (double)PicBox_IR.Height; int EX = 0; int EY = 0;
-            Var.IR_BildFaktor = (double)Var.BackPic_IR.Width / (double)Var.BackPic_IR.Height;
+            //Var.IR_BildFaktor = (double)Var.BackPic_IR.Width / (double)Var.BackPic_IR.Height;
             if (Var.IR_Pic_faktor > Var.IR_BildFaktor) {
                 Var.IR_W_off = (int)Math.Round(((double)PicBox_IR.Width - ((double)PicBox_IR.Height * Var.IR_BildFaktor))); Var.IR_H_off = 0;
                 EY = e.Y; EX = e.X - (Var.IR_W_off / 2);
@@ -922,12 +913,8 @@ namespace ThermoVision_JoeC
 
             //Messzeug anpassen
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Middle) {
-                Var.read_X = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off - Var.IR_W_off) * (float)(Var.FrameRaw.W - 1));
-                Var.read_Y = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off - Var.IR_H_off) * (float)(Var.FrameRaw.H - 1));
-
-                //Var.read_X = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off) * (float)Var.FrameRaw.W);
-                //Var.read_Y = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off) * (float)Var.FrameRaw.H);
-                //Linien
+                Var.read_X = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off) * (float)(Var.BackPic_IR.Width));
+                Var.read_Y = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off) * (float)(Var.BackPic_IR.Height));
 
                 if (Core.IsMessobjekte) {
                     Messpunkt S = Var.M.getMesspunkt(Var.M.mausIRMeasSpotActive);
@@ -995,11 +982,11 @@ namespace ThermoVision_JoeC
                         label_Maustemp.Visible = true; label_Maustemp.BringToFront();
                     } else {
                         // + (Var.Zoom_quelle / 2)
-                        int zoomOffX = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off - Var.IR_W_off) * (float)(Var.FrameRaw.W));//)));//));
-                        int zoomOffY = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off - Var.IR_H_off) * (float)(Var.FrameRaw.H));// + (Var.Zoom_quelle / 2)));
-
-                        Core.MF.fFunc.num_zoombox_X.Value = zoomOffX; 
-                        Core.MF.fFunc.num_zoombox_Y.Value = zoomOffY;
+                        //int zoomOffX = (int)Math.Round((double)EX / (double)(PicBox_IR.Width - Var.IR_W_off - Var.IR_W_off) * (float)(Var.FrameRaw.W));//)));//));
+                        //int zoomOffY = (int)Math.Round((double)EY / (double)(PicBox_IR.Height - Var.IR_H_off - Var.IR_H_off) * (float)(Var.FrameRaw.H));// + (Var.Zoom_quelle / 2)));
+                        float halfZoom = (float)(Core.MF.fFunc.num_zoombox_quellsize.Value / 2);
+                        Core.MF.fFunc.num_zoombox_X.Value = Var.read_X - halfZoom;
+                        Core.MF.fFunc.num_zoombox_Y.Value = Var.read_Y - halfZoom;
                         Core.ZoomBox_ValidateSettings();
                         PicBox_IR.Refresh();
                     }
@@ -1155,7 +1142,7 @@ namespace ThermoVision_JoeC
             Font fb2 = Var.M.FontMeas;//new Font("Sans Serif", 8,FontStyle.Bold);
                                     //Scalierung berrechnen
             Var.IR_Pic_faktor = (double)box.Width / (double)box.Height; float[] Mfac = { 0, 0 };
-            Var.IR_BildFaktor = (double)Var.BackPic_IR.Width / (double)Var.BackPic_IR.Height;
+            //Var.IR_BildFaktor = (double)Var.BackPic_IR.Width / (double)Var.BackPic_IR.Height;
             //			this.Text=box.Name;
             Point SPx; //ScreenPixelSize, für H und W von Area
             if (Var.IR_Pic_faktor > Var.IR_BildFaktor) {
@@ -2033,6 +2020,7 @@ namespace ThermoVision_JoeC
         }
         public void Tbtn_set_area1Click(object sender, EventArgs e) {
             Core.SetMessobjekte(true);
+            Core.RadioImg.isChanged = true;
             Var.M.mausIRMeasLineActive = 0;
             Var.M.mausIRMeasSpotActive = 0;
             int index = 1;
@@ -2057,6 +2045,7 @@ namespace ThermoVision_JoeC
         }
         public void tbtn_set_areaRange1_Click(object sender, EventArgs e) {
             Core.SetMessobjekte(true);
+            Core.RadioImg.isChanged = true;
             Var.M.mausIRMeasLineActive = 0;
             Var.M.mausIRMeasSpotActive = 0;
             int index = 1;
@@ -2081,6 +2070,7 @@ namespace ThermoVision_JoeC
         }
         public void Tbtn_set_line1Click(object sender, EventArgs e) {
             Core.SetMessobjekte(true);
+            Core.RadioImg.isChanged = true;
             Var.M.mausIRMeasAreaActive = 0;
             Var.M.mausIRMeasSpotActive = 0;
             int index = 1;
@@ -2109,6 +2099,7 @@ namespace ThermoVision_JoeC
         }
         public void Tbtn_set_Diffline1Click(object sender, EventArgs e) {
             Core.SetMessobjekte(true);
+            Core.RadioImg.isChanged = true;
             Var.M.mausIRMeasAreaActive = 0;
             Var.M.mausIRMeasSpotActive = 0;
             int index = 1;
@@ -2194,7 +2185,7 @@ namespace ThermoVision_JoeC
         //Externe Pallette
         public void Btn_extPal_loadClick(object sender, EventArgs e) {
             try {
-                picBox_ExternPalRaw.Image = JoeC.JoeC_FileAccess.Get_MemIMG(Var.GetBinRoot() + Core.MF.fMainIR.txt_extpal_filename.Text);
+                picBox_ExternPalRaw.Image = JoeC.JoeC_FileAccess.Get_MemIMG(Var.GetDataRoot() + Core.MF.fMainIR.txt_extpal_filename.Text);
             } catch (Exception err) {
                 Core.RiseError("Btn_extPal_load()->" + err.Message);
             }
@@ -2204,7 +2195,7 @@ namespace ThermoVision_JoeC
             Bitmap source;
             ExternalPalIsValid = false;
             try {
-                source = JoeC.JoeC_FileAccess.Get_MemBMP(Var.GetBinRoot() + Core.MF.fMainIR.txt_extpal_filename.Text);
+                source = JoeC.JoeC_FileAccess.Get_MemBMP(Var.GetDataRoot() + Core.MF.fMainIR.txt_extpal_filename.Text);
             } catch (Exception err) {
                 Core.RiseError("DrawExternalPal()->" + err.Message);
                 return false;

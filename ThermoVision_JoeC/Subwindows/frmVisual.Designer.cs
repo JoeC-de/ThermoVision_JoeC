@@ -343,7 +343,7 @@
             this.label_Monitor.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Monitor.Location = new System.Drawing.Point(0, 0);
             this.label_Monitor.Name = "label_Monitor";
-            this.label_Monitor.Size = new System.Drawing.Size(507, 252);
+            this.label_Monitor.Size = new System.Drawing.Size(461, 219);
             this.label_Monitor.TabIndex = 6;
             this.label_Monitor.Text = "-";
             this.label_Monitor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -354,14 +354,14 @@
             this.panel_monitor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_monitor.Controls.Add(this.chk_mon_setup);
             this.panel_monitor.Controls.Add(this.num_mon_SizeRatio);
             this.panel_monitor.Controls.Add(this.panel_mon_Setup);
-            this.panel_monitor.Controls.Add(this.chk_mon_setup);
             this.panel_monitor.Controls.Add(this.cb_mon_SelectedValue);
             this.panel_monitor.Controls.Add(this.label_Monitor);
-            this.panel_monitor.Location = new System.Drawing.Point(341, 86);
+            this.panel_monitor.Location = new System.Drawing.Point(12, 28);
             this.panel_monitor.Name = "panel_monitor";
-            this.panel_monitor.Size = new System.Drawing.Size(507, 275);
+            this.panel_monitor.Size = new System.Drawing.Size(461, 242);
             this.panel_monitor.TabIndex = 7;
             this.panel_monitor.Visible = false;
             // 
@@ -371,10 +371,10 @@
             this.num_mon_SizeRatio.BackColor = System.Drawing.Color.White;
             this.num_mon_SizeRatio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.num_mon_SizeRatio.DecPlaces = 2;
-            this.num_mon_SizeRatio.Location = new System.Drawing.Point(375, 251);
+            this.num_mon_SizeRatio.Location = new System.Drawing.Point(329, 218);
             this.num_mon_SizeRatio.Name = "num_mon_SizeRatio";
-            this.num_mon_SizeRatio.RangeMax = 255D;
-            this.num_mon_SizeRatio.RangeMin = 0D;
+            this.num_mon_SizeRatio.RangeMax = 0.5D;
+            this.num_mon_SizeRatio.RangeMin = 0.01D;
             this.num_mon_SizeRatio.Size = new System.Drawing.Size(51, 24);
             this.num_mon_SizeRatio.Switch_W = 8;
             this.num_mon_SizeRatio.SwitchDowncolor = System.Drawing.Color.Lime;
@@ -385,7 +385,7 @@
             this.num_mon_SizeRatio.TextForecolor = System.Drawing.Color.Black;
             this.num_mon_SizeRatio.TxtLeft = 3;
             this.num_mon_SizeRatio.TxtTop = 3;
-            this.num_mon_SizeRatio.UseMinMax = false;
+            this.num_mon_SizeRatio.UseMinMax = true;
             this.num_mon_SizeRatio.Value = 0.3D;
             this.num_mon_SizeRatio.ValueMod = 0.01D;
             this.num_mon_SizeRatio.ValChangedEvent += new ThermoVision_JoeC.Komponenten.UC_Numeric.EventDelegate(this.Num_mon_SizeRatioValChangedEvent);
@@ -669,7 +669,7 @@
             this.chk_mon_setup.Appearance = System.Windows.Forms.Appearance.Button;
             this.chk_mon_setup.BackColor = System.Drawing.Color.Gainsboro;
             this.chk_mon_setup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chk_mon_setup.Location = new System.Drawing.Point(425, 251);
+            this.chk_mon_setup.Location = new System.Drawing.Point(379, 218);
             this.chk_mon_setup.Name = "chk_mon_setup";
             this.chk_mon_setup.Size = new System.Drawing.Size(82, 24);
             this.chk_mon_setup.TabIndex = 8;
@@ -690,9 +690,9 @@
             "Max Temperatur (Rot)",
             "Min Temperatur (Blau)",
             "Aktive Messung (Setup...)"});
-            this.cb_mon_SelectedValue.Location = new System.Drawing.Point(0, 252);
+            this.cb_mon_SelectedValue.Location = new System.Drawing.Point(0, 219);
             this.cb_mon_SelectedValue.Name = "cb_mon_SelectedValue";
-            this.cb_mon_SelectedValue.Size = new System.Drawing.Size(373, 21);
+            this.cb_mon_SelectedValue.Size = new System.Drawing.Size(327, 21);
             this.cb_mon_SelectedValue.TabIndex = 7;
             this.cb_mon_SelectedValue.SelectedIndexChanged += new System.EventHandler(this.Cb_mon_ValueSelectedIndexChanged);
             // 

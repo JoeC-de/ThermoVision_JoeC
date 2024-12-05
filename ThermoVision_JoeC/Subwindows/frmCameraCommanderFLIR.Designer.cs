@@ -575,6 +575,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label15 = new System.Windows.Forms.Label();
+            this.cb_rs232_TerminalFontSize = new System.Windows.Forms.ComboBox();
             this.chk_rs232_KommaToPoint = new System.Windows.Forms.CheckBox();
             this.num_RS232_Startbyte = new System.Windows.Forms.NumericUpDown();
             this.CHK_RS232_NotOnTop = new System.Windows.Forms.CheckBox();
@@ -1192,7 +1194,7 @@
             this.label_F_Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_F_Status.Location = new System.Drawing.Point(231, 2);
             this.label_F_Status.Name = "label_F_Status";
-            this.label_F_Status.Size = new System.Drawing.Size(602, 24);
+            this.label_F_Status.Size = new System.Drawing.Size(706, 24);
             this.label_F_Status.TabIndex = 275;
             this.label_F_Status.Text = "Status...";
             this.label_F_Status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1321,7 +1323,7 @@
             this.txt_usb_send.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_usb_send.Location = new System.Drawing.Point(6, 16);
             this.txt_usb_send.Name = "txt_usb_send";
-            this.txt_usb_send.Size = new System.Drawing.Size(70, 20);
+            this.txt_usb_send.Size = new System.Drawing.Size(19, 20);
             this.txt_usb_send.TabIndex = 15;
             this.txt_usb_send.Text = "1 1";
             this.toolTip1.SetToolTip(this.txt_usb_send, "Komma und Leerzeichen werden als Trennzeichen gewertet");
@@ -1600,7 +1602,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(731, 358);
             this.richTextBox1.TabIndex = 9;
             this.richTextBox1.Text = "";
-            this.richTextBox1.ZoomFactor = 0.8F;
+            this.richTextBox1.ZoomFactor = 0.801F;
             // 
             // timer_500msBackground
             // 
@@ -1618,7 +1620,7 @@
             this.btn_abbruch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_abbruch.BackColor = System.Drawing.Color.Salmon;
             this.btn_abbruch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_abbruch.Location = new System.Drawing.Point(839, 2);
+            this.btn_abbruch.Location = new System.Drawing.Point(943, 2);
             this.btn_abbruch.Name = "btn_abbruch";
             this.btn_abbruch.Size = new System.Drawing.Size(75, 24);
             this.btn_abbruch.TabIndex = 37;
@@ -1722,7 +1724,7 @@
             this.tabControl_Flir.Name = "tabControl_Flir";
             this.tabControl_Flir.PicturePosition = CSharpRoTabControl.CustomRoTabControl.BildPosition.behindTheText;
             this.tabControl_Flir.SelectedIndex = 0;
-            this.tabControl_Flir.Size = new System.Drawing.Size(918, 580);
+            this.tabControl_Flir.Size = new System.Drawing.Size(1022, 583);
             this.tabControl_Flir.TabIndex = 36;
             this.tabControl_Flir.TabPageBackColorBottom = System.Drawing.Color.LightSteelBlue;
             this.tabControl_Flir.TabPageBackColorBottomHover = System.Drawing.Color.White;
@@ -1735,13 +1737,13 @@
             // 
             this.TP_flir_control.AutoScroll = true;
             this.TP_flir_control.BackColor = System.Drawing.Color.White;
+            this.TP_flir_control.Controls.Add(this.cb_F_CamDevice);
+            this.TP_flir_control.Controls.Add(this.btn_F_CamDevice);
+            this.TP_flir_control.Controls.Add(this.btn_F_CamFind);
             this.TP_flir_control.Controls.Add(this.splitContainer5);
             this.TP_flir_control.Controls.Add(this.groupBox10);
             this.TP_flir_control.Controls.Add(this.btn_F_002_Nuc);
             this.TP_flir_control.Controls.Add(this.label_F_StatusVideo);
-            this.TP_flir_control.Controls.Add(this.btn_F_CamFind);
-            this.TP_flir_control.Controls.Add(this.btn_F_CamDevice);
-            this.TP_flir_control.Controls.Add(this.cb_F_CamDevice);
             this.TP_flir_control.Controls.Add(this.groupBox20);
             this.TP_flir_control.Controls.Add(this.group_Screenshot);
             this.TP_flir_control.Controls.Add(this.groupBox21);
@@ -1750,7 +1752,7 @@
             this.TP_flir_control.Margin = new System.Windows.Forms.Padding(0);
             this.TP_flir_control.Name = "TP_flir_control";
             this.TP_flir_control.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_flir_control.Size = new System.Drawing.Size(910, 557);
+            this.TP_flir_control.Size = new System.Drawing.Size(1014, 560);
             this.TP_flir_control.TabIndex = 0;
             this.TP_flir_control.Text = "Steuerung   ";
             this.TP_flir_control.UseVisualStyleBackColor = true;
@@ -1775,8 +1777,8 @@
             // 
             this.splitContainer5.Panel2.BackColor = System.Drawing.Color.White;
             this.splitContainer5.Panel2.Controls.Add(this.tabControl_controls);
-            this.splitContainer5.Size = new System.Drawing.Size(723, 515);
-            this.splitContainer5.SplitterDistance = 276;
+            this.splitContainer5.Size = new System.Drawing.Size(827, 518);
+            this.splitContainer5.SplitterDistance = 279;
             this.splitContainer5.TabIndex = 281;
             // 
             // splitContainer2
@@ -1802,7 +1804,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.lab_Afoc_State);
             this.splitContainer2.Panel2.Controls.Add(this.group_DownloadPictures);
             this.splitContainer2.Panel2.Controls.Add(this.picbox_FLIRVideo);
-            this.splitContainer2.Size = new System.Drawing.Size(723, 276);
+            this.splitContainer2.Size = new System.Drawing.Size(827, 279);
             this.splitContainer2.SplitterDistance = 171;
             this.splitContainer2.TabIndex = 280;
             // 
@@ -1815,7 +1817,7 @@
             this.txt_Afoc_log.Multiline = true;
             this.txt_Afoc_log.Name = "txt_Afoc_log";
             this.txt_Afoc_log.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_Afoc_log.Size = new System.Drawing.Size(171, 276);
+            this.txt_Afoc_log.Size = new System.Drawing.Size(171, 279);
             this.txt_Afoc_log.TabIndex = 262;
             this.txt_Afoc_log.Visible = false;
             // 
@@ -1827,7 +1829,7 @@
             this.propertyGrid1.LineColor = System.Drawing.Color.LightSteelBlue;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(171, 276);
+            this.propertyGrid1.Size = new System.Drawing.Size(171, 279);
             this.propertyGrid1.TabIndex = 261;
             this.propertyGrid1.ToolbarVisible = false;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropertyGrid1PropertyValueChanged);
@@ -1837,7 +1839,7 @@
             this.group_HID_LED.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.group_HID_LED.Controls.Add(this.btn_HID_LEDSingleSetup);
             this.group_HID_LED.Controls.Add(this.dgw_HID_LEDSingle);
-            this.group_HID_LED.Location = new System.Drawing.Point(3, 19);
+            this.group_HID_LED.Location = new System.Drawing.Point(3, 22);
             this.group_HID_LED.Name = "group_HID_LED";
             this.group_HID_LED.Size = new System.Drawing.Size(197, 254);
             this.group_HID_LED.TabIndex = 283;
@@ -1900,7 +1902,7 @@
             // 
             this.picBox_LED.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.picBox_LED.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBox_LED.Location = new System.Drawing.Point(1, 19);
+            this.picBox_LED.Location = new System.Drawing.Point(1, 22);
             this.picBox_LED.Name = "picBox_LED";
             this.picBox_LED.Size = new System.Drawing.Size(310, 256);
             this.picBox_LED.TabIndex = 282;
@@ -1928,7 +1930,7 @@
             this.group_ExHID_Dev.Controls.Add(this.num_HID_OverFocSetPos);
             this.group_ExHID_Dev.Controls.Add(this.lab_HID_HomingVal);
             this.group_ExHID_Dev.Controls.Add(this.label73);
-            this.group_ExHID_Dev.Location = new System.Drawing.Point(160, 166);
+            this.group_ExHID_Dev.Location = new System.Drawing.Point(264, 169);
             this.group_ExHID_Dev.Name = "group_ExHID_Dev";
             this.group_ExHID_Dev.Size = new System.Drawing.Size(291, 107);
             this.group_ExHID_Dev.TabIndex = 16;
@@ -2108,7 +2110,7 @@
             this.group_DownloadPictures.Controls.Add(this.btn_pic_Download);
             this.group_DownloadPictures.Location = new System.Drawing.Point(493, 202);
             this.group_DownloadPictures.Name = "group_DownloadPictures";
-            this.group_DownloadPictures.Size = new System.Drawing.Size(523, 247);
+            this.group_DownloadPictures.Size = new System.Drawing.Size(627, 250);
             this.group_DownloadPictures.TabIndex = 280;
             this.group_DownloadPictures.TabStop = false;
             this.group_DownloadPictures.Text = "Bilder von der Kamera runterladen";
@@ -2120,7 +2122,7 @@
             this.btn_pic_DownClose.BackColor = System.Drawing.Color.Salmon;
             this.btn_pic_DownClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_pic_DownClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_pic_DownClose.Location = new System.Drawing.Point(473, 14);
+            this.btn_pic_DownClose.Location = new System.Drawing.Point(577, 14);
             this.btn_pic_DownClose.Name = "btn_pic_DownClose";
             this.btn_pic_DownClose.Size = new System.Drawing.Size(44, 47);
             this.btn_pic_DownClose.TabIndex = 8;
@@ -2134,7 +2136,7 @@
             this.btn_pic_DownOpenFolder.BackColor = System.Drawing.Color.Gainsboro;
             this.btn_pic_DownOpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_pic_DownOpenFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_pic_DownOpenFolder.Location = new System.Drawing.Point(351, 14);
+            this.btn_pic_DownOpenFolder.Location = new System.Drawing.Point(455, 14);
             this.btn_pic_DownOpenFolder.Name = "btn_pic_DownOpenFolder";
             this.btn_pic_DownOpenFolder.Size = new System.Drawing.Size(116, 47);
             this.btn_pic_DownOpenFolder.TabIndex = 6;
@@ -2169,7 +2171,7 @@
             this.DGW_Pictures.RowTemplate.Height = 10;
             this.DGW_Pictures.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DGW_Pictures.ShowEditingIcon = false;
-            this.DGW_Pictures.Size = new System.Drawing.Size(511, 174);
+            this.DGW_Pictures.Size = new System.Drawing.Size(615, 177);
             this.DGW_Pictures.TabIndex = 0;
             // 
             // chk_pic_DownOverrideIfExist
@@ -2214,7 +2216,7 @@
             this.picbox_FLIRVideo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picbox_FLIRVideo.Location = new System.Drawing.Point(0, 0);
             this.picbox_FLIRVideo.Name = "picbox_FLIRVideo";
-            this.picbox_FLIRVideo.Size = new System.Drawing.Size(548, 276);
+            this.picbox_FLIRVideo.Size = new System.Drawing.Size(652, 279);
             this.picbox_FLIRVideo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picbox_FLIRVideo.TabIndex = 268;
             this.picbox_FLIRVideo.TabStop = false;
@@ -2245,7 +2247,7 @@
             this.tabControl_controls.Name = "tabControl_controls";
             this.tabControl_controls.PicturePosition = CSharpRoTabControl.CustomRoTabControl.BildPosition.behindTheText;
             this.tabControl_controls.SelectedIndex = 0;
-            this.tabControl_controls.Size = new System.Drawing.Size(723, 235);
+            this.tabControl_controls.Size = new System.Drawing.Size(827, 235);
             this.tabControl_controls.TabIndex = 273;
             this.tabControl_controls.TabPageBackColorBottom = System.Drawing.Color.LightSteelBlue;
             this.tabControl_controls.TabPageBackColorBottomHover = System.Drawing.Color.White;
@@ -2281,7 +2283,7 @@
             this.TP_HIDcontrol.Controls.Add(this.label74);
             this.TP_HIDcontrol.Location = new System.Drawing.Point(4, 19);
             this.TP_HIDcontrol.Name = "TP_HIDcontrol";
-            this.TP_HIDcontrol.Size = new System.Drawing.Size(715, 212);
+            this.TP_HIDcontrol.Size = new System.Drawing.Size(819, 212);
             this.TP_HIDcontrol.TabIndex = 10;
             this.TP_HIDcontrol.Text = "Special Ex";
             // 
@@ -2429,7 +2431,7 @@
             this.chk_HID_dev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chk_HID_dev.Appearance = System.Windows.Forms.Appearance.Button;
             this.chk_HID_dev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chk_HID_dev.Location = new System.Drawing.Point(650, 6);
+            this.chk_HID_dev.Location = new System.Drawing.Point(754, 6);
             this.chk_HID_dev.Name = "chk_HID_dev";
             this.chk_HID_dev.Size = new System.Drawing.Size(60, 24);
             this.chk_HID_dev.TabIndex = 38;
@@ -2467,7 +2469,7 @@
             this.btn_HID_doPwr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_HID_doPwr.BackColor = System.Drawing.Color.Salmon;
             this.btn_HID_doPwr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_HID_doPwr.Location = new System.Drawing.Point(650, 36);
+            this.btn_HID_doPwr.Location = new System.Drawing.Point(754, 36);
             this.btn_HID_doPwr.Name = "btn_HID_doPwr";
             this.btn_HID_doPwr.Size = new System.Drawing.Size(60, 23);
             this.btn_HID_doPwr.TabIndex = 35;
@@ -2590,7 +2592,7 @@
             this.btn_HID_doHoming.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_HID_doHoming.BackColor = System.Drawing.SystemColors.Control;
             this.btn_HID_doHoming.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_HID_doHoming.Location = new System.Drawing.Point(650, 65);
+            this.btn_HID_doHoming.Location = new System.Drawing.Point(754, 65);
             this.btn_HID_doHoming.Name = "btn_HID_doHoming";
             this.btn_HID_doHoming.Size = new System.Drawing.Size(60, 23);
             this.btn_HID_doHoming.TabIndex = 20;
@@ -2637,7 +2639,7 @@
             this.TP_view1.Location = new System.Drawing.Point(4, 19);
             this.TP_view1.Name = "TP_view1";
             this.TP_view1.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_view1.Size = new System.Drawing.Size(715, 212);
+            this.TP_view1.Size = new System.Drawing.Size(819, 212);
             this.TP_view1.TabIndex = 0;
             this.TP_view1.Text = "Darstellung 1";
             this.TP_view1.UseVisualStyleBackColor = true;
@@ -2930,7 +2932,7 @@
             this.TP_view2.Controls.Add(this.label42);
             this.TP_view2.Location = new System.Drawing.Point(4, 19);
             this.TP_view2.Name = "TP_view2";
-            this.TP_view2.Size = new System.Drawing.Size(715, 212);
+            this.TP_view2.Size = new System.Drawing.Size(819, 212);
             this.TP_view2.TabIndex = 2;
             this.TP_view2.Text = "Darstellung 2";
             this.TP_view2.UseVisualStyleBackColor = true;
@@ -3181,7 +3183,7 @@
             this.TP_setMeas.Location = new System.Drawing.Point(4, 19);
             this.TP_setMeas.Name = "TP_setMeas";
             this.TP_setMeas.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_setMeas.Size = new System.Drawing.Size(715, 212);
+            this.TP_setMeas.Size = new System.Drawing.Size(819, 212);
             this.TP_setMeas.TabIndex = 1;
             this.TP_setMeas.Text = "Messung";
             this.TP_setMeas.UseVisualStyleBackColor = true;
@@ -3592,7 +3594,7 @@
             this.TP_Setup1.Controls.Add(this.groupBox30);
             this.TP_Setup1.Location = new System.Drawing.Point(4, 19);
             this.TP_Setup1.Name = "TP_Setup1";
-            this.TP_Setup1.Size = new System.Drawing.Size(715, 212);
+            this.TP_Setup1.Size = new System.Drawing.Size(819, 212);
             this.TP_Setup1.TabIndex = 3;
             this.TP_Setup1.Text = "Setup 1";
             this.TP_Setup1.UseVisualStyleBackColor = true;
@@ -4086,7 +4088,7 @@
             this.TP_Setup2.Controls.Add(this.groupBox35);
             this.TP_Setup2.Location = new System.Drawing.Point(4, 19);
             this.TP_Setup2.Name = "TP_Setup2";
-            this.TP_Setup2.Size = new System.Drawing.Size(715, 212);
+            this.TP_Setup2.Size = new System.Drawing.Size(819, 212);
             this.TP_Setup2.TabIndex = 4;
             this.TP_Setup2.Text = "Setup 2";
             this.TP_Setup2.UseVisualStyleBackColor = true;
@@ -4609,7 +4611,7 @@
             this.TP_Setup3.Controls.Add(this.groupBox41);
             this.TP_Setup3.Location = new System.Drawing.Point(4, 19);
             this.TP_Setup3.Name = "TP_Setup3";
-            this.TP_Setup3.Size = new System.Drawing.Size(715, 212);
+            this.TP_Setup3.Size = new System.Drawing.Size(819, 212);
             this.TP_Setup3.TabIndex = 5;
             this.TP_Setup3.Text = "Setup 3";
             this.TP_Setup3.UseVisualStyleBackColor = true;
@@ -4888,7 +4890,7 @@
             this.TP_IRVideo.Controls.Add(this.groupBox42);
             this.TP_IRVideo.Location = new System.Drawing.Point(4, 19);
             this.TP_IRVideo.Name = "TP_IRVideo";
-            this.TP_IRVideo.Size = new System.Drawing.Size(715, 212);
+            this.TP_IRVideo.Size = new System.Drawing.Size(819, 212);
             this.TP_IRVideo.TabIndex = 6;
             this.TP_IRVideo.Text = "IR-Video";
             this.TP_IRVideo.UseVisualStyleBackColor = true;
@@ -5189,7 +5191,7 @@
             this.TP_Pictures.Controls.Add(this.btn_F_026_ResetPicCount);
             this.TP_Pictures.Location = new System.Drawing.Point(4, 19);
             this.TP_Pictures.Name = "TP_Pictures";
-            this.TP_Pictures.Size = new System.Drawing.Size(715, 212);
+            this.TP_Pictures.Size = new System.Drawing.Size(819, 212);
             this.TP_Pictures.TabIndex = 7;
             this.TP_Pictures.Text = "Bilder";
             this.TP_Pictures.UseVisualStyleBackColor = true;
@@ -5392,7 +5394,7 @@
             this.TP_Movie.Controls.Add(this.groupBox51);
             this.TP_Movie.Location = new System.Drawing.Point(4, 19);
             this.TP_Movie.Name = "TP_Movie";
-            this.TP_Movie.Size = new System.Drawing.Size(715, 212);
+            this.TP_Movie.Size = new System.Drawing.Size(819, 212);
             this.TP_Movie.TabIndex = 8;
             this.TP_Movie.Text = "Movie";
             this.TP_Movie.UseVisualStyleBackColor = true;
@@ -5628,7 +5630,7 @@
             this.TP_ImgProc.Controls.Add(this.groupBox55);
             this.TP_ImgProc.Location = new System.Drawing.Point(4, 19);
             this.TP_ImgProc.Name = "TP_ImgProc";
-            this.TP_ImgProc.Size = new System.Drawing.Size(715, 212);
+            this.TP_ImgProc.Size = new System.Drawing.Size(819, 212);
             this.TP_ImgProc.TabIndex = 9;
             this.TP_ImgProc.Text = "Imageprocessing";
             this.TP_ImgProc.UseVisualStyleBackColor = true;
@@ -5925,7 +5927,7 @@
             this.groupBox10.Controls.Add(this.btn_flir_bt1);
             this.groupBox10.Controls.Add(this.btn_flir_bt6);
             this.groupBox10.Controls.Add(this.btn_flir_bt0);
-            this.groupBox10.Location = new System.Drawing.Point(732, 89);
+            this.groupBox10.Location = new System.Drawing.Point(836, 89);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(172, 225);
             this.groupBox10.TabIndex = 263;
@@ -6076,7 +6078,7 @@
             this.btn_F_002_Nuc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_F_002_Nuc.BackColor = System.Drawing.Color.Gainsboro;
             this.btn_F_002_Nuc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_F_002_Nuc.Location = new System.Drawing.Point(732, 320);
+            this.btn_F_002_Nuc.Location = new System.Drawing.Point(836, 320);
             this.btn_F_002_Nuc.Name = "btn_F_002_Nuc";
             this.btn_F_002_Nuc.Size = new System.Drawing.Size(172, 23);
             this.btn_F_002_Nuc.TabIndex = 0;
@@ -6093,7 +6095,7 @@
             this.label_F_StatusVideo.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_F_StatusVideo.Location = new System.Drawing.Point(273, 2);
             this.label_F_StatusVideo.Name = "label_F_StatusVideo";
-            this.label_F_StatusVideo.Size = new System.Drawing.Size(453, 28);
+            this.label_F_StatusVideo.Size = new System.Drawing.Size(557, 28);
             this.label_F_StatusVideo.TabIndex = 277;
             this.label_F_StatusVideo.Text = "line 0\r\nline 1";
             // 
@@ -6106,7 +6108,7 @@
             this.btn_F_CamFind.Size = new System.Drawing.Size(58, 28);
             this.btn_F_CamFind.TabIndex = 274;
             this.btn_F_CamFind.Text = "Suchen...";
-            this.btn_F_CamFind.UseVisualStyleBackColor = false;
+            this.btn_F_CamFind.UseVisualStyleBackColor = true;
             this.btn_F_CamFind.Click += new System.EventHandler(this.Btn_F_CamFindClick);
             // 
             // btn_F_CamDevice
@@ -6118,7 +6120,7 @@
             this.btn_F_CamDevice.Size = new System.Drawing.Size(58, 28);
             this.btn_F_CamDevice.TabIndex = 270;
             this.btn_F_CamDevice.Text = "Start";
-            this.btn_F_CamDevice.UseVisualStyleBackColor = false;
+            this.btn_F_CamDevice.UseVisualStyleBackColor = true;
             this.btn_F_CamDevice.Click += new System.EventHandler(this.Btn_F_CamDeviceClick);
             // 
             // cb_F_CamDevice
@@ -6126,7 +6128,6 @@
             this.cb_F_CamDevice.BackColor = System.Drawing.Color.Gainsboro;
             this.cb_F_CamDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_F_CamDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cb_F_CamDevice.FormattingEnabled = true;
             this.cb_F_CamDevice.Location = new System.Drawing.Point(1, 7);
             this.cb_F_CamDevice.Name = "cb_F_CamDevice";
             this.cb_F_CamDevice.Size = new System.Drawing.Size(138, 21);
@@ -6142,7 +6143,7 @@
             this.groupBox20.Controls.Add(this.btn_F_015_ChanFusion);
             this.groupBox20.Controls.Add(this.btn_F_014_ChanIR);
             this.groupBox20.Controls.Add(this.btn_F_003_Zoom1);
-            this.groupBox20.Location = new System.Drawing.Point(732, 6);
+            this.groupBox20.Location = new System.Drawing.Point(836, 6);
             this.groupBox20.Name = "groupBox20";
             this.groupBox20.Size = new System.Drawing.Size(172, 79);
             this.groupBox20.TabIndex = 266;
@@ -6239,7 +6240,7 @@
             this.group_Screenshot.Controls.Add(this.btn_F_Scrennshot);
             this.group_Screenshot.Controls.Add(this.btn_F_ScrennshotFolder);
             this.group_Screenshot.Controls.Add(this.txt_F_screenpath);
-            this.group_Screenshot.Location = new System.Drawing.Point(732, 349);
+            this.group_Screenshot.Location = new System.Drawing.Point(836, 349);
             this.group_Screenshot.Name = "group_Screenshot";
             this.group_Screenshot.Size = new System.Drawing.Size(172, 86);
             this.group_Screenshot.TabIndex = 276;
@@ -6287,7 +6288,7 @@
             this.groupBox21.Controls.Add(this.btn_F_029_Shutdown);
             this.groupBox21.Controls.Add(this.btn_F_008_Restart);
             this.groupBox21.Controls.Add(this.btn_F_007_Standby);
-            this.groupBox21.Location = new System.Drawing.Point(732, 441);
+            this.groupBox21.Location = new System.Drawing.Point(836, 441);
             this.groupBox21.Name = "groupBox21";
             this.groupBox21.Size = new System.Drawing.Size(172, 79);
             this.groupBox21.TabIndex = 267;
@@ -6336,7 +6337,7 @@
             this.TP_flir_Control2.Controls.Add(this.splitContainer4);
             this.TP_flir_Control2.Location = new System.Drawing.Point(4, 19);
             this.TP_flir_Control2.Name = "TP_flir_Control2";
-            this.TP_flir_Control2.Size = new System.Drawing.Size(910, 557);
+            this.TP_flir_Control2.Size = new System.Drawing.Size(1014, 560);
             this.TP_flir_Control2.TabIndex = 2;
             this.TP_flir_Control2.Text = "Messung";
             this.TP_flir_Control2.UseVisualStyleBackColor = true;
@@ -6360,7 +6361,7 @@
             this.splitContainer4.Panel2.BackColor = System.Drawing.Color.White;
             this.splitContainer4.Panel2.Controls.Add(this.group_meas_test);
             this.splitContainer4.Panel2.Controls.Add(this.splitCont_MeasGraph);
-            this.splitContainer4.Size = new System.Drawing.Size(910, 557);
+            this.splitContainer4.Size = new System.Drawing.Size(1014, 560);
             this.splitContainer4.SplitterDistance = 154;
             this.splitContainer4.TabIndex = 293;
             // 
@@ -6378,7 +6379,7 @@
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.PicturePosition = CSharpRoTabControl.CustomRoTabControl.BildPosition.behindTheText;
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(910, 154);
+            this.tabControl2.Size = new System.Drawing.Size(1014, 154);
             this.tabControl2.TabIndex = 290;
             this.tabControl2.TabPageBackColorBottom = System.Drawing.Color.LightSteelBlue;
             this.tabControl2.TabPageBackColorBottomHover = System.Drawing.Color.White;
@@ -6395,7 +6396,7 @@
             this.TP_M_Meas.Controls.Add(this.groupBox8);
             this.TP_M_Meas.Location = new System.Drawing.Point(4, 19);
             this.TP_M_Meas.Name = "TP_M_Meas";
-            this.TP_M_Meas.Size = new System.Drawing.Size(902, 131);
+            this.TP_M_Meas.Size = new System.Drawing.Size(1006, 131);
             this.TP_M_Meas.TabIndex = 3;
             this.TP_M_Meas.Text = "Messungen";
             this.TP_M_Meas.UseVisualStyleBackColor = true;
@@ -7725,8 +7726,8 @@
             // 
             this.splitCont_MeasGraph.Panel2.BackColor = System.Drawing.Color.White;
             this.splitCont_MeasGraph.Panel2.Controls.Add(this.picbox_GraphVideo);
-            this.splitCont_MeasGraph.Size = new System.Drawing.Size(910, 399);
-            this.splitCont_MeasGraph.SplitterDistance = 522;
+            this.splitCont_MeasGraph.Size = new System.Drawing.Size(1014, 402);
+            this.splitCont_MeasGraph.SplitterDistance = 581;
             this.splitCont_MeasGraph.TabIndex = 292;
             // 
             // zed
@@ -7749,7 +7750,7 @@
             this.zed.ScrollMinY2 = 0D;
             this.zed.SelectButtons = System.Windows.Forms.MouseButtons.Middle;
             this.zed.SelectModifierKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.A)));
-            this.zed.Size = new System.Drawing.Size(522, 399);
+            this.zed.Size = new System.Drawing.Size(581, 402);
             this.zed.TabIndex = 268;
             this.zed.ZoomButtons = System.Windows.Forms.MouseButtons.Middle;
             // 
@@ -7759,7 +7760,7 @@
             this.picbox_GraphVideo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picbox_GraphVideo.Location = new System.Drawing.Point(0, 0);
             this.picbox_GraphVideo.Name = "picbox_GraphVideo";
-            this.picbox_GraphVideo.Size = new System.Drawing.Size(384, 399);
+            this.picbox_GraphVideo.Size = new System.Drawing.Size(429, 402);
             this.picbox_GraphVideo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picbox_GraphVideo.TabIndex = 0;
             this.picbox_GraphVideo.TabStop = false;
@@ -7771,7 +7772,7 @@
             this.TP_flir_Terminal.Controls.Add(this.tabControl_rs232);
             this.TP_flir_Terminal.Location = new System.Drawing.Point(4, 19);
             this.TP_flir_Terminal.Name = "TP_flir_Terminal";
-            this.TP_flir_Terminal.Size = new System.Drawing.Size(910, 557);
+            this.TP_flir_Terminal.Size = new System.Drawing.Size(1014, 560);
             this.TP_flir_Terminal.TabIndex = 3;
             this.TP_flir_Terminal.Text = "Terminal";
             this.TP_flir_Terminal.UseVisualStyleBackColor = true;
@@ -7799,6 +7800,7 @@
             // 
             // TXTR_Text
             // 
+            this.TXTR_Text.BackColor = System.Drawing.Color.Gainsboro;
             this.TXTR_Text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TXTR_Text.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TXTR_Text.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -7807,7 +7809,11 @@
             this.TXTR_Text.Size = new System.Drawing.Size(580, 365);
             this.TXTR_Text.TabIndex = 3;
             this.TXTR_Text.Text = "";
+            this.TXTR_Text.Enter += new System.EventHandler(this.TXTR_Text_Enter);
             this.TXTR_Text.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TXTR_TextKeyDown);
+            this.TXTR_Text.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TXTR_Text_KeyPress);
+            this.TXTR_Text.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TXTR_Text_KeyUp);
+            this.TXTR_Text.Leave += new System.EventHandler(this.TXTR_Text_Leave);
             // 
             // TXTR_Byte
             // 
@@ -8101,6 +8107,8 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.White;
+            this.tabPage3.Controls.Add(this.label15);
+            this.tabPage3.Controls.Add(this.cb_rs232_TerminalFontSize);
             this.tabPage3.Controls.Add(this.chk_rs232_KommaToPoint);
             this.tabPage3.Controls.Add(this.num_RS232_Startbyte);
             this.tabPage3.Controls.Add(this.CHK_RS232_NotOnTop);
@@ -8128,6 +8136,34 @@
             this.tabPage3.Size = new System.Drawing.Size(894, 159);
             this.tabPage3.TabIndex = 1;
             this.tabPage3.Text = "Setup";
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(6, 93);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(85, 17);
+            this.label15.TabIndex = 58;
+            this.label15.Text = "Fontsize:";
+            // 
+            // cb_rs232_TerminalFontSize
+            // 
+            this.cb_rs232_TerminalFontSize.BackColor = System.Drawing.Color.Gainsboro;
+            this.cb_rs232_TerminalFontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_rs232_TerminalFontSize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cb_rs232_TerminalFontSize.FormattingEnabled = true;
+            this.cb_rs232_TerminalFontSize.Items.AddRange(new object[] {
+            "6",
+            "7",
+            "8",
+            "10",
+            "14",
+            "20",
+            "25"});
+            this.cb_rs232_TerminalFontSize.Location = new System.Drawing.Point(97, 90);
+            this.cb_rs232_TerminalFontSize.Name = "cb_rs232_TerminalFontSize";
+            this.cb_rs232_TerminalFontSize.Size = new System.Drawing.Size(62, 21);
+            this.cb_rs232_TerminalFontSize.TabIndex = 57;
+            this.cb_rs232_TerminalFontSize.SelectedIndexChanged += new System.EventHandler(this.cb_rs232_TerminalFontSize_SelectedIndexChanged);
             // 
             // chk_rs232_KommaToPoint
             // 
@@ -8494,7 +8530,7 @@
             this.TP_flir_Ftp.Controls.Add(this.btn_ftp_Auslesen);
             this.TP_flir_Ftp.Location = new System.Drawing.Point(4, 19);
             this.TP_flir_Ftp.Name = "TP_flir_Ftp";
-            this.TP_flir_Ftp.Size = new System.Drawing.Size(910, 557);
+            this.TP_flir_Ftp.Size = new System.Drawing.Size(1014, 560);
             this.TP_flir_Ftp.TabIndex = 8;
             this.TP_flir_Ftp.Text = "FTP-Tree";
             // 
@@ -8724,7 +8760,7 @@
             this.TP_flir_Tree.Location = new System.Drawing.Point(4, 19);
             this.TP_flir_Tree.Name = "TP_flir_Tree";
             this.TP_flir_Tree.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_flir_Tree.Size = new System.Drawing.Size(910, 557);
+            this.TP_flir_Tree.Size = new System.Drawing.Size(1014, 560);
             this.TP_flir_Tree.TabIndex = 1;
             this.TP_flir_Tree.Text = "Res-Tree";
             this.TP_flir_Tree.UseVisualStyleBackColor = true;
@@ -9065,7 +9101,7 @@
             this.TP_flir_web.Controls.Add(this.panel1);
             this.TP_flir_web.Location = new System.Drawing.Point(4, 19);
             this.TP_flir_web.Name = "TP_flir_web";
-            this.TP_flir_web.Size = new System.Drawing.Size(910, 557);
+            this.TP_flir_web.Size = new System.Drawing.Size(1014, 560);
             this.TP_flir_web.TabIndex = 5;
             this.TP_flir_web.Text = "Web";
             this.TP_flir_web.UseVisualStyleBackColor = true;
@@ -9206,7 +9242,7 @@
             this.TP_flir_Hid.Controls.Add(this.groupBox4);
             this.TP_flir_Hid.Location = new System.Drawing.Point(4, 19);
             this.TP_flir_Hid.Name = "TP_flir_Hid";
-            this.TP_flir_Hid.Size = new System.Drawing.Size(910, 557);
+            this.TP_flir_Hid.Size = new System.Drawing.Size(1014, 560);
             this.TP_flir_Hid.TabIndex = 4;
             this.TP_flir_Hid.Text = "HID";
             this.TP_flir_Hid.UseVisualStyleBackColor = true;
@@ -9261,7 +9297,7 @@
             this.groupBox6.Controls.Add(this.txt_usb_send);
             this.groupBox6.Location = new System.Drawing.Point(126, 5);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(82, 42);
+            this.groupBox6.Size = new System.Drawing.Size(31, 42);
             this.groupBox6.TabIndex = 36;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Send HID (DEC: 0 - 255 oder HEX: 0x00 - 0xff)";
@@ -9350,7 +9386,7 @@
             this.TP_Setup.Controls.Add(this.group_IP);
             this.TP_Setup.Location = new System.Drawing.Point(4, 19);
             this.TP_Setup.Name = "TP_Setup";
-            this.TP_Setup.Size = new System.Drawing.Size(910, 557);
+            this.TP_Setup.Size = new System.Drawing.Size(1014, 560);
             this.TP_Setup.TabIndex = 7;
             this.TP_Setup.Text = "Setup";
             // 
@@ -9775,7 +9811,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(919, 611);
+            this.ClientSize = new System.Drawing.Size(1023, 614);
             this.Controls.Add(this.txt_web_telnetip);
             this.Controls.Add(this.tabControl_Flir);
             this.Controls.Add(this.btn_FLIR_ConnTelnet);
@@ -10671,6 +10707,8 @@
         private System.Windows.Forms.Button btn_ip_SendBrodcast;
         private System.Windows.Forms.TextBox txt_ftp_ExcludeFolders;
         private System.Windows.Forms.CheckBox chk_ftp_ExcludeFolders;
+        private System.Windows.Forms.ComboBox cb_rs232_TerminalFontSize;
+        private System.Windows.Forms.Label label15;
         //		private System.Windows.Forms.RichTextBox richTextBox1;
 
 

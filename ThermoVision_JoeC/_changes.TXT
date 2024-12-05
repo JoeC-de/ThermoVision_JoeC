@@ -1,18 +1,31 @@
 TODO
--add text note on processing image?
--add "image changed, save?"
+-reload image on loading cal, as question
 -rotation on import visual from webcam
--exchange 2x segmented color palette ([obsolete] since all palette has now generic "scale depth", maybe take 2 from Optris?)
+
 -min / max label hidden if too much on right side
 -add optris IR head (pyrometer) as single device (currently subtype of "SerialSensor")
--implant xtherm (UVC camera)
--implant Infiray (UVC camera)
+-add xtherm + Infiray (UVC camera)
 -image subtraction
 -image stacking
 -flir direct reading
 -local parameter works currently only if source image has 1.00 emissivity
 ################################
 
+1.13.0.0
+-exchange 2x Segmented palette with 2 palettes from Optris
+1.12.0.3
+-add safe Thermal frame as Float array
+-bugfix: offsets better adjusted for Measurements
+-zoobox from cursor center
+-add Note on processed images
+-add "Save file?" if radio was changed
+1.12.0.2
+-add .irg from Vevor (as temp frame)
+-add .irg from InfiRay (C210, as raw frame)
+1.12.0.1
+-bugfix: offset in calbox+area if mouse move on MainIr with grayBorder
+-hikvision .jpeg file (grab frame + grab float frame from DS-2TP21-6AVF FeverCamera)
+-improve IR-Decoder (more efficient and better byte analysis)
 1.12.0.0
 -escape to cancel set measurement (skip drawing)
 1.11.0.15

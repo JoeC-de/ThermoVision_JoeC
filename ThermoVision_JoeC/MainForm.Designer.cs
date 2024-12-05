@@ -16,7 +16,6 @@
 		private System.Windows.Forms.ToolStripButton tbtn_main_OpenFile;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		public System.Windows.Forms.ToolStripTextBox ttxt_main_RadioName;
-		private System.Windows.Forms.Panel panel_TopRow;
 		private System.Windows.Forms.ToolStripMenuItem tbtn_Plot;
 		private System.Windows.Forms.ToolStripMenuItem tbtn_lines;
 		private System.Windows.Forms.ToolStripMenuItem tbtn_Mgrid;
@@ -142,6 +141,9 @@
             this.tbtn_frmFileEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.tbtn_frmPlanckCalGlobal = new System.Windows.Forms.ToolStripMenuItem();
             this.tbtn_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbtn_ext_UsbTreeView = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.tbtn_Default = new System.Windows.Forms.ToolStripMenuItem();
             this.tbtn_Main_Settings = new System.Windows.Forms.ToolStripMenuItem();
@@ -179,8 +181,9 @@
             this.tbtn_main_quicsave = new System.Windows.Forms.ToolStripButton();
             this.ttxt_main_RadioName = new System.Windows.Forms.ToolStripTextBox();
             this.tbtn_main_RadioType = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tbtn_main_RadioType_T = new System.Windows.Forms.ToolStripMenuItem();
             this.tbtn_main_RadioType_R = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbtn_main_RadioType_T = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbtn_main_RadioType_T2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.label_main_new = new System.Windows.Forms.ToolStripLabel();
             this.tbtn_main_MinMax = new System.Windows.Forms.ToolStripButton();
@@ -202,11 +205,8 @@
             this.tbtn_main_CameraMode = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.tbtn_main_TabletMode = new System.Windows.Forms.ToolStripButton();
-            this.panel_TopRow = new System.Windows.Forms.Panel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel_TopRControls = new System.Windows.Forms.Panel();
-            this.num_TempMax = new ThermoVision_JoeC.Komponenten.UC_Numeric();
-            this.num_TempMin = new ThermoVision_JoeC.Komponenten.UC_Numeric();
             this.split_Status = new System.Windows.Forms.SplitContainer();
             this.conmenu_Status = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -219,6 +219,7 @@
             this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
             this.tbtn_AllowRelativeOffset = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
+            this.btn_Reload = new System.Windows.Forms.ToolStripMenuItem();
             this.label_status = new System.Windows.Forms.Label();
             this.label_FrameType = new System.Windows.Forms.Label();
             this.btn_view_mode = new System.Windows.Forms.Button();
@@ -236,6 +237,10 @@
             this.label_SelectType = new System.Windows.Forms.Label();
             this.txt_filedrop = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.panel_TopRow = new System.Windows.Forms.Panel();
+            this.num_TempMax = new ThermoVision_JoeC.Komponenten.UC_Numeric();
+            this.num_TempMin = new ThermoVision_JoeC.Komponenten.UC_Numeric();
+            this.tbtn_ext_IuSpy = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip_main.SuspendLayout();
             this.conmenu_Lang.SuspendLayout();
             this.toolStrip_Vision.SuspendLayout();
@@ -313,6 +318,7 @@
             "Drop -> Uni-T *.BMP",
             "Drop -> Bosch GTC 400 *.jpg",
             "Drop -> Nec/Keysight *.jpg",
+            "Drop -> HikVision *.jpg",
             "Drop -> DJI Drohne *.jpg"});
             this.tcb_main_FileDropTarget.Name = "tcb_main_FileDropTarget";
             this.tcb_main_FileDropTarget.Size = new System.Drawing.Size(170, 23);
@@ -410,6 +416,10 @@
             this.tbtn_frmFileEditor,
             this.tbtn_frmPlanckCalGlobal,
             this.tbtn_About,
+            this.toolStripSeparator3,
+            this.toolStripMenuItem5,
+            this.tbtn_ext_UsbTreeView,
+            this.tbtn_ext_IuSpy,
             this.toolStripSeparator11,
             this.tbtn_Default});
             this.tbtn_Windows.Name = "tbtn_Windows";
@@ -635,6 +645,25 @@
             this.tbtn_About.Size = new System.Drawing.Size(254, 22);
             this.tbtn_About.Text = "About ThermoVision_JoeC";
             this.tbtn_About.Click += new System.EventHandler(this.Tbtn_AboutClick);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(251, 6);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Enabled = false;
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(254, 22);
+            this.toolStripMenuItem5.Text = "Extrnal Tools";
+            // 
+            // tbtn_ext_UsbTreeView
+            // 
+            this.tbtn_ext_UsbTreeView.Name = "tbtn_ext_UsbTreeView";
+            this.tbtn_ext_UsbTreeView.Size = new System.Drawing.Size(254, 22);
+            this.tbtn_ext_UsbTreeView.Text = "UsbTreeView";
+            this.tbtn_ext_UsbTreeView.Click += new System.EventHandler(this.tbtn_ext_UsbTreeView_Click);
             // 
             // toolStripSeparator11
             // 
@@ -975,29 +1004,38 @@
             this.tbtn_main_RadioType.BackColor = System.Drawing.Color.PaleGreen;
             this.tbtn_main_RadioType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tbtn_main_RadioType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbtn_main_RadioType_R,
             this.tbtn_main_RadioType_T,
-            this.tbtn_main_RadioType_R});
+            this.tbtn_main_RadioType_T2});
             this.tbtn_main_RadioType.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbtn_main_RadioType.Name = "tbtn_main_RadioType";
             this.tbtn_main_RadioType.Size = new System.Drawing.Size(33, 22);
             this.tbtn_main_RadioType.Text = "T";
             this.tbtn_main_RadioType.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             // 
-            // tbtn_main_RadioType_T
-            // 
-            this.tbtn_main_RadioType_T.BackColor = System.Drawing.Color.PaleGreen;
-            this.tbtn_main_RadioType_T.Name = "tbtn_main_RadioType_T";
-            this.tbtn_main_RadioType_T.Size = new System.Drawing.Size(262, 22);
-            this.tbtn_main_RadioType_T.Text = "Save temp frame";
-            this.tbtn_main_RadioType_T.Click += new System.EventHandler(this.tbtn_main_RadioType_T_Click_1);
-            // 
             // tbtn_main_RadioType_R
             // 
             this.tbtn_main_RadioType_R.BackColor = System.Drawing.Color.LightSteelBlue;
             this.tbtn_main_RadioType_R.Name = "tbtn_main_RadioType_R";
-            this.tbtn_main_RadioType_R.Size = new System.Drawing.Size(262, 22);
-            this.tbtn_main_RadioType_R.Text = "Save raw frame (with planck values)";
+            this.tbtn_main_RadioType_R.Size = new System.Drawing.Size(280, 22);
+            this.tbtn_main_RadioType_R.Text = "Save raw frame (with Planck or 2 Point)";
             this.tbtn_main_RadioType_R.Click += new System.EventHandler(this.tbtn_main_RadioType_R_Click_1);
+            // 
+            // tbtn_main_RadioType_T
+            // 
+            this.tbtn_main_RadioType_T.BackColor = System.Drawing.Color.PaleGreen;
+            this.tbtn_main_RadioType_T.Name = "tbtn_main_RadioType_T";
+            this.tbtn_main_RadioType_T.Size = new System.Drawing.Size(280, 22);
+            this.tbtn_main_RadioType_T.Text = "Save temp frame (2 bytes per Pixel)";
+            this.tbtn_main_RadioType_T.Click += new System.EventHandler(this.tbtn_main_RadioType_T_Click_1);
+            // 
+            // tbtn_main_RadioType_T2
+            // 
+            this.tbtn_main_RadioType_T2.BackColor = System.Drawing.Color.PaleGreen;
+            this.tbtn_main_RadioType_T2.Name = "tbtn_main_RadioType_T2";
+            this.tbtn_main_RadioType_T2.Size = new System.Drawing.Size(280, 22);
+            this.tbtn_main_RadioType_T2.Text = "Save temp frame (4 bytes per Pixel)";
+            this.tbtn_main_RadioType_T2.Click += new System.EventHandler(this.tbtn_main_RadioType_T2_Click);
             // 
             // toolStripSeparator4
             // 
@@ -1184,14 +1222,6 @@
             this.tbtn_main_TabletMode.Text = "Tablet";
             this.tbtn_main_TabletMode.Click += new System.EventHandler(this.tbtn_main_TabletMode_Click);
             // 
-            // panel_TopRow
-            // 
-            this.panel_TopRow.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_TopRow.Location = new System.Drawing.Point(0, 50);
-            this.panel_TopRow.Name = "panel_TopRow";
-            this.panel_TopRow.Size = new System.Drawing.Size(1008, 3);
-            this.panel_TopRow.TabIndex = 277;
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -1207,56 +1237,6 @@
             this.panel_TopRControls.Name = "panel_TopRControls";
             this.panel_TopRControls.Size = new System.Drawing.Size(268, 26);
             this.panel_TopRControls.TabIndex = 281;
-            // 
-            // num_TempMax
-            // 
-            this.num_TempMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.num_TempMax.BackColor = System.Drawing.Color.White;
-            this.num_TempMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.num_TempMax.DecPlaces = 1;
-            this.num_TempMax.Location = new System.Drawing.Point(187, 4);
-            this.num_TempMax.Name = "num_TempMax";
-            this.num_TempMax.RangeMax = 255D;
-            this.num_TempMax.RangeMin = 0D;
-            this.num_TempMax.Size = new System.Drawing.Size(78, 20);
-            this.num_TempMax.Switch_W = 15;
-            this.num_TempMax.SwitchDowncolor = System.Drawing.Color.Red;
-            this.num_TempMax.SwitchHovercolor = System.Drawing.Color.Maroon;
-            this.num_TempMax.TabIndex = 279;
-            this.num_TempMax.TextBackColor = System.Drawing.Color.Black;
-            this.num_TempMax.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.num_TempMax.TextForecolor = System.Drawing.Color.OrangeRed;
-            this.num_TempMax.TxtLeft = 3;
-            this.num_TempMax.TxtTop = 3;
-            this.num_TempMax.UseMinMax = false;
-            this.num_TempMax.Value = 25D;
-            this.num_TempMax.ValueMod = 0.1D;
-            this.num_TempMax.ValChangedEvent += new ThermoVision_JoeC.Komponenten.UC_Numeric.EventDelegate(this.Unum_TempMaxValChangedEvent);
-            // 
-            // num_TempMin
-            // 
-            this.num_TempMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.num_TempMin.BackColor = System.Drawing.Color.White;
-            this.num_TempMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.num_TempMin.DecPlaces = 1;
-            this.num_TempMin.Location = new System.Drawing.Point(103, 4);
-            this.num_TempMin.Name = "num_TempMin";
-            this.num_TempMin.RangeMax = 255D;
-            this.num_TempMin.RangeMin = 0D;
-            this.num_TempMin.Size = new System.Drawing.Size(78, 20);
-            this.num_TempMin.Switch_W = 15;
-            this.num_TempMin.SwitchDowncolor = System.Drawing.Color.CornflowerBlue;
-            this.num_TempMin.SwitchHovercolor = System.Drawing.Color.Blue;
-            this.num_TempMin.TabIndex = 279;
-            this.num_TempMin.TextBackColor = System.Drawing.Color.Black;
-            this.num_TempMin.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.num_TempMin.TextForecolor = System.Drawing.Color.RoyalBlue;
-            this.num_TempMin.TxtLeft = 3;
-            this.num_TempMin.TxtTop = 3;
-            this.num_TempMin.UseMinMax = false;
-            this.num_TempMin.Value = 10D;
-            this.num_TempMin.ValueMod = 0.1D;
-            this.num_TempMin.ValChangedEvent += new ThermoVision_JoeC.Komponenten.UC_Numeric.EventDelegate(this.Unum_TempMinValChangedEvent);
             // 
             // split_Status
             // 
@@ -1297,9 +1277,10 @@
             this.tbtn_screenshot_delayed,
             this.toolStripSeparator22,
             this.tbtn_AllowRelativeOffset,
-            this.toolStripSeparator23});
+            this.toolStripSeparator23,
+            this.btn_Reload});
             this.conmenu_Status.Name = "conmenu_Status";
-            this.conmenu_Status.Size = new System.Drawing.Size(271, 104);
+            this.conmenu_Status.Size = new System.Drawing.Size(271, 126);
             // 
             // toolStripMenuItem1
             // 
@@ -1374,6 +1355,13 @@
             // 
             this.toolStripSeparator23.Name = "toolStripSeparator23";
             this.toolStripSeparator23.Size = new System.Drawing.Size(267, 6);
+            // 
+            // btn_Reload
+            // 
+            this.btn_Reload.Name = "btn_Reload";
+            this.btn_Reload.Size = new System.Drawing.Size(270, 22);
+            this.btn_Reload.Text = "Reload last image";
+            this.btn_Reload.Click += new System.EventHandler(this.btn_Reload_Click);
             // 
             // label_status
             // 
@@ -1494,8 +1482,8 @@
             "GrayIronbow",
             "GrayRainbow",
             "Arktis",
-            "SegIronbow",
-            "SegRainbow",
+            "OptrisContrast",
+            "OptrisBlueHi",
             "Medical",
             "Red-Gray-Blue",
             "Extern (Slot1.ppg)",
@@ -1617,6 +1605,71 @@
             this.txt_filedrop.Size = new System.Drawing.Size(1000, 203);
             this.txt_filedrop.TabIndex = 0;
             // 
+            // panel_TopRow
+            // 
+            this.panel_TopRow.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel_TopRow.Location = new System.Drawing.Point(0, 50);
+            this.panel_TopRow.Name = "panel_TopRow";
+            this.panel_TopRow.Size = new System.Drawing.Size(1008, 3);
+            this.panel_TopRow.TabIndex = 277;
+            // 
+            // num_TempMax
+            // 
+            this.num_TempMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.num_TempMax.BackColor = System.Drawing.Color.White;
+            this.num_TempMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.num_TempMax.DecPlaces = 1;
+            this.num_TempMax.Location = new System.Drawing.Point(187, 4);
+            this.num_TempMax.Name = "num_TempMax";
+            this.num_TempMax.RangeMax = 255D;
+            this.num_TempMax.RangeMin = 0D;
+            this.num_TempMax.Size = new System.Drawing.Size(78, 20);
+            this.num_TempMax.Switch_W = 15;
+            this.num_TempMax.SwitchDowncolor = System.Drawing.Color.Red;
+            this.num_TempMax.SwitchHovercolor = System.Drawing.Color.Maroon;
+            this.num_TempMax.TabIndex = 279;
+            this.num_TempMax.TextBackColor = System.Drawing.Color.Black;
+            this.num_TempMax.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.num_TempMax.TextForecolor = System.Drawing.Color.OrangeRed;
+            this.num_TempMax.TxtLeft = 3;
+            this.num_TempMax.TxtTop = 3;
+            this.num_TempMax.UseMinMax = false;
+            this.num_TempMax.Value = 25D;
+            this.num_TempMax.ValueMod = 0.1D;
+            this.num_TempMax.ValChangedEvent += new ThermoVision_JoeC.Komponenten.UC_Numeric.EventDelegate(this.Unum_TempMaxValChangedEvent);
+            // 
+            // num_TempMin
+            // 
+            this.num_TempMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.num_TempMin.BackColor = System.Drawing.Color.White;
+            this.num_TempMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.num_TempMin.DecPlaces = 1;
+            this.num_TempMin.Location = new System.Drawing.Point(103, 4);
+            this.num_TempMin.Name = "num_TempMin";
+            this.num_TempMin.RangeMax = 255D;
+            this.num_TempMin.RangeMin = 0D;
+            this.num_TempMin.Size = new System.Drawing.Size(78, 20);
+            this.num_TempMin.Switch_W = 15;
+            this.num_TempMin.SwitchDowncolor = System.Drawing.Color.CornflowerBlue;
+            this.num_TempMin.SwitchHovercolor = System.Drawing.Color.Blue;
+            this.num_TempMin.TabIndex = 279;
+            this.num_TempMin.TextBackColor = System.Drawing.Color.Black;
+            this.num_TempMin.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.num_TempMin.TextForecolor = System.Drawing.Color.RoyalBlue;
+            this.num_TempMin.TxtLeft = 3;
+            this.num_TempMin.TxtTop = 3;
+            this.num_TempMin.UseMinMax = false;
+            this.num_TempMin.Value = 10D;
+            this.num_TempMin.ValueMod = 0.1D;
+            this.num_TempMin.ValChangedEvent += new ThermoVision_JoeC.Komponenten.UC_Numeric.EventDelegate(this.Unum_TempMinValChangedEvent);
+            // 
+            // tbtn_ext_IuSpy
+            // 
+            this.tbtn_ext_IuSpy.Name = "tbtn_ext_IuSpy";
+            this.tbtn_ext_IuSpy.Size = new System.Drawing.Size(254, 22);
+            this.tbtn_ext_IuSpy.Text = "IuSpy";
+            this.tbtn_ext_IuSpy.Click += new System.EventHandler(this.tbtn_ext_IuSpy_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1648,6 +1701,7 @@
             this.DragLeave += new System.EventHandler(this.MainForm_DragLeave);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainFormKeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainFormKeyUp);
+            this.Move += new System.EventHandler(this.MainForm_Move);
             this.menuStrip_main.ResumeLayout(false);
             this.menuStrip_main.PerformLayout();
             this.conmenu_Lang.ResumeLayout(false);
@@ -1731,5 +1785,12 @@
         public System.Windows.Forms.ToolStripDropDownButton tbtn_main_RadioType;
         private System.Windows.Forms.ToolStripMenuItem tbtn_main_RadioType_T;
         private System.Windows.Forms.ToolStripMenuItem tbtn_main_RadioType_R;
+        private System.Windows.Forms.ToolStripMenuItem btn_Reload;
+        private System.Windows.Forms.Panel panel_TopRow;
+        private System.Windows.Forms.ToolStripMenuItem tbtn_main_RadioType_T2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem tbtn_ext_UsbTreeView;
+        private System.Windows.Forms.ToolStripMenuItem tbtn_ext_IuSpy;
     }
 }

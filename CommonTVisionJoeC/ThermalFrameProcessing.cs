@@ -32,6 +32,7 @@ namespace ThermoVision_JoeC.Komponenten
         public static float LastTFtempAvr = 0;
         public static int FrameCount = 0;
         public static List<Exception> Exceptions = new List<Exception>();
+        static Random rnd = new Random();
 
         public static ThermalFrameTemp TF_From_1D_Float(float[] data, CamDir rotation) {
             int W = width;
@@ -220,6 +221,67 @@ namespace ThermoVision_JoeC.Komponenten
 
             return tfout;
         }
+        public static ThermalFrameRaw TF_From_1D_ByteSwap(byte[] data, CamDir rotation) {
+            int W = width;
+            int H = height;
+            if (rotation == CamDir.Rot270 || rotation == CamDir.Rot90) {
+                H = width;
+                W = height;
+            }
+            //ushort[,] output = new ushort[W, H];
+            int x = 0, y = 0;
+            ThermalFrameRaw tfout = TFGenerator.Generate_TFRaw(W, H);
+            switch (rotation) {
+                //landscape
+                case CamDir.Rot0:
+                case CamDir.Rot180:
+                    bool reverse = (CamDir.Rot180 == rotation);
+                    for (int i = 0; i < data.Length; i += 2) {
+                        ushort val = (ushort)(data[i + 1] << 8 | data[i]);
+                        if (reverse) {
+                            tfout.Data[W - x - 1, H - y - 1] = val;
+                        } else {
+                            tfout.Data[x, y] = val;
+                        }
+                        if (val < tfout.min) { tfout.min = val; }
+                        if (val > tfout.max) { tfout.max = val; }
+                        x++;
+                        if (x == W) {
+                            y++;
+                            x = 0;
+                            if (y == H) {
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                //portrait
+                case CamDir.Rot90:
+                case CamDir.Rot270:
+                    bool reverse2 = (CamDir.Rot270 == rotation);
+                    for (int i = 0; i < data.Length; i += 2) {
+                        ushort val = (ushort)(data[i + 1] << 8 | data[i]);
+                        if (reverse2) {
+                            tfout.Data[x, H - y - 1] = val;
+                        } else {
+                            tfout.Data[W - x - 1, y] = val;
+                        }
+                        if (val < tfout.min) { tfout.min = val; }
+                        if (val > tfout.max) { tfout.max = val; }
+                        y++;
+                        if (y == H) {
+                            x++;
+                            y = 0;
+                            if (x == W) {
+                                break;
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            return tfout;
+        }
         public static ThermalFrameRaw TF_From_OldTF(ushort[,] data, int width, int height, CamDir rotation) {
             if (data == null) { return TFGenerator.InvalidTFRaw; }
             if (Mapcal.UseMapcal) {
@@ -347,15 +409,11 @@ namespace ThermoVision_JoeC.Komponenten
 
             return tfout;
         }
-        public static ThermalFrameRaw TF_From_TF_With_Noise(ThermalFrameRaw TFold, int noise) {
-            if (!TFold.isValid) { return TFGenerator.InvalidTFRaw; }
+        public static void TF_From_TF_With_Noise(ThermalFrameRaw TFold, ref ThermalFrameRaw tfout, int noise) {
             width = TFold.W;
             height = TFold.H;
-            int W = width;
-            int H = height;
-            Random rnd = new Random();
-
-            ThermalFrameRaw tfout = TFGenerator.Generate_TFRaw(W, H);
+            tfout.max = 0;
+            tfout.min = 0xFFFF;
 
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
@@ -369,8 +427,6 @@ namespace ThermoVision_JoeC.Komponenten
                     tfout.Data[x, y] = (ushort)val;
                 }
             }
-            rnd = null;
-            return tfout;
         }
         public static ThermalFrameTemp TF_From_TF_With_Offset(ThermalFrameTemp TFold, float offset) {
             if (!TFold.isValid) { return TFGenerator.InvalidTFTemp; }
@@ -391,6 +447,30 @@ namespace ThermoVision_JoeC.Komponenten
                 }
             }
             return tfout;
+        }
+        public static ThermalFrameRaw TF_From_MemBitmap(MemBitmap memBitmap) {
+            Rectangle activeArea = new Rectangle(0, 0, memBitmap.Width, memBitmap.Height);
+            return TF_From_MemBitmap(memBitmap, activeArea,0);
+        }
+        public static ThermalFrameRaw TF_From_MemBitmap(MemBitmap memBitmap, Rectangle activeArea, int test) {
+            if (activeArea.Width == 0 || activeArea.Height == 0) {
+                activeArea = new Rectangle(0, 0, memBitmap.Width, memBitmap.Height);
+            }
+
+            ThermalFrameRaw tf = TFGenerator.Generate_TFRaw(activeArea.Width, activeArea.Height);
+            for (int x = 0; x < activeArea.Width; x++) {
+                for (int y = 0; y < activeArea.Height; y++) {
+                    //Color C0 = memBitmap.GetPixel(activeArea.Left + x, activeArea.Top + y);
+                    //int raw = (C0.G + C0.R + C0.B);
+                    int raw = memBitmap.GetPixel16(activeArea.Left + x, activeArea.Top + y,test);
+                    if (raw < 0) { raw = 0; }
+                    if (raw > 0xffff) { raw = 0xffff; }
+                    tf.Data[x, y] = (ushort)raw;
+                    if (raw < tf.min) { tf.min = (ushort)raw; }
+                    if (raw > tf.max) { tf.max = (ushort)raw; }
+                }
+            }
+            return tf;
         }
         public static ThermalFrameRaw TF_Interpolatex2(ThermalFrameRaw TFold) {
             if (!TFold.isValid) { return TFGenerator.InvalidTFRaw; }
@@ -637,24 +717,24 @@ namespace ThermoVision_JoeC.Komponenten
             return tout;
         }
         public static ThermalFrameTemp ConvertRawToTempMethod(ThermalFrameRaw tfRaw, Func<ushort, double> method) {
-            ThermalFrameTemp tout = TFGenerator.Generate_TFTemp(tfRaw.W, tfRaw.H);
-            tout.min = float.MaxValue;
-            tout.max = float.MinValue;
+            Var.FrameTemp = TFGenerator.Generate_TFTemp(tfRaw.W, tfRaw.H);
+            Var.FrameTemp.min = float.MaxValue;
+            Var.FrameTemp.max = float.MinValue;
             
             for (int y = 0; y < tfRaw.H; ++y) {
                 for (int x = 0; x < tfRaw.W; ++x) {
                     float data = (float)method(tfRaw.Data[x, y]);
-                    tout.Data[x, y] = data;
-                    if (data > tout.max) { tout.max = data; Var.M.Max.Position = new Point(x, y); }
-                    if (data < tout.min) { tout.min = data; Var.M.Min.Position = new Point(x, y); }
+                    Var.FrameTemp.Data[x, y] = data;
+                    if (data > Var.FrameTemp.max) { Var.FrameTemp.max = data; Var.M.Max.Position = new Point(x, y); }
+                    if (data < Var.FrameTemp.min) { Var.FrameTemp.min = data; Var.M.Min.Position = new Point(x, y); }
                 }
             }
-            Var.M.Max.Temp = tout.max;
-            Var.M.Min.Temp = tout.min;
-            if (Math.Abs(tout.max-tout.min) < 0.1) {
-                tout.isValid = false;
+            Var.M.Max.Temp = Var.FrameTemp.max;
+            Var.M.Min.Temp = Var.FrameTemp.min;
+            if (Math.Abs(Var.FrameTemp.max- Var.FrameTemp.min) < 0.1) {
+                Var.FrameTemp.isValid = false;
             }
-            return tout;
+            return Var.FrameTemp;
         }
         public static void RecalcMinMax(ref ThermalFrameRaw TFraw) {
             TFraw.max = 0;

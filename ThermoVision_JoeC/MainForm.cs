@@ -86,6 +86,7 @@ namespace ThermoVision_JoeC
         public bool Dev_Show_IprocHiddenTryBox = false;
         //int FpsCount = 0;
         //int FpsZeroCnt = 0;
+        bool Dev_RemoveUndone_Color2Img = true;
         bool Dev_SetAreaRanged = false;
         bool Dev_ShowCalInDocument = false;
         bool Dev_ShowCamControls = false;
@@ -450,6 +451,9 @@ namespace ThermoVision_JoeC
                     Core.ImportThermalFrameTemp(tfTemp, true);
                 }
             }
+            if (Dev_RemoveUndone_Color2Img == true) {
+                fDevice.uC_Dev_Color2Frame1.Visible = false;
+            }
             MainFormResizeEnd(null, null);
             SForm.Close();
             if (Dev_ShowPlanckCal) {
@@ -520,7 +524,30 @@ namespace ThermoVision_JoeC
 
             Application.Exit();
         }
+        void MainForm_Move(object sender, EventArgs e) {
+            //panel_filedrop.Visible = true;
+            //dPanel.Visible = false;
+            //foreach (var item in dPanel.Documents) {
+            //    item.DockHandler.Hide();
+            //}
+            // dPanel.AllowEndUserDocking = false;
+            //dPanel.AutoSize = false;
+
+
+
+
+            //if (dPanel.Width != 10) {
+            //    dPanel.Width = 10;
+            //    dPanel.Height = 10;
+            //    //dPanel.Anchor = AnchorStyles.None;
+            //    dPanel.Enabled = false;
+            //    dPanel.Hide();
+            //}
+        }
         void MainFormResizeEnd(object sender, EventArgs e) {
+            dPanel.Enabled = true;
+            dPanel.Show();
+
             dPanel.Left = panel_TopRow.Left;
             dPanel.Width = panel_TopRow.Width;
             dPanel.Top = panel_TopRow.Top + panel_TopRow.Height;
@@ -571,7 +598,10 @@ namespace ThermoVision_JoeC
                 case 12: //Drop -> Nec/Keysight *.jpg
                     fDevice.Activate();
                     return fDevice.uC_Dev_Nec1.OpenImageFile(fullpath, true);
-                case 13: //Drop -> DJI drohne *.jpg
+                case 13: //Drop -> Hikvision *.jpg
+                    fDevice.Activate();
+                    return fDevice.uC_Dev_HikVision1.OpenImageFile(fullpath, true);
+                case 14: //Drop -> DJI drohne *.jpg
                     fDevice.Activate();
                     return fDevice.uC_Dev_DjiDrohne1.OpenImageFile(fullpath, true);
 
@@ -691,7 +721,7 @@ namespace ThermoVision_JoeC
 
         void setup_erstellen() {
 
-            StreamWriter txt = new StreamWriter(Var.GetBinRoot() + "Settings.dat", false);
+            StreamWriter txt = new StreamWriter(Var.GetDataRoot() + "Settings.dat", false);
             txt.WriteLine("FilePath=" + Var.FilePath);
             txt.WriteLine("Top=" + this.Top.ToString());
             txt.WriteLine("Left=" + this.Left.ToString());
@@ -847,10 +877,10 @@ namespace ThermoVision_JoeC
         void setup_lesen() {
             string LastSetting = "";
             try {
-                if (!File.Exists(Var.GetBinRoot() + "Settings.dat")) {
+                if (!File.Exists(Var.GetDataRoot() + "Settings.dat")) {
                     return;
                 }
-                StreamReader txt = new StreamReader(Var.GetBinRoot() + "Settings.dat");
+                StreamReader txt = new StreamReader(Var.GetDataRoot() + "Settings.dat");
                 string[] inhalt = txt.ReadToEnd().Split('\n');
                 txt.Close();
 
@@ -892,7 +922,7 @@ namespace ThermoVision_JoeC
                         case "panel_isoterm2_col": fFunc.panel_isoterm2_col.BackColor = Color.FromArgb(int.Parse(subsplits[1].TrimEnd())); break;
                         case "LangSelected": NewLangFile = subsplits[1]; break;
                         case "TempFormat": fSettings.Set_FormatFromStr(subsplits[1]); break;
-                        case "SaveRadioFrameType": Core.RadioFrameType = int.Parse(subsplits[1]); break;
+                        case "SaveRadioFrameType": Core.RadioFrameType = (RadioImageFrameType)int.Parse(subsplits[1]); break;
                         case "ttxt_main_RadioName": ttxt_main_RadioName.Text = subsplits[1]; break;
                         case "txt_QShot_filename": fFunc.txt_QShot_filename.Text = subsplits[1]; break;
                         case "txt_exp_16Tif_Filename": fFunc.txt_exp_16Tif_Filename.Text = subsplits[1]; break;
@@ -1324,6 +1354,23 @@ namespace ThermoVision_JoeC
             //			Cursor.Position=new Point(SystemInformation.PrimaryMonitorSize.Width/2,
             //				                      SystemInformation.PrimaryMonitorSize.Height/2);
         }
+
+        void tbtn_ext_UsbTreeView_Click(object sender, EventArgs e) {
+            string externPath = Var.GetDataRoot() + "ExternalTools\\usbtreeview\\UsbTreeView.exe";
+            try {
+                System.Diagnostics.Process.Start(externPath);
+            } catch (Exception err) { 
+                MessageBox.Show($"Error: {err.Message}\r\nPath: {externPath}", "Error open external tool"); 
+            }
+        }
+        void tbtn_ext_IuSpy_Click(object sender, EventArgs e) {
+            string externPath = Var.GetDataRoot() + "ExternalTools\\IuSpy.exe";
+            try {
+                System.Diagnostics.Process.Start(externPath);
+            } catch (Exception err) {
+                MessageBox.Show($"Error: {err.Message}\r\nPath: {externPath}", "Error open external tool");
+            }
+        }
         //optionen
         public void TempFormatSelectedIndexChanged() {
             //C
@@ -1556,11 +1603,13 @@ namespace ThermoVision_JoeC
         }
 
         void tbtn_main_RadioType_T_Click_1(object sender, EventArgs e) {
-            Core.SetSaveRadioFrameType(0); //T
+            Core.SetSaveRadioFrameType(RadioImageFrameType.Frame1_2ByteTemp); //T
         }
         void tbtn_main_RadioType_R_Click_1(object sender, EventArgs e) {
-            Core.SetSaveRadioFrameType(1); //R
-
+            Core.SetSaveRadioFrameType(RadioImageFrameType.Frame2_RawPlanck); //R
+        }
+        void tbtn_main_RadioType_T2_Click(object sender, EventArgs e) {
+            Core.SetSaveRadioFrameType(RadioImageFrameType.Frame4_FloatTemp); //T2
         }
 
         void Tbtn_main_OpenFileClick(object sender, EventArgs e) {
@@ -1586,6 +1635,7 @@ namespace ThermoVision_JoeC
         //newMeas
         void Tbtn_main_MinMaxClick(object sender, EventArgs e) {
             if (sender != null) {
+                Core.RadioImg.isChanged = true;
                 if (Var.M.All_Max.Aktiv_b) {
                     Var.M.All_Max.Aktiv_b = false;
                     Var.M.All_Min.Aktiv_b = false;
@@ -1600,6 +1650,7 @@ namespace ThermoVision_JoeC
         }
         void Tbtn_main_MinMaxMouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
+                Core.RadioImg.isChanged = true;
                 Var.MinMaxRecalc();
                 Var.M.All_Max.Aktiv_b = true;
                 Var.M.All_Min.Aktiv_b = true;
@@ -1611,6 +1662,7 @@ namespace ThermoVision_JoeC
         }
         void Tbtn_main_SpotClick(object sender, EventArgs e) {
             for (int i = 1; i < 9; i++) {
+                Core.RadioImg.isChanged = true;
                 Messpunkt Sm = Var.M.getMesspunkt(i);
                 if (Sm.Aktiv_b) { continue; }
                 fMainIR.SetSpot = i;
@@ -1630,14 +1682,6 @@ namespace ThermoVision_JoeC
         }
         void Tbtn_main_BoxRangeClick(object sender, EventArgs e) {
             fMainIR.tbtn_set_areaRange1_Click(null, null);
-        }
-
-        void tbtn_main_RadioType_T_Click(object sender, EventArgs e) {
-            Core.SetSaveRadioFrameType(0);
-        }
-
-        void tbtn_main_RadioType_R_Click(object sender, EventArgs e) {
-            Core.SetSaveRadioFrameType(1);
         }
         void Tbtn_main_TempswitchClick(object sender, EventArgs e) {
             fFunc.uC_Func_TempSwitch1.AddTempSwitch();
@@ -1686,6 +1730,9 @@ namespace ThermoVision_JoeC
                 if (AllWinHidden[7] == 1) { fHist.Activate(); }
                 if (AllWinHidden[8] == 1) { fCal.Activate(); }
                 if (AllWinHidden[9] == 1) { fIProc.Activate(); }
+                for (int i = 0; i < 9; i++) {
+                    AllWinHidden[i] = 0;
+                }
             } catch (Exception err) {
                 StatusInfo("RestoreAllWindows()->" + err.Message);
             }
@@ -1901,6 +1948,9 @@ namespace ThermoVision_JoeC
         }
         void cb_Rotation_SelectedIndexChanged(object sender, EventArgs e) {
             Var.SelectedThermalCamera.Set_Rotation_from_Index(cb_Rotation.SelectedIndex);
+            if (fSettings.chk_ReloadImageOnSelectRotation.Checked) {
+                Core.ReloadImage();
+            }
         }
         #endregion
         #region VisionStrip
@@ -2141,10 +2191,18 @@ namespace ThermoVision_JoeC
         }
         #endregion
 
-        bool Autoselect(string Filename) {
+        public bool Autoselect(string Filename) {
             string ext = Path.GetExtension(Filename).ToUpper();
             bool found = false;
             switch (ext) {
+                case ".JPEG":
+                    Var.FileBuffer = File.ReadAllBytes(Filename);
+                    Core.useFileBuffer = true;
+                    if (!found) {
+                        found = fDevice.uC_Dev_HikVision1.OpenImageFile(Filename, true);
+                    }
+                    Core.useFileBuffer = false;
+                    break;
                 case ".JPG":
                     Var.FileBuffer = File.ReadAllBytes(Filename);
                     Core.useFileBuffer = true;
@@ -2154,6 +2212,9 @@ namespace ThermoVision_JoeC
                     }
                     if (!found) {
                         found = fDevice.uC_Dev_Nec1.OpenImageFile(Filename, false);
+                    }
+                    if (!found) {
+                        found = fDevice.uC_Dev_HikVision1.OpenImageFile(Filename, false);
                     }
                     if (!found) {
                         found = fDevice.uC_Dev_DjiDrohne1.OpenImageFile(Filename, false);
@@ -2169,19 +2230,15 @@ namespace ThermoVision_JoeC
                     break;
                 case ".DAT":
                     fDevice.Activate();
-                    fDevice.uC_Dev_DIYThermocam1.ShowMe(true);
-                    //					fDevice.Kernel_PanelEnable(fDevice.p_DIYLepton,true);
                     found = fDevice.uC_Dev_DIYThermocam1.Open_DIYLepton_File(Filename, false);
                     break;
                 case ".TIF":
                 case ".TIFF":
                     fDevice.Activate();
-                    fDevice.uC_Dev_Optris1.ShowMe(true);
                     found = fDevice.uC_Dev_Optris1.Open_OptrisPI400_File(Filename);
                     break;
                 case ".CSV":
                     fDevice.Activate();
-                    fDevice.uC_Dev_TExpert1.ShowMe(true);
                     found = fDevice.uC_Dev_TExpert1.Open_TExpert_File(Filename, true, fDevice.uC_Dev_TExpert1.chk_TExpert_OnlyTempFrame.Checked);
                     break;
                 case ".RAW":
@@ -2192,23 +2249,23 @@ namespace ThermoVision_JoeC
                 case ".HIR":
                 case ".PRE":
                     fDevice.Activate();
-                    fDevice.uC_Dev_SeekThermal1.ShowMe(true);
                     found = fDevice.uC_Dev_SeekThermal1.Open_SeekHir_File(Filename);
                     break;
                 case ".BMT":
                     fDevice.Activate();
-                    fDevice.uC_Dev_Testo1.ShowMe(true);
                     found = fDevice.uC_Dev_Testo1.OpenImageFile(Filename, false);
                     break;
                 case ".IRB":
                     fDevice.Activate();
-                    fDevice.uC_Dev_VarioCam1.ShowMe(true);
                     found = fDevice.uC_Dev_VarioCam1.OpenImageFile(Filename, false);
                     break;
                 case ".XRG":
                     fDevice.Activate();
-                    fDevice.uC_Dev_XraySensor1.ShowMe(true);
                     found = fDevice.uC_Dev_XraySensor1.OpenImageFile(Filename, true);
+                    break;
+                case ".IRG":
+                    fDevice.Activate();
+                    found = fDevice.uC_Dev_Infiray1.OpenImageFile(Filename, true);
                     break;
                 case ".BMP":
                     if (fFunc.uC_Func_ThermalSequence1.Check_BmpIs_TvSequence(Filename)) {
@@ -2298,9 +2355,9 @@ namespace ThermoVision_JoeC
                         SetFileDropMode(FileDropType.MenuSelected);
                     }
                     if (DevMode) {
-                        txt_filedrop.Text = $"{DateTime.Now.ToString("hh:mm:ss")} [{e.X}x{e.Y}] Files: {filepath.Length} Filedrop: {SelectedFiledrop}\r\nFirst file (used): {filename}\r\nPath: {filepath[0]} ";
+                        txt_filedrop.Text = $"{DateTime.Now.ToString("hh:mm:ss")} [{e.X}x{e.Y}] Files: {filepath.Length} Filedrop: {SelectedFiledrop}\r\nFirst file (used): {filename}\r\nPath: {filepath[0]}\r\nRadioFileChanged: {Core.RadioImg.isChanged}";
                     } else {
-                        txt_filedrop.Text = $"Files: {filepath.Length} Filedrop: {SelectedFiledrop}\r\nFirst file (used): {filename}\r\nPath: {filepath[0]} ";
+                        txt_filedrop.Text = $"Files: {filepath.Length} Filedrop: {SelectedFiledrop}\r\nFirst file (used): {filename}\r\nPath: {filepath[0]}\r\nRadioFileChanged: {Core.RadioImg.isChanged}";
                     }
                     
                 }
@@ -2336,6 +2393,18 @@ namespace ThermoVision_JoeC
                         }
                     }
                     Var.FileOpenValid = false;
+                    Core.useFileBuffer = false;
+                    Var.FileLastName = Path.GetFileName(filepath[0]);
+
+                    if (Core.AskIfRadioChanged()) {
+                        return;
+                    }
+                    fMgrid.NoteClear();
+                    //TODO remove
+                    //fSettings.chk_devMode.Checked = true;
+                    //fDevice.uC_Dev_HikVision1.OpenImageFile(filepath[0], true);
+                    //return;
+
                     if (filepath[0].EndsWith(".seq") || filepath[0].EndsWith(".SEQ")) {
                         fFunc.uC_Func_ThermalSequence1.Open_Sequence(filepath[0]);
                         return;
@@ -2345,6 +2414,7 @@ namespace ThermoVision_JoeC
                         Core.ImportThermalFrameRaw(tfraw, true);
                         return;
                     }
+                    Var.FilePath = filepath[0];
                     switch (SelectedFiledrop) {
                         case FileDropType.MenuSelected:
                             OpenFileAsSelected(filepath[0]);
@@ -2369,7 +2439,7 @@ namespace ThermoVision_JoeC
                             //if (dPanel.ActiveDocumentPane.ActiveContent == fImgBrow) {
                             //    return;
                             //}
-                            if (!AllAreHidden) {
+                            if (!AllAreHidden && !fImgBrow.IsFloat) {
                                 HideAllWindows();
                             }
                             //disabled, better leave selected if using folder for other types
@@ -2395,6 +2465,11 @@ namespace ThermoVision_JoeC
             ThermalFrameImage.ColorScale.isAllowRelativeOffset = tbtn_AllowRelativeOffset.Checked;
         }
 
+        void btn_Reload_Click(object sender, EventArgs e) {
+            Core.ReloadImage();
+        }
+
+        
 
         void label_status_Click(object sender, EventArgs e) {
             //MessageBox.Show(label_status.Text);
