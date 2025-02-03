@@ -10,7 +10,8 @@ TODO
 -flir direct reading
 -local parameter works currently only if source image has 1.00 emissivity
 ################################
-
+1.13.0.1
+-add Webcam to thermal frame
 1.13.0.0
 -exchange 2x Segmented palette with 2 palettes from Optris
 1.12.0.3

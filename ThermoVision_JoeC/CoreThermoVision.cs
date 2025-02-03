@@ -1,4 +1,5 @@
 ﻿//License: ThermoVision_JoeC\Properties\Lizenz.txt
+using AForge.Video;
 using CommonTVisionJoeC;
 using System;
 using System.Collections.Generic;
@@ -2699,6 +2700,13 @@ namespace ThermoVision_JoeC
                 MF.tcb_CameraTypes.Items.Add(cameraTypeStr);
                 MF.tcb_CameraTypes.SelectedItem = cameraTypeStr;
             }
+        }
+        public bool StreamWebcamImage = false;
+        public void WebCamImageArrived(string SideAB, NewFrameEventArgs eventArgs) {
+            if (!StreamWebcamImage) {
+                return;
+            }
+            MF.fDevice.uC_Dev_Color2Frame1.WebCamImageArrived(SideAB, eventArgs);
         }
     }
 }

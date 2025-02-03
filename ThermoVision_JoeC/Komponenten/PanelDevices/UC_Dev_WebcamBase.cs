@@ -13,6 +13,7 @@ namespace ThermoVision_JoeC.Komponenten
 {
     public partial class UC_Dev_WebcamBase : UC_BasePanel
     {
+        public string SideAB = "";
         public UC_Dev_WebcamBase() {
             InitializeComponent();
             base.Construct(l_Webcam2, l_Webcam);
@@ -38,7 +39,7 @@ namespace ThermoVision_JoeC.Komponenten
         public void SetVideoForm(frmWebcam frmWebcam) {
             FrmWebcam = frmWebcam;
         }
-        frmWebcam FrmWebcam;
+        public frmWebcam FrmWebcam;
         VideoCaptureDevice videoDev;
         FilterInfoCollection videosources = null;
         int NoFrames = 0;
@@ -95,8 +96,10 @@ namespace ThermoVision_JoeC.Komponenten
                 if (CB_WebCam_Videosource.Items.Count == 0) {
                     btn_WebCam_RefreshSources_Click(null, null);
                 }
-                if (CB_WebCam_Videosource.SelectedIndex < 1) { return; } 
-                
+                if (CB_WebCam_Videosource.SelectedIndex < 1) { return; }
+
+                SideAB = GetTitelName();
+                SideAB = SideAB[SideAB.Length - 1].ToString();
                 //videoquelle starten
                 FrmWebcam.Activate();
                 if (videoDev != null) {
@@ -179,12 +182,18 @@ namespace ThermoVision_JoeC.Komponenten
         //für beide
         public void Kernel_CloseWebcamCam() {
             if (videoDev != null) {
+                int timeout = 30; //3 sec
                 if (videoDev.IsRunning) {
-                    videoDev.NewFrame -= new NewFrameEventHandler(video_NewFrame);
-                    videoDev.SignalToStop();
-                    videoDev.WaitForStop();
-                    Thread.Sleep(100);
+                    videoDev.Stop();
+                    while (videoDev.IsRunning) {
+                        Thread.Sleep(100);
+                        timeout--;
+                        if (timeout <= 0) {
+                            break;
+                        }
+                    }
                 }
+                videoDev.NewFrame -= new NewFrameEventHandler(video_NewFrame);
                 videoDev = null;
             }
             timer_Webcamstart.Enabled = false;
@@ -272,6 +281,7 @@ namespace ThermoVision_JoeC.Komponenten
                             //							Devinfo("3");
                             if (FrmWebcam.picBox_Cam.Image != null) { FrmWebcam.picBox_Cam.Image.Dispose(); }
                             FrmWebcam.picBox_Cam.Image = (Bitmap)eventArgs.Frame.Clone();
+                            Core.WebCamImageArrived(SideAB, eventArgs);
                             //							Devinfo("run");
                             if (timer_Webcamstart.Enabled) {
                                 WebCam_res = "ON: " + FrmWebcam.picBox_Cam.Image.Width.ToString() + "x" + FrmWebcam.picBox_Cam.Image.Height.ToString();

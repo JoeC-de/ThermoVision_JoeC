@@ -86,7 +86,6 @@ namespace ThermoVision_JoeC
         public bool Dev_Show_IprocHiddenTryBox = false;
         //int FpsCount = 0;
         //int FpsZeroCnt = 0;
-        bool Dev_RemoveUndone_Color2Img = true;
         bool Dev_SetAreaRanged = false;
         bool Dev_ShowCalInDocument = false;
         bool Dev_ShowCamControls = false;
@@ -450,9 +449,6 @@ namespace ThermoVision_JoeC
                     Core.SetTempConversionType(TempConvType.Base);
                     Core.ImportThermalFrameTemp(tfTemp, true);
                 }
-            }
-            if (Dev_RemoveUndone_Color2Img == true) {
-                fDevice.uC_Dev_Color2Frame1.Visible = false;
             }
             MainFormResizeEnd(null, null);
             SForm.Close();

@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using ThermalCamera;
 using CommonTVisionJoeC;
+using AForge.Video;
 
 namespace ThermoVision_JoeC.Komponenten {
     public partial class UC_Dev_Color2Frame : UC_BasePanel
@@ -14,6 +15,7 @@ namespace ThermoVision_JoeC.Komponenten {
         public UC_Dev_Color2Frame() {
             InitializeComponent();
             Construct(l_Color2Frame, l_Enable);
+            cb_stream_source.SelectedIndex = 0;
         }
         public override void SpecialShowMe(bool Enable) {
             if (Enable) {
@@ -26,6 +28,50 @@ namespace ThermoVision_JoeC.Komponenten {
             }
         }
 
+        #endregion
+
+        #region stream
+        void chk_stream_active_CheckedChanged(object sender, EventArgs e) {
+            Core.StreamWebcamImage = chk_stream_active.Checked;
+        }
+        public void WebCamImageArrived(string SideAB, NewFrameEventArgs eventArgs) {
+            try {
+                if (InvokeRequired) {
+                    Invoke(new Action<string,NewFrameEventArgs>(WebCamImageArrived), new object[] { SideAB, eventArgs });
+                    return;
+                }
+
+                if ((cb_stream_source.SelectedIndex == 0) && (SideAB != "A")) {
+                    return;
+                }
+                if ((cb_stream_source.SelectedIndex == 1) && (SideAB != "B")) {
+                    return;
+                }
+                MemBitmap mbmp = new MemBitmap((Bitmap)Core.MF.fDevice.uC_Dev_WebcamA.FrmWebcam.picBox_Cam.Image);//(Bitmap)eventArgs.Frame.Clone());
+                ThermalFrameRaw tf = ThermalFrameProcessing.TF_From_MemBitmap(mbmp, new Rectangle(0, 0, mbmp.Width, mbmp.Height), 0);
+                mbmp.Dispose();
+                mbmp = null;
+
+                Core.ImportThermalFrameRaw(tf, true);
+            } catch (Exception ex) {
+                Core.RiseError(ex.Message);
+            }
+        }
+
+        void btn_stream_writeTo2Pcal_Click(object sender, EventArgs e) {
+            ushort data_RAW_max = (ushort)num_stream_RawMax.Value;
+            ushort data_RAW_min = (ushort)num_stream_RawMin.Value;
+            txt_Color2Frame_log.Text = $"Raw max / min: {data_RAW_max} / {data_RAW_min}";
+            double rangeRaw = (double)(data_RAW_max - data_RAW_min);
+            double rangeTemp = (double)(num_stream_tempMax.Value - num_stream_tempMin.Value);
+            double calcSlope = (rangeTemp / rangeRaw);
+            //temp=((raw-rawmin)*slope)-offset
+            txt_Color2Frame_log.Text += $"\r\nRange temp({Math.Round(rangeTemp, 2)}) / raw({Math.Round(rangeRaw, 2)}) -> Slope: {Math.Round(calcSlope, 5)}";
+            double calcOffset = 0 - data_RAW_min + ((double)num_stream_tempMin.Value / calcSlope);
+            txt_Color2Frame_log.Text += $"\r\n0 - rawmin + (tempmin / slope) -> Offset: {Math.Round(calcOffset, 5)}";
+            Core.Set2PointCal(calcSlope, calcOffset);
+            Core.MF.fMainIR.Focus();
+        }
         #endregion
 
         public override double ConvertRawToTemp(ushort raw) {
@@ -145,40 +191,20 @@ namespace ThermoVision_JoeC.Komponenten {
             }
             return tf;
         }
-        
-
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
             button1_Click(null,null);
         }
-
-        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        {
+            button1_Click(null, null);
+        }
+        void numericUpDown4_ValueChanged(object sender, EventArgs e)
         {
             button1_Click(null, null);
 
         }
-
-        private void numericUpDown4_ValueChanged(object sender, EventArgs e)
-        {
-            button1_Click(null, null);
-
-        }
-
-        private void button2_Click(object sender, EventArgs e) {
-            try {
-                MemBitmap mbmp = new MemBitmap((Bitmap)Core.MF.fWebA.picBox_Cam.Image,PixelFormat.Format16bppGrayScale);
-                ThermalFrameRaw tf = TFGenerator.InvalidTFRaw;
-                if (chk_TopFrame.Checked) {
-                    tf = ThermalFrameProcessing.TF_From_MemBitmap(mbmp, new Rectangle(0, 0, mbmp.Width, mbmp.Height / 2),0);
-                } else {
-                    tf = ImportBitmap(mbmp);
-                }
-
-                Core.ImportThermalFrameRaw(tf, true);
-                mbmp.Dispose();
-            } catch (Exception ex) {
-                Core.RiseError(ex.Message);
-            }
-        }
+                
+        
     }
 }
