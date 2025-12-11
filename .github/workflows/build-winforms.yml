@@ -1,0 +1,41 @@
+name: Build ThermoVision WinForms
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # manuelles Auslösen
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      # 1. Code aus GitHub auschecken
+      - uses: actions/checkout@v3
+
+      # 2. .NET SDK installieren
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0
+
+      # 3. Restore der Projekte/Solution
+      - name: Restore
+        run: dotnet restore ThermoVision_JoeC.sln
+
+      # 4. Build Release
+      - name: Build
+        run: dotnet build ThermoVision_JoeC.sln --configuration Release
+
+      # 5. Publish self-contained (inklusive .NET Runtime)
+      - name: Publish self-contained
+        run: dotnet publish ThermoVision_JoeC/ThermoVision_JoeC.csproj -c Release -r win-x64 --self-contained true -o ./publish
+
+      # 6. Upload als Artifact
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ThermoVision-Release
+          path: ./publish
